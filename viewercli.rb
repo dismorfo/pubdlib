@@ -37,15 +37,15 @@ Dotenv.require_keys('MONGO_DATABASE')
 
 # Application message to display as banner in the help menu.
 banner = <<~BANNER
-  Usage: ./import-photo-json.rb -i digitalIdentifier
+  Usage: ./viewercli.rb -i digitalIdentifier
   Examples:
-    $ ./import-photo-json.rb -i fales_mss222_cuid28860 | jq .
-    $ ./import-photo-json.rb -i fales_mss222_cuid28861 | jq .
+    $ ./viewercli.rb -i fales_mss222_cuid28860 | jq .
+    $ ./viewercli.rb -i fales_mss222_cuid28861 | jq .
   where [options] are:
 BANNER
 
 opts = Optimist.options do
-  version 'import-photo-json 0.0.1'
+  version 'viewercli 0.0.1'
   banner banner
   opt :identifier, 'Digital identifier.', type: String
 end

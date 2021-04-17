@@ -34,8 +34,7 @@ class Viewer
   end
 
   def authenticate
-    # http = NiceHttp.new(ENV['SE_ENDPOINT'])
-    http = NiceHttp.new('http://localhost:9000')
+    http = NiceHttp.new(ENV['SE_ENDPOINT'])
     request = {
       path: '/api/v0/import/user/login.json',
       headers: {
