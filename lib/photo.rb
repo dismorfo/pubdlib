@@ -67,7 +67,7 @@ class Photo
     # @todo Should we update the URL to use HTTPS?
     handle_url = 'http://hdl.handle.net'
     [
-      "#{handle_url}}/#{@se.handle}"
+      "#{handle_url}/#{@se.handle}"
     ]
   end
 
