@@ -1,0 +1,10 @@
+{
+  "id": "princeton.aco",
+  "label": "Arabic Collections Online - Princeton",
+  "collection": "aco",
+  "partner": "princeton",
+  "mainEntityOfPage": "http://dlib.nyu.edu/aco",
+  "types": {
+    "book": "book"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "und",
+  "label": "und",
+  "collection": "und",
+  "partner": "und",
+  "mainEntityOfPage": "https://stage-sites.dlib.nyu.edu/viewer",
+  "types": {
+    "image_set": "photos"
+  }
+}

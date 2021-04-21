@@ -1,2 +1,4 @@
 nice_http.log
 .env*
+jobs/*.txt
+jobs/*.tsv

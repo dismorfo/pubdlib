@@ -1,0 +1,10 @@
+{
+  "id": "dlts.adl",
+  "label": "Afghanistan Digital Library",
+  "collection": "adl",
+  "partner": "dlts",
+  "mainEntityOfPage": "https://sites.dlib.nyu.edu/viewer",
+  "types": {
+    "book": "books"
+  }
+}

@@ -63,11 +63,13 @@ class Photo
     }
   end
 
+  def handle_url
+    "http://hdl.handle.net/#{@se.handle}"
+  end
+
   def handle
-    # @todo Should we update the URL to use HTTPS?
-    handle_url = 'http://hdl.handle.net'
     [
-      "#{handle_url}/#{@se.handle}"
+      handle_url
     ]
   end
 
@@ -106,8 +108,9 @@ class Photo
     ]
   end
 
+  # I can do better.
   def sequence_count
-    sequences if @sequence_count_int < 1
+    @sequence_count_int = image_files.count if @sequence_count_int < 1
     @sequence_count_int
   end
 

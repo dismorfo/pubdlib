@@ -11,8 +11,9 @@ gem 'dotenv'
 # HTML, XML, SAX, and Reader parser.
 # https://nokogiri.org/
 gem 'nokogiri'
-
 # https://rubygems.org/gems/nice_http/versions/1.8.7
 gem 'nice_http'
+# https://rubygems.org/gems/saxerator
+gem 'saxerator'
 
-gem 'bundler', '~> 2.2.16'
+gem 'iso-639'

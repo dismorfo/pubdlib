@@ -1,0 +1,10 @@
+{
+  "id": "ifa.egypt",
+  "label": "Ancient World Digital Library",
+  "collection": "egypt",
+  "partner": "ifa",
+  "mainEntityOfPage": "http://dlib.nyu.edu/ancientworld",
+  "types": {
+    "book": "books"
+  }
+}

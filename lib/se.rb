@@ -61,13 +61,14 @@ class Se
 
   def hash
     @se.merge(
-      directory_path: directory_path,
+      directory_path: se_path,
+      profile: profile,
       handle: handle.chomp
     )
   end
 
   def json
-    @se.to_json
+    hash.to_json
   end
 
   def search_service
@@ -88,7 +89,7 @@ class Se
     http
   end
 
-  def directory_path
+  def se_path
     root = "#{ENV['RSBE_CONTENT']}/#{collection[0].provider.code}/#{collection[0].code}"
     # Current location.
     if Dir.exist?("#{root}/wip/se/#{@se.digi_id}")
@@ -109,7 +110,21 @@ class Se
   end
 
   def handle
-    read_resource("#{directory_path}/handle")
+    read_resource("#{se_path}/handle")
+  end
+
+  def profile
+    if File.exist?("./profiles/#{collection[0].provider.code}.#{collection[0].code}.json")
+      data = JSON.parse(File.read("./profiles/#{collection[0].provider.code}.#{collection[0].code}.json"))
+    elsif File.exist?("./profiles/#{type}.json")
+      data = JSON.parse(File.read("./profiles/#{type}.json"))
+      data['id'] = "#{collection[0].provider.code}.#{collection[0].code}"
+      data['collection'] = collection[0].code
+      data['partner'] = collection[0].provider.code
+    else
+      raise "Profile for #{@se.digi_id} not found."
+    end
+    data
   end
 end
 
