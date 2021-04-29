@@ -3,19 +3,28 @@ die () {
   exit 1;
 }
 
-APP_DIR=/home/ortiz/tools/viewercli
-
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -t | --ticket )
-    shift; ticket=$1
+    shift;
+      ticket=$1
+    ;;
+  -e | --env )
+    shift;
+      CONF_FILE=$1
     ;;
 esac; shift; done
 
 if [[ "$1" == '--' ]]; then shift; fi
 
-JOB=${APP_DIR}/jobs/${ticket}-se-list.txt
+[ $CONF_FILE ] || die ${LINENO} "user-error" "No configuration file provided."
+
+# Load configuration file.
+. $CONF_FILE
+
+JOB=${APP_ROOT}/jobs/${ticket}-se-list.txt
 
 while IFS= read -r id
   do
-    ${APP_DIR}/viewercli.rb publish -i ${id} -e ${APP_DIR}/.env
+    identifier=${id%%[[:space:]]}
+    ${APP_ROOT}/viewercli.rb publish -i ${identifier} -e $CONF_FILE
 done <${JOB}
