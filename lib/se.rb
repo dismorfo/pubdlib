@@ -20,10 +20,14 @@ Dotenv.require_keys('RSBE_CONTENT')
 class Se
   include ERB::Util
   def initialize(identifier)
-    datasource = search_se_by_id(identifier)
-    raise datasource['error'] if datasource.key?('error')
+    @se = search_se_by_id(identifier)
+    raise @se['error'] if @se.key?('error')
 
-    @se = datasource
+    if @se.noid.nil?
+      handle.split('/')
+      @se.noid = handle.split('/')[1]
+    end
+
   end
 
   def entity_alias
@@ -37,7 +41,7 @@ class Se
     aliases = {}
     aliases['book'] = 'books'
     aliases['photo'] = 'photos'
-    aliases['image_set'] = 'photos'  
+    aliases['image_set'] = 'photos'
     aliases[type]
   end
 
@@ -69,9 +73,7 @@ class Se
     )
     raise 'Unable to find resource in search service.' unless find.code == 200
 
-    @se = JSON.parse(find.data)
-
-    @se
+    JSON.parse(find.data)
   end
 
   def noid

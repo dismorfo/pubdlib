@@ -12,9 +12,11 @@ require './lib/viewer'
 require './lib/sequence'
 require './lib/handle'
 
+# rubocop:disable Naming/MethodParameterName
 # rubocop:disable Layout/CaseIndentation
+# rubocop:disable Layout/LineLength
 
-SUB_COMMANDS = %w[publish delete link-handle json].freeze
+SUB_COMMANDS = %w[find publish delete link-handle json].freeze
 
 # Application message to display as banner in the help menu.
 banner = <<~BANNER
@@ -63,14 +65,15 @@ Dotenv.require_keys('HANDLE_USER')
 Dotenv.require_keys('HANDLE_PASS')
 # Location of content repository
 Dotenv.require_keys('CONTENT_REPOSITORY_PATH')
-
+#
 Dotenv.require_keys('VIEWER_ENDPOINT')
+#
 Dotenv.require_keys('VIEWER_USER')
+#
 Dotenv.require_keys('VIEWER_PASS')
 
 def generate_json_image_set(se)
   entity = Photo.new(se.hash)
-  entity_language = 'en'
   f_json = File.open("#{ENV['CONTENT_REPOSITORY_PATH']}/#{se.type_alias}/#{se.identifier}.#{entity.hash.entity_language}.json", 'w')
   f_json.write(entity.json)
   f_json.close
@@ -101,7 +104,7 @@ def publish_image_set(se)
   sequence.disconnect
   # Get profle
   profile = se.hash.profile
-  # Sequence count. 
+  # Sequence count.
   count = entity.sequence_count.to_i
   # - If SE has one sequence, then it will be publish with thumbnails.
   if count == 1
@@ -110,7 +113,7 @@ def publish_image_set(se)
   else
     bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{se.identifier}"
   end
-  # Init handle  
+  # Init handle
   handle = Handle.new
   # Bind handle
   handle.bind(se.handle, bind_uri)
@@ -133,25 +136,20 @@ def link_handle(identifier)
   profile = se.hash.profile
 
   case se.type
-  when 'image_set'
-    photo = Photo.new(se.hash)
-    count = photo.sequence_count.to_i
-
-    # "WITH" OR "WITHOUT" thumbnail
-    # @link https://jira.nyu.edu/jira/browse/DLTSIMAGES-325?focusedCommentId=1500278&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-1500278
-
-    # - If SE has one sequence, then it will be publish with thumbnails
-    if count == 1
-      bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{identifier}/1"
-    # - If SE has more than one sequence it will be publish without thumbnails
-    else
-      bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{identifier}"
-    end
-
-    handle = Handle.new
-
-    handle.bind(se.handle, bind_uri)
-
+    when 'image_set'
+      photo = Photo.new(se.hash)
+      count = photo.sequence_count.to_i
+      # "WITH" OR "WITHOUT" thumbnail
+      # @link https://jira.nyu.edu/jira/browse/DLTSIMAGES-325?focusedCommentId=1500278&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-1500278
+      # - If SE has one sequence, then it will be publish with thumbnails
+      if count == 1
+        bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{identifier}/1"
+        # - If SE has more than one sequence it will be publish without thumbnails
+      else
+        bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{identifier}"
+      end
+      handle = Handle.new
+      handle.bind(se.handle, bind_uri)
   end
 end
 
@@ -180,3 +178,5 @@ end
 # end
 
 # rubocop:enable Layout/CaseIndentation
+# rubocop:enable Naming/MethodParameterName
+# rubocop:enable Layout/LineLength
