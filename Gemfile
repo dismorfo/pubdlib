@@ -10,10 +10,10 @@ gem 'optimist', '~> 3.0'
 gem 'dotenv'
 # HTML, XML, SAX, and Reader parser.
 # https://nokogiri.org/
-gem 'nokogiri'
+gem 'nokogiri', '~> 1.10', '<= 1.10.10'
 # https://rubygems.org/gems/nice_http/versions/1.8.7
 gem 'nice_http'
 # https://rubygems.org/gems/saxerator
 gem 'saxerator'
-
+gem 'mini_portile2'
 gem 'iso-639'

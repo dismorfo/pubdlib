@@ -7,11 +7,11 @@ require 'json'
 # rubocop:disable Metrics/MethodLength
 
 # Username for Repository search endpoint
-Dotenv.require_keys('SE_USER')
+Dotenv.require_keys('VIEWER_USER')
 # Password for Repository search endpoint
-Dotenv.require_keys('SE_PASS')
+Dotenv.require_keys('VIEWER_PASS')
 # Repository search endpoint.
-Dotenv.require_keys('SE_ENDPOINT')
+Dotenv.require_keys('VIEWER_ENDPOINT')
 
 # @todo Undocumented Class
 class Viewer
@@ -20,6 +20,7 @@ class Viewer
   end
 
   def post(object)
+
     request = @http.post(
       path: '/api/v1/objects',
       headers: {
@@ -34,15 +35,15 @@ class Viewer
   end
 
   def authenticate
-    http = NiceHttp.new(ENV['SE_ENDPOINT'])
+    http = NiceHttp.new(ENV['VIEWER_ENDPOINT'])
     request = {
       path: '/api/v0/import/user/login.json',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       data: {
-        'username': ENV['SE_USER'],
-        'password': ENV['SE_PASS']
+        'username': ENV['VIEWER_USER'],
+        'password': ENV['VIEWER_PASS']
       }
     }
     resp = http.post(request)

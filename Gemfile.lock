@@ -5,16 +5,16 @@ GEM
     dotenv (2.7.6)
     iso-639 (0.3.5)
     json (2.5.1)
+    mini_portile2 (2.4.0)
     mongo (2.14.0)
       bson (>= 4.8.2, < 5.0.0)
     nice_hash (1.17.2)
       string_pattern (~> 2.2, >= 2.2.2)
     nice_http (1.8.9)
       nice_hash (~> 1.17, >= 1.17)
-    nokogiri (1.11.3-x86_64-darwin)
-      racc (~> 1.4)
+    nokogiri (1.10.10)
+      mini_portile2 (~> 2.4.0)
     optimist (3.0.1)
-    racc (1.5.2)
     regexp_parser (1.8.2)
     saxerator (0.9.9)
     string_pattern (2.2.2)
@@ -22,15 +22,15 @@ GEM
 
 PLATFORMS
   ruby
-  x86_64-darwin-20
 
 DEPENDENCIES
   dotenv
   iso-639
   json (~> 2.3)
+  mini_portile2
   mongo (~> 2.4, >= 2.4.3)
   nice_http
-  nokogiri
+  nokogiri (~> 1.10, <= 1.10.10)
   optimist (~> 3.0)
   saxerator
 

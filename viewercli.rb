@@ -61,11 +61,71 @@ Dotenv.require_keys('HANDLE_URL')
 Dotenv.require_keys('HANDLE_USER')
 # Handle pass.
 Dotenv.require_keys('HANDLE_PASS')
+# Location of content repository
+Dotenv.require_keys('CONTENT_REPOSITORY_PATH')
+
+Dotenv.require_keys('VIEWER_ENDPOINT')
+Dotenv.require_keys('VIEWER_USER')
+Dotenv.require_keys('VIEWER_PASS')
+
+def generate_json_image_set(se)
+  entity = Photo.new(se.hash)
+  entity_language = 'en'
+  f_json = File.open("#{ENV['CONTENT_REPOSITORY_PATH']}/#{se.type_alias}/#{se.identifier}.#{entity.hash.entity_language}.json", 'w')
+  f_json.write(entity.json)
+  f_json.close
+end
 
 def generate_json(identifier)
   se = Se.new(identifier)
+  case se.type
+  when 'image_set'
+    generate_json_image_set(se)
+  end
+end
+
+def publish_image_set(se)
+  # Wrap source entity as Photo resource.
   entity = Photo.new(se.hash)
-  entity.json
+  # Init Viewer.
+  viewer = Viewer.new
+  # Post resource.
+  viewer.post(entity.json)
+  # Init sequence and prepare MongoDB.
+  sequence = Sequence.new(type: entity.hash.entity_type)
+  # Delete any record.
+  sequence.delete_all(se.identifier)
+  # Insert all sequences at once.
+  sequence.insert_sequences(entity.hash.pages.page)
+  # Disconnect from MongoDB.
+  sequence.disconnect
+  # Get profle
+  profile = se.hash.profile
+  # Sequence count. 
+  count = entity.sequence_count.to_i
+  # - If SE has one sequence, then it will be publish with thumbnails.
+  if count == 1
+    bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{se.identifier}/1"
+  # - If SE has more than one sequence it will be publish without thumbnails.
+  else
+    bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{se.identifier}"
+  end
+  # Init handle  
+  handle = Handle.new
+  # Bind handle
+  handle.bind(se.handle, bind_uri)
+end
+
+def publish(identifier)
+  se = Se.new(identifier)
+  case se.type
+  when 'image_set'
+    publish_image_set(se)
+
+  when 'audio'
+    puts se.json
+
+  end
 end
 
 def link_handle(identifier)
@@ -99,7 +159,7 @@ cmd = ARGV.shift
 
 case cmd
   when 'publish'
-    puts cmd
+    publish opts[:identifier]
 
   when 'json'
     puts generate_json opts[:identifier]
@@ -113,31 +173,10 @@ end
 
 # se = Se.new(opts[:identifier])
 
-# photo = Photo.new(se.hash)
-
-# book = Book.new(se.hash)
-
-# puts book.json
-
-# viewer = Viewer.new
-
-# viewer.post(photo.json)
-
-# sequence = Sequence.new(type: photo.hash.entity_type)
-
-# puts sequence.find(opts[:identifier]).to_json
-
-# sequence.delete_all(opts[:identifier])
-
-# Danger zone. Delete all first, and then insert.
-# sequence.insert_sequences(photo.hash.pages.page)
-
 # photo.hash.pages.page.each do |item|
   # puts sequence.pick_one(item.isPartOf.to_s, item.sequence[0])
   # puts sequence.delete(item.isPartOf.to_s, item.sequence[0])
   # sequence.save(item)
 # end
-
-# sequence.disconnect
 
 # rubocop:enable Layout/CaseIndentation

@@ -3,8 +3,8 @@
   "label": "und",
   "collection": "und",
   "partner": "und",
-  "mainEntityOfPage": "https://sites.dlib.nyu.edu/viewer",
+  "mainEntityOfPage": "https://sites.dlib.nyu.edu/media",
   "types": {
-    "image_set": "photos"
+    "audio": "audio"
   }
 }

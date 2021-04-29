@@ -3,6 +3,7 @@
 require 'dotenv/load'
 require 'nice_http'
 require 'json'
+require 'erb'
 
 # rubocop:disable Metrics/MethodLength
 
@@ -17,11 +18,49 @@ Dotenv.require_keys('RSBE_CONTENT')
 
 # @todo Undocumented Class
 class Se
+  include ERB::Util
   def initialize(identifier)
     datasource = search_se_by_id(identifier)
     raise datasource['error'] if datasource.key?('error')
 
     @se = datasource
+  end
+
+  def entity_alias
+    aliases = {}
+    aliases['book'] = 'dlts_book'
+    aliases['photo'] = 'dlts_photo_set'
+    aliases[type]
+  end
+
+  def type_alias
+    aliases = {}
+    aliases['book'] = 'books'
+    aliases['photo'] = 'photos'
+    aliases['image_set'] = 'photos'  
+    aliases[type]
+  end
+
+  def identifier
+    @se.digi_id
+  end
+
+  def pdfs
+    find = fmds.map { |fmd|
+      next unless /pdf/.match(fmd.name)
+
+      {
+        type: 'hi',
+        uri: "pdfserver://#{type_alias}/#{identifier}/#{fmd.name}",
+        filesize: fmd.filesize,
+        searchable: fmd.searchable
+      }
+    }
+    find
+  end
+
+  def fmds
+    @se.fmds
   end
 
   def search_se_by_id(identifier)
