@@ -8,15 +8,19 @@ require 'dotenv/load'
 require './lib/se'
 require './lib/photo'
 require './lib/book'
+# Viewer service
 require './lib/viewer'
+# Media service
+require './lib/media'
 require './lib/sequence'
 require './lib/handle'
+require './lib/stream'
 
 # rubocop:disable Naming/MethodParameterName
 # rubocop:disable Layout/CaseIndentation
 # rubocop:disable Layout/LineLength
 
-SUB_COMMANDS = %w[find publish delete link-handle json].freeze
+SUB_COMMANDS = %w[search publish delete link-handle json].freeze
 
 # Application message to display as banner in the help menu.
 banner = <<~BANNER
@@ -72,6 +76,13 @@ Dotenv.require_keys('VIEWER_USER')
 #
 Dotenv.require_keys('VIEWER_PASS')
 
+# Username for Repository search endpoint
+Dotenv.require_keys('MEDIA_USER')
+# Password for Repository search endpoint
+Dotenv.require_keys('MEDIA_PASS')
+# Repository search endpoint.
+Dotenv.require_keys('MEDIA_ENDPOINT')
+
 def generate_json_image_set(se)
   entity = Photo.new(se.hash)
   f_json = File.open("#{ENV['CONTENT_REPOSITORY_PATH']}/#{se.type_alias}/#{se.identifier}.#{entity.hash.entity_language}.json", 'w')
@@ -119,6 +130,16 @@ def publish_image_set(se)
   handle.bind(se.handle, bind_uri)
 end
 
+def publish_media(se)
+  # Wrap source entity as Photo resource.
+  entity = Stream.new(se.hash)
+  media = Media.new
+  # Post resource.
+  req = media.post(entity.json)
+
+  puts req.to_json
+end
+
 def publish(identifier)
   se = Se.new(identifier)
   case se.type
@@ -126,9 +147,13 @@ def publish(identifier)
     publish_image_set(se)
 
   when 'audio'
-    puts se.json
-
+    publish_media(se)
   end
+end
+
+def search(identifier)
+  se = Se.new(identifier)
+  se.json
 end
 
 def link_handle(identifier)
@@ -159,6 +184,9 @@ case cmd
   when 'publish'
     publish opts[:identifier]
 
+  when 'search'
+    puts search opts[:identifier]
+
   when 'json'
     puts generate_json opts[:identifier]
 
@@ -168,14 +196,6 @@ case cmd
   else
     Optimist.die "Unknown subcommand #{cmd.inspect}."
 end
-
-# se = Se.new(opts[:identifier])
-
-# photo.hash.pages.page.each do |item|
-  # puts sequence.pick_one(item.isPartOf.to_s, item.sequence[0])
-  # puts sequence.delete(item.isPartOf.to_s, item.sequence[0])
-  # sequence.save(item)
-# end
 
 # rubocop:enable Layout/CaseIndentation
 # rubocop:enable Naming/MethodParameterName
