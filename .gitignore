@@ -1,4 +1,5 @@
 nice_http.log
 .env*
-jobs/*.txt
-jobs/*.tsv
+jobs/*.*
+config.*.json
+!config.template.json

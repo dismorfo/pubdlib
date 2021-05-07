@@ -3,14 +3,6 @@
 require 'nice_http'
 require 'json'
 require 'erb'
-require 'dotenv/load'
-
-# rubocop:disable Metrics/ClassLength
-# rubocop:disable Metrics/AbcSize
-# rubocop:disable Metrics/MethodLength
-
-# Image server.
-Dotenv.require_keys('IMAGE_SERVER')
 
 # @todo Undocumented Class
 class Photo
@@ -153,7 +145,7 @@ class Photo
   end
 
   def image_metadata(image_id)
-    http = NiceHttp.new(ENV['IMAGE_SERVER'])
+    http = NiceHttp.new($configuration['IMAGE_SERVER'])
     request = {
       path: "/iiif/2/#{url_encode(image_id)}/info.json"
     }
@@ -163,7 +155,3 @@ class Photo
     JSON.parse(resp.data)
   end
 end
-
-# rubocop:enable Metrics/AbcSize
-# rubocop:enable Metrics/ClassLength
-# rubocop:enable Metrics/MethodLength

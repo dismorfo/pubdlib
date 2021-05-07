@@ -7,9 +7,6 @@ gem 'mongo', '~> 2.4', '>= 2.4.3'
 gem 'json', '~> 2.3'
 # https://www.manageiq.org/optimist/
 gem 'optimist', '~> 3.0'
-# https://github.com/bkeepers/dotenv
-gem 'dotenv'
-gem 'mini_portile2'
 # HTML, XML, SAX, and Reader parser.
 # https://nokogiri.org/
 gem 'nokogiri', '~> 1.10', '<= 1.10.10'

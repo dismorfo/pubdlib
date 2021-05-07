@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
-require 'dotenv/load'
 require 'nice_http'
-
-# Handle server.
-Dotenv.require_keys('HANDLE_URL')
-# Handle user.
-Dotenv.require_keys('HANDLE_USER')
-# Handle pass.
-Dotenv.require_keys('HANDLE_PASS')
 
 # @todo Undocumented Class
 class Handle
@@ -16,7 +8,7 @@ class Handle
     xml = data(uri)
     resp = request.put(path: "/id/handle/#{noid}", data: xml)
 
-    raise "Error: Unable to reach #{ENV['HANDLE_URL']}" unless resp.code == 200
+    raise "Error: Unable to reach #{$configuration['HANDLE_URL']}" unless resp.code == 200
 
     raise "Error registering handle #{noid}" unless resp.message == 'OK'
 
@@ -24,10 +16,10 @@ class Handle
   end
 
   def request
-    http = NiceHttp.new(ENV['HANDLE_URL'])
+    http = NiceHttp.new($configuration['HANDLE_URL'])
     http.headers.authorization = NiceHttpUtils.basic_authentication(
-      user: ENV['HANDLE_USER'],
-      password: ENV['HANDLE_PASS']
+      user: $configuration['HANDLE_USER'],
+      password: $configuration['HANDLE_PASS']
     )
     http.headers['content-type'] = 'application/xml'
     http

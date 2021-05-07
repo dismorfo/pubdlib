@@ -1,17 +1,7 @@
 # frozen_string_literal: true
 
-require 'dotenv/load'
 require 'nice_http'
 require 'json'
-
-# rubocop:disable Metrics/MethodLength
-
-# Username for Repository search endpoint
-Dotenv.require_keys('VIEWER_USER')
-# Password for Repository search endpoint
-Dotenv.require_keys('VIEWER_PASS')
-# Repository search endpoint.
-Dotenv.require_keys('VIEWER_ENDPOINT')
 
 # @todo Undocumented Class
 class Viewer
@@ -20,7 +10,6 @@ class Viewer
   end
 
   def post(object)
-
     request = @http.post(
       path: '/api/v1/objects',
       headers: {
@@ -35,15 +24,15 @@ class Viewer
   end
 
   def authenticate
-    http = NiceHttp.new(ENV['VIEWER_ENDPOINT'])
+    http = NiceHttp.new($configuration['VIEWER_ENDPOINT'])
     request = {
       path: '/api/v0/import/user/login.json',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       data: {
-        'username': ENV['VIEWER_USER'],
-        'password': ENV['VIEWER_PASS']
+        'username': $configuration['VIEWER_USER'],
+        'password': $configuration['VIEWER_PASS']
       }
     }
     resp = http.post(request)
@@ -52,5 +41,3 @@ class Viewer
     http
   end
 end
-
-# rubocop:enable Metrics/MethodLength

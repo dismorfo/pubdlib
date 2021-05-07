@@ -1,18 +1,12 @@
 # frozen_string_literal: true
 
-require 'dotenv/load'
 require 'nice_http'
 require 'json'
 
-# rubocop:disable Metrics/MethodLength
-
 # @todo Undocumented Class
 class Media
-  def initialize
-    @http = authenticate
-  end
-
   def post(object)
+    @http = authenticate
     request = @http.post(
       path: '/api/v0/objects',
       headers: {
@@ -23,19 +17,21 @@ class Media
     res = JSON.parse(request.data)
     raise res.error if res.key?('error')
 
+    @http.get('/user/logout')
+
     res
   end
 
   def authenticate
-    http = NiceHttp.new(ENV['MEDIA_ENDPOINT'])
+    http = NiceHttp.new($configuration['MEDIA_ENDPOINT'])
     request = {
       path: '/api/v0/import/user/login.json',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       data: {
-        'username': ENV['MEDIA_USER'],
-        'password': ENV['MEDIA_PASS']
+        'username': $configuration['MEDIA_USER'],
+        'password': $configuration['MEDIA_PASS']
       }
     }
     resp = http.post(request)
@@ -44,5 +40,3 @@ class Media
     http
   end
 end
-
-# rubocop:enable Metrics/MethodLength

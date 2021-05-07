@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
 require 'mongo'
-require 'dotenv/load'
-
-# MongoDB database
-Dotenv.require_keys('MONGO_DATABASE')
-# MongoDB URL
-Dotenv.require_keys('MONGO_URL')
 
 # Undocumented function.
 class Sequence
@@ -22,7 +16,7 @@ class Sequence
     # set logger level to FATAL (only show serious errors)
     Mongo::Logger.logger.level = ::Logger::FATAL
     # Init MongoDB.
-    Mongo::Client.new(ENV['MONGO_URL'], database: ENV['MONGO_DATABASE'])
+    Mongo::Client.new($configuration['MONGO_URL'], database: $configuration['MONGO_DATABASE'])
   end
 
   def database(collection)

@@ -1,33 +1,20 @@
 # frozen_string_literal: true
 
-require 'dotenv/load'
 require 'nice_http'
 require 'json'
 require 'erb'
 
-# rubocop:disable Metrics/MethodLength
-
-# Username for Repository search endpoint
-Dotenv.require_keys('SE_USER')
-# Password for Repository search endpoint
-Dotenv.require_keys('SE_PASS')
-# Repository search endpoint.
-Dotenv.require_keys('SE_ENDPOINT')
-# RSBE content.
-Dotenv.require_keys('RSBE_CONTENT')
-
 # @todo Undocumented Class
 class Se
   include ERB::Util
+  @identifier = nil
   def initialize(identifier)
+    @identifier = identifier
     @se = search_se_by_id(identifier)
     raise @se['error'] if @se.key?('error')
 
-    if @se.noid.nil?
-      handle.split('/')
-      @se.noid = handle.split('/')[1]
-    end
-
+    handle.split('/')
+    @se.noid = handle.split('/')[1]
   end
 
   def entity_alias
@@ -113,15 +100,15 @@ class Se
   end
 
   def search_service
-    http = NiceHttp.new(ENV['SE_ENDPOINT'])
+    http = NiceHttp.new($configuration['SE_ENDPOINT'])
     request = {
       path: '/api/v0/import/user/login.json',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       data: {
-        'username': ENV['SE_USER'],
-        'password': ENV['SE_PASS']
+        'username': $configuration['SE_USER'],
+        'password': $configuration['SE_PASS']
       }
     }
     resp = http.post(request)
@@ -131,7 +118,7 @@ class Se
   end
 
   def se_path
-    root = "#{ENV['RSBE_CONTENT']}/#{collection[0].provider.code}/#{collection[0].code}"
+    root = "#{$configuration['RSBE_CONTENT']}/#{collection[0].provider.code}/#{collection[0].code}"
     # Current location.
     if Dir.exist?("#{root}/wip/se/#{@se.digi_id}")
       "#{root}/wip/se/#{@se.digi_id}"
@@ -167,6 +154,8 @@ class Se
     end
     data
   end
-end
 
-# rubocop:enable Metrics/MethodLength
+  class << self
+    attr_accessor :search_se_by_id
+  end
+end

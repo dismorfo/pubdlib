@@ -16,9 +16,12 @@ download_file () {
   if [[ "${filename}" = "ie-list.txt" ]] ; then
     curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${JOBS_DIR}/${ticket}-ie-list.txt
   fi
-
-  # See if we can use this file
-  if [[ "${filename}" = "digitization_work_order_report.tsv" ]] ; then
+  # Migth have a use for this type of file.
+  if [[ "$filename" == *".tsv"* ]]; then
+    curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${JOBS_DIR}/${ticket}-${filename}
+  fi
+  # Migth have a use for this type of file.
+  if [[ "$filename" == *".csv"* ]]; then
     curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${JOBS_DIR}/${ticket}-${filename}
   fi
 }
@@ -28,7 +31,7 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     shift;
       ticket=$1
     ;;
-  -e | --env )
+  -e| --env )
     shift;
       CONF_FILE=$1
     ;;
@@ -36,12 +39,13 @@ esac; shift; done
 
 if [[ "$1" == '--' ]]; then shift; fi
 
+[ "$ticket" ] || die ${LINENO} "user-error" "No ticket provided."
+
+[ ! -f "$CONF_FILE" ] && die ${LINENO} "user-error" "Configuration file not found."
+
 [ $CONF_FILE ] || die ${LINENO} "user-error" "No configuration file provided."
 
-# Load configuration file.
-. $CONF_FILE
-
-[ "$ticket" ] || die ${LINENO} "user-error" "No ticket provided."
+read TICKET_ENDPOINT TICKET_USER TICKET_PASS JOBS_DIR < <(echo $(cat ${CONF_FILE} | jq -r '.TICKET_ENDPOINT, .TICKET_USER, .TICKET_PASS, .JOBS_DIR'))
 
 attachments=`curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${TICKET_ENDPOINT}/rest/api/2/issue/${ticket} | jq -r '.fields.attachment[] | @base64'`
 

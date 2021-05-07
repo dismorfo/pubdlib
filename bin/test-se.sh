@@ -5,9 +5,9 @@ die () {
   exit 1;
 }
 
-APP_DIR=/home/ortiz/tools/viewercli
+APP_DIR=
 
-SERVER=https://sites.dlib.nyu.edu/viewer
+SERVER=
 
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -t | --ticket )
@@ -24,4 +24,3 @@ while IFS= read -r id
     status=`curl -s -o /dev/null -I -w "%{http_code}" ${SERVER}/photos/${id}/1 --insecure`
     echo ${SERVER}/photos/${id}/1 - ${status}
 done <${JOB}
-

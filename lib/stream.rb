@@ -2,15 +2,10 @@
 
 # frozen_string_literal: true
 
-require 'dotenv/load'
 require 'json'
 require 'nokogiri'
 require 'English'
 require 'digest'
-
-# rubocop:disable Layout/LineLength
-# rubocop:disable Metrics/MethodLength
-# rubocop:disable Metrics/AbcSize
 
 # @TODO Needs documentation.
 class Stream
@@ -260,7 +255,3 @@ class Stream
     rights
   end
 end
-
-# rubocop:enable Layout/LineLength
-# rubocop:enable Metrics/MethodLength
-# rubocop:enable Metrics/AbcSize
