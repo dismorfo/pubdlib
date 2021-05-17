@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 # frozen_string_literal: true
 
 require 'json'
@@ -10,16 +8,16 @@ require 'digest'
 # @TODO Needs documentation.
 class Stream
   @se = nil
-  def initialize(source_entity)
+  def initialize(se)
     # Structure of DLTS digital objects while in the "Work In Progress" stage.
     # https://github.com/nyudlts/wip-documentation
     # request the Source Entity
-    @se = source_entity
+    @se = se
   end
 
   def collections
     collections = []
-    @se.isPartOf.each do |item|
+    @se.hash.isPartOf.each do |item|
       collections.push(
         title: item.name[0, 255],
         name: item.name,
@@ -41,7 +39,7 @@ class Stream
   end
 
   def partners
-    provider = @se.isPartOf[0].provider
+    provider = @se.hash.isPartOf[0].provider
     [
       title: provider.name[0, 255],
       name: provider.name,
@@ -64,9 +62,10 @@ class Stream
     # See for details: https://jira.nyu.edu/jira/browse/DLTSVIDEO-127?focusedCommentId=210439&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-210439
     # representation of the resource
     {
-      jobId: "#{@se.isPartOf[0].provider.code}/#{@se.isPartOf[0].code}/#{@se.digi_id}",
-      identifier: @se.seid,
-      label: @se.digi_id,
+      jobId: "#{@se.hash.isPartOf[0].provider.code}/#{@se.hash.isPartOf[0].code}/#{@se.identifier}",
+      identifier: @se.identifier,
+      label: @se.identifier,
+      entity_language: 'und',
       type: @se.type,
       thumbnails: media_thumbnails,
       manifests: media_manifest,
@@ -87,7 +86,7 @@ class Stream
 
   # directory containing ephemeral files
   def job_aux_directory
-    directory_path = "#{@se.directory_path}/aux"
+    directory_path = "#{@se.hash.directory_path}/aux"
 
     raise "Directory containing ephemeral files does not exist #{directory_path}" unless Dir.exist?(directory_path)
 
@@ -96,7 +95,7 @@ class Stream
 
   # directory containing non-ephemeral files
   def job_data_directory
-    directory_path = "#{@se.directory_path}/data"
+    directory_path = "#{@se.hash.directory_path}/data"
 
     raise "Directory containing non files does not exist #{directory_path}" unless Dir.exist?(directory_path)
 
@@ -220,7 +219,7 @@ class Stream
         type: manifest_test[1].downcase,
         # A/V materials for publication and AMS publication storage
         # follow the pattern <server>://<partner>/<collection>/<resource>
-        uri: "streamServer://#{@se.isPartOf[0].provider.code}/#{@se.isPartOf[0].code}/#{File.basename(manifest)}"
+        uri: "streamServer://#{@se.hash.isPartOf[0].provider.code}/#{@se.hash.isPartOf[0].code}/#{File.basename(manifest)}"
       )
     end
     manifests
@@ -230,7 +229,7 @@ class Stream
   # <something>_rightsmd.xml
   # See: https://github.com/nyudlts/wip-documentation/blob/master/ie/ie.md
   def media_rights
-    directory_path = "#{@se.directory_path}/data"
+    directory_path = "#{@se.hash.directory_path}/data"
     raise "Directory containing METS rights does not exist #{directory_path}." unless Dir.exist?(directory_path)
 
     # init rights array

@@ -43,17 +43,21 @@ if [[ "$1" == '--' ]]; then shift; fi
 
 [ ! -f "$CONF_FILE" ] && die ${LINENO} "user-error" "Configuration file not found."
 
-[ $CONF_FILE ] || die ${LINENO} "user-error" "No configuration file provided."
+[ $CONF_FILE ] || die ${LINENO} "user-error" "No configuration file."
 
 read TICKET_ENDPOINT TICKET_USER TICKET_PASS JOBS_DIR < <(echo $(cat ${CONF_FILE} | jq -r '.TICKET_ENDPOINT, .TICKET_USER, .TICKET_PASS, .JOBS_DIR'))
 
-attachments=`curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${TICKET_ENDPOINT}/rest/api/2/issue/${ticket} | jq -r '.fields.attachment[] | @base64'`
+# attachments=`curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${TICKET_ENDPOINT}/rest/api/2/issue/${ticket} | jq -r '.fields.attachment[] | @base64'`
 
-if [ $? ] ; then
-  for row in $attachments; do
-    read filename url < <(echo $(echo ${row} | base64 --decode | jq -r '.filename, .content'))
-    download_file ${filename} ${url}
-  done
-fi
+attachments=`curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${TICKET_ENDPOINT}/rest/api/2/issue/${ticket} | jq -r '.fields.attachment[]'`
+
+echo ${attachments}
+
+# if [ $? ] ; then
+#   for row in $attachments; do
+#     read filename url < <(echo $(echo ${row} | base64 --decode | jq -r '.filename, .content'))
+#     download_file ${filename} ${url}
+#   done
+# fi
 
 exit 0

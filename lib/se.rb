@@ -3,6 +3,7 @@
 require 'nice_http'
 require 'json'
 require 'erb'
+require 'nokogiri'
 
 # @todo Undocumented Class
 class Se
@@ -123,11 +124,11 @@ class Se
     if Dir.exist?("#{root}/wip/se/#{@se.digi_id}")
       "#{root}/wip/se/#{@se.digi_id}"
 
-    # legacy location
+    # Legacy location.
     elsif Dir.exist?("#{root}/wip/#{@se.digi_id}")
       "#{root}/wip/#{@se.digi_id}"
     else
-      raise 'Source entity directory does not exist.'
+      raise "Source entity directory for resource #{@se.digi_id} does not exist."
     end
   end
 
@@ -156,6 +157,6 @@ class Se
   end
 
   class << self
-    attr_accessor :search_se_by_id
+    attr_accessor :profile, :handle, :json, :hash, :collection, :provider, :provider_code, :collection_code, :type, :noid, :entity_alias, :type_alias, :identifier, :pdfs, :fmds
   end
 end

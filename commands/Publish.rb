@@ -23,20 +23,22 @@ class Publish < Command
     case @se.type
       when 'image_set'
         publish_image_set
-
       when 'audio', 'video'
         publish_media
-
     end
   end
 
   def publish_media
     # Wrap source entity as Photo resource.
-    entity = Stream.new(@se.hash)
+    entity = Stream.new(@se)
     media = Media.new
     # Post resource.
     req = media.post(entity.json)
     puts req.to_json
+  end
+
+  def publish_book
+    puts @se.hash
   end
 
   def publish_image_set
@@ -54,20 +56,21 @@ class Publish < Command
     sequence.insert_sequences(entity.hash.pages.page)
     # Disconnect from MongoDB.
     sequence.disconnect
+    # Update Handle
     # Get profle
-    profile = @se.hash.profile
-    # Sequence count.
-    count = entity.sequence_count.to_i
-    # - If SE has one sequence, then it will be publish with thumbnails.
-    if count == 1
-      bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[@se.type]}/#{@se.identifier}/1"
-    # - If SE has more than one sequence it will be publish without thumbnails.
-    else
-      bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[@se.type]}/#{@se.identifier}"
-    end
-    # Init handle
-    handle = Handle.new
-    # Bind handle
-    handle.bind(se.handle, bind_uri)
+    # profile = @se.hash.profile
+    # # Sequence count.
+    # count = entity.sequence_count.to_i
+    # # - If SE has one sequence, then it will be publish with thumbnails.
+    # if count == 1
+    #   bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[@se.type]}/#{@se.identifier}/1"
+    # # - If SE has more than one sequence it will be publish without thumbnails.
+    # else
+    #   bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[@se.type]}/#{@se.identifier}"
+    # end
+    # # Init handle
+    # handle = Handle.new
+    # # Bind handle
+    # handle.bind(se.handle, bind_uri)
   end
 end

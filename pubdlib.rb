@@ -4,6 +4,7 @@
 
 require 'rubygems'
 require 'optimist'
+require 'terminal-table'
 require './lib/command'
 require './lib/common'
 
@@ -28,6 +29,7 @@ banner = <<~BANNER
   Examples:
     $ ./pubdlib.rb  publish -i fales_mss222_cuid28860 -e config.local.json
     $ ./pubdlib.rb  publish -i fales_mss222_cuid28861 -e config.local.json
+    $ ./pubdlib.rb publish-book -i 959b583c-59ca-4282-b74d-ee9f32d15458 -p dlts/adl,ifa -e config.local.json
   where [options] are:
 BANNER
 
@@ -35,12 +37,13 @@ opts = Optimist.options do
   version 'pubdlib 0.0.1'
   banner banner
   opt :identifier, 'Digital identifier.', type: String
+  opt :provider, 'Providers list.', type: String
   opt :ticket, 'JIRA Ticket.', type: String
   opt :environment, 'Configuration file to use.', type: String
-  commands.each do |flag|
+  # commands.each do |flag|
     # opt flag, 'Digital identifier.', type: String
     # puts flag
-  end
+  # end
 end
 
 if opts[:environment].nil?

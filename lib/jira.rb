@@ -18,6 +18,19 @@ class Jira
     end
   end
 
+  def read_ticket(ticket_id)
+    ticket = get("/rest/api/2/issue/#{ticket_id}")
+    # puts ticket.to_json
+    # puts ticket.fields
+    puts ticket.fields
+    # puts ticket.fields.project.name
+    # puts ticket.fields.project.key
+    # puts ticket.fields.priority.name
+    # puts ticket.fields.status.name
+    # puts ticket.field.assignee.emailAddress
+    # puts ticket.field.summary
+  end
+
   def get(path)
     request = @http.get(path)
     res = JSON.parse(request.data)

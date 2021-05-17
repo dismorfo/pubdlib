@@ -20,12 +20,10 @@ class SeJson < Command
     @se = Se.new(opts[:identifier])
     case @se.type
       when 'image_set'
-        entity = Photo.new(@se.hash)
-        puts entity.json
-
+        entity = Photo.new(@se)
       when 'video', 'audio'
-        entity = Stream.new(@se.hash)
-        puts entity.json
+        entity = Stream.new(@se)
     end
+    puts entity.json
   end
 end

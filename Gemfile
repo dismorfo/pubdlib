@@ -14,3 +14,5 @@ gem 'nokogiri', '~> 1.10', '<= 1.10.10'
 gem 'nice_http'
 # https://rubygems.org/gems/saxerator
 gem 'saxerator'
+# https://github.com/tj/terminal-table
+gem 'terminal-table'

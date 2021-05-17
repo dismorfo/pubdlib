@@ -10,30 +10,22 @@ require 'digest'
 
 # Not documented class
 class Mods
-  # Hashes are used to lookup book category according to LCC or DDC
-  # classification. Only used for ACO books.
-  @ddc_hash = nil
-  @ddc_ranges_hash = nil
-  @lcc_cat_en = nil
-  @lcc_cat_ar = nil
-
-  @xml = ''
-  @identifier = ''
-  @ieuu = nil
-  @script = 'Latn'
-  @need_category = false
-  @is_multivol = false
-
   def initialize(configuration)
     abort("The file #{configuration.xml} does not exist.") unless File.exist?(configuration.xml)
-
-    @xml = Nokogiri::XML.parse(File.open(configuration.xml)).remove_namespaces!
-    # test if avail
-    @script = configuration.script
-    # test if avail
-    @identifier = configuration.identifier
+    # Hashes are used to lookup book category according to LCC or DDC
+    # classification. Only used for ACO books.
+    @ddc_hash = nil
+    @ddc_ranges_hash = nil
+    @lcc_cat_en = nil
+    @lcc_cat_ar = nil
+    @ieuu = nil
+    @identifier = ''
     @need_category = configuration.need_category
     @is_multivol = configuration.is_multivol
+    @script = configuration.script
+    @xml = Nokogiri::XML.parse(File.open(configuration.xml)).remove_namespaces!
+    @identifier = configuration.identifier
+    @need_category = configuration.need_category
     @ieuu = configuration.ieuu
   end
 
@@ -42,12 +34,12 @@ class Mods
   end
 
   def title
-    xpath = '//mods/titleInfo[not(@type="uniform") '
+    xpath = '//mods/titleInfo[not(@type="uniform")'
     if @script != 'Latn'
-      xpath += " and @script=\"#{@script}\"" unless @script.nil?
+      xpath += " and @script='#{@script}'" unless @script.nil?
     else
       xpath += ' and (not(@script)'
-      xpath += " or  @script=\"#{@script}\"" unless @script.nil?
+      xpath += " or  @script='#{@script}'" unless @script.nil?
       xpath += ')'
     end
     xpath += ']'
@@ -63,7 +55,7 @@ class Mods
       xpath += " @script=\"#{@script}\"" unless @script.nil?
     else
       xpath += ' (not(@script)'
-      xpath += " or  @script=\"#{@script}\"" unless @script.nil?
+      xpath += " or @script=\"#{@script}\"" unless @script.nil?
       xpath += ')'
     end
     xpath += ']/subTitle'
@@ -122,14 +114,14 @@ class Mods
 
   def call_number(marc_file_mapping, marc_file_path)
     xpath = "//classification[\@authority='lcc']"
-    call_number = mods_doc.xpath("#{xpath}/text()").to_s
+    call_number = @xml.xpath("#{xpath}/text()").to_s
     if call_number.empty? && marc_file_mapping != nil
-      call_number = get_call_number_from_marc(marc_file_mapping, marc_file_path, @identifier)
+      call_number = call_number_from_marc(marc_file_mapping, marc_file_path)
     end
     call_number
   end
 
-  def get_call_number_from_marc(marc_file_mapping, marc_file_path)
+  def call_number_from_marc(marc_file_mapping, marc_file_path)
     f = File.open(marc_file_mapping, 'r')
     call_number = ''
     f.each_line do |line|
@@ -156,16 +148,16 @@ class Mods
 
   def language
     if language_code.nil?
-      ISO_639.find_by_code(language_code).english_name
-    else
       ISO_639.find_by_code('eng').english_name
+    else
+      ISO_639.find_by_code(language_code.to_s).english_name
     end
   end
 
   def entity_language
     language = 'en'
     if @script == 'Arab'
-      iso_map = JSON.parse(File.read('./datasource/iso-639-2.json'))
+      iso_map = JSON.parse(File.read('./include/iso-639-2.json'))
       language = iso_map[language_code.to_s]
     end
     language
@@ -182,13 +174,12 @@ class Mods
 
   def subject
     subjects = []
-
     xpath = "//subject[@script='#{@script}' "
     xpath += 'or not(@script)' if @script == 'Latn'
     xpath += ']'
 
     @xml.xpath(xpath).each do |node|
-      subj = get_leaf_vals(node, [])
+      subj = leaf_vals(node, [])
       subjects << subj.join(' -- ') unless subj.empty? || subj.size == 0 || subj == ''
     end
 
@@ -198,12 +189,17 @@ class Mods
     subjects.uniq.reject(&:empty?)
   end
 
-  def get_leaf_vals(subj_element, values)
+  # Get a list scripts in this mod file.
+  def scripts
+    @xml.xpath('//@script').map(&:to_s).uniq
+  end
+
+  def leaf_vals(subj_element, values)
     children = subj_element.elements
     if !children.empty?
       children.each do |child|
         if child.name != 'geographicCode' && child.name != 'cartographics'
-          get_leaf_vals(child, values)
+          leaf_vals(child, values)
         end
       end
     else
@@ -273,55 +269,52 @@ class Mods
     ''
   end
 
-  def get_topic(marc_file_mapping, marc_file_path)
+  def topic(marc_file_mapping, marc_file_path)
     topic = ''
+    @need_category = true # For now. Why do we need to test?
     if @need_category
       if @ddc_hash.nil?
-        @ddc_hash = eval(File.read('category_hashes/ddc_hash'))
+        @ddc_hash = eval(File.read('include/category_hashes/ddc_hash'))
       end
 
       if @ddc_ranges_hash.nil?
-        @ddc_ranges_hash = eval(File.read('category_hashes/ddc_range'))
+        @ddc_ranges_hash = eval(File.read('include/category_hashes/ddc_range'))
       end
 
       if @lcc_cat_en.nil?
-        @lcc_cat_en = eval(File.read('category_hashes/lcc_cat_en'))
+        @lcc_cat_en = eval(File.read('include/category_hashes/lcc_cat_en'))
       end
 
       if @lcc_cat_ar.nil?
-        @lcc_cat_ar = eval(File.read('category_hashes/lcc_cat_ar'))
+        @lcc_cat_ar = eval(File.read('include/category_hashes/lcc_cat_ar'))
       end
 
-      xpath = "//classification[\@authority='lcc']"
+      xpath = '//classification[@authority="lcc"]'
 
-      call_number = mods_doc.xpath("#{xpath}/text()").to_s
+      call_number = @xml.xpath("#{xpath}/text()").to_s
 
       if (call_number.nil? || call_number.empty?) && marc_file_mapping != nil
-        call_number = get_call_number_from_marc(
-          marc_file_mapping,
-          marc_file_path,
-          @identifier
-        )
+        call_number = call_number_from_marc(marc_file_mapping, marc_file_path)
       end
 
       if !call_number.nil? && !call_number.empty?
-        topic = topic_lcc_lookup(call_number[0], @script)
+        topic = topic_lcc_lookup(call_number[0])
       else
         xpath = "//classification[\@authority='ddc']"
         call_number = mods_doc.xpath("#{xpath}/text()").to_s
         if !call_number.nil? && !call_number.empty?
-          topic = get_topic_from_ddc(call_number, script)
+          topic = topic_from_ddc(call_number)
         end
         if topic.empty? || topic.nil?
           class_value = call_number.split('.')[0]
-          topic = get_topic_from_ddc(class_value, script)
+          topic = topic_from_ddc(class_value)
         end
       end
     end
     topic
   end
 
-  def get_topic_from_ddc(call_number)
+  def topic_from_ddc(call_number)
     topic = ''
     first_letter = @ddc_hash[call_number]
     if !first_letter.nil? && !first_letter.empty?
@@ -349,31 +342,31 @@ class Mods
     topic
   end
 
-  def multivolume(volume, volume_str, collection)
-    if @script == 'Latn' && @is_multivol
-      [
+  def multivolume(ie)
+    volume = []
+    if @script == 'Latn' && ie.is_multivol
+      volume = [
         {
-          identifier: @identifier,
-          volume_number: volume,
-          volume_number_str: volume_str,
-          collection: [collection],
+          identifier: ie.ieuu,
+          volume_number: ie.order,
+          volume_number_str: ie.orderlabel,
+          collection: ie.collections,
           isPartOf: [
             {
-              'title': "Multi-Volume #{@identifier}",
+              'title': "#{ie.ieuu} - #{ie.identifier}",
               'type': 'dlts_multivol',
               'language': 'und',
-              'identifier': @identifier,
+              'identifier': ie.ieuu,
               'ri': nil
             }
           ]
         }
       ]
-    else
-      []
     end
+    volume
   end
 
-  def series(collection_id, partner_id)
+  def series(ie)
     if @script == 'Latn'
       xpath = "//relatedItem[@type='series']/titleInfo[@script='#{@script}' "
       xpath += ' or not(@script) ' if @script == 'Latn'
@@ -398,7 +391,7 @@ class Mods
           :title => series[0],
           :volume_number => "#{volume_number}",
           :volume_number_str =>"#{series[1]}",
-          :collection => [get_collection(collection_id, partner_id)[0]],
+          :collection => ie.collection,
           :isPartOf => [
             {
               :title => series[0],
@@ -416,46 +409,4 @@ class Mods
       ''
     end
   end
-
-  def get_collection(ids, partner_id)
-    cols = []
-    @conn = Faraday.new(:url => 'https://rsbe.dlib.nyu.edu')
-    @conn.basic_auth(rstar_username, rstar_password)
-    ids.each do |id|
-      response = @conn.get "api/v0/colls/#{id.strip}"
-      col = JSON.parse(response.body).to_hash
-      cols << {
-        title: col['name'],
-        type: 'dlts_collection',
-        language: 'und',
-        identifier: id.chomp,
-        code: col['code'],
-        name: col['name'],
-        partner: get_partner(partner_id)[0]
-      }
-    end
-    cols
-  end
-
-  def get_partner(partner_id)
-    @conn = Faraday.new(:url => 'https://rsbe.dlib.nyu.edu')
-    @conn.basic_auth(rstar_username, rstar_password)
-    response = @conn.get "api/v0/partners/#{partner_id.strip}"
-    partner = JSON.parse(response.body).to_hash
-
-    if partner.has_key?('error')
-      response = @conn.get "api/v0/providers/#{partner_id}"
-      partner = JSON.parse(response.body).to_hash
-    end
-
-    [{
-      title: partner['name'],
-      type: 'dlts_partner',
-      language: 'und',
-      identifier: partner_id.chomp,
-      code: partner['code'],
-      name: partner['name']
-    }]
-  end
-
 end
