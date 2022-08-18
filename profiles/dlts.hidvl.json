@@ -1,0 +1,19 @@
+{
+  "id": "dlts.hidvl",
+  "label": "Hemispheric Institute Digital Video Library",
+  "collection": "hidvl",
+  "partner": "dlts",
+  "types": {
+    "video": "dlts_clip"
+  },
+  "target": {
+    "stage": {
+      "mainEntityOfPage": "https://stage-sites.dlib.nyu.edu/hidvl",
+      "path": "[noid]"
+    },
+    "production": {
+      "mainEntityOfPage": "https://sites.dlib.nyu.edu/hidvl",
+      "path": "[noid]"
+    }
+  }
+}

@@ -1,10 +1,11 @@
 {
-  "id": "audio",
+  "id": "video",
   "label": "Media site",
   "collection": "dlts",
   "partner": "nyu",
   "types": {
-    "video": "dlts_clip"
+    "video": "dlts_clip",
+    "audio": "dlts_clip"
   },
   "target": {
     "stage": {

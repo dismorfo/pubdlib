@@ -12,7 +12,7 @@ class Handle
 
     raise "Error registering handle #{noid}" unless resp.message == 'OK'
 
-    puts "#{noid} linked to #{uri}"
+    puts "https://hdl.handle.net/#{noid} linked to #{uri}"
   end
 
   def request

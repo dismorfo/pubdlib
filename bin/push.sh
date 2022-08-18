@@ -18,13 +18,17 @@ if [[ "$1" == '--' ]]; then shift; fi
 
 [ $CONF_FILE ] || die ${LINENO} "user-error" "No configuration file provided."
 
-# Load configuration file.
-. $CONF_FILE
+read APP_ROOT JOBS_DIR < <(echo $(cat ${CONF_FILE} | jq -r '.APP_ROOT, .JOBS_DIR'))
 
-JOB=${APP_ROOT}/jobs/${ticket}-se-list.txt
+${APP_ROOT}/bin/download_attachment.sh -t ${ticket} -e $CONF_FILE
+
+JOB=${JOBS_DIR}/${ticket}-se-list.txt
 
 while IFS= read -r id
   do
     identifier=${id%%[[:space:]]}
-    ${APP_ROOT}/viewercli.rb publish -i ${identifier} -e $CONF_FILE
+    ${APP_ROOT}/pubdlib.rb publish --identifier ${identifier} -e $CONF_FILE
+    if [ $? ] ; then
+      ${APP_ROOT}/pubdlib.rb link-handle --identifier ${identifier} -e $CONF_FILE
+    fi
 done <${JOB}

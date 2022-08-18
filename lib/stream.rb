@@ -122,7 +122,7 @@ class Stream
         # managed by Drupal. We want to fix
         # this, but not now.
         # uri: "public://#{thumbnail_basename}"
-        uri: "fileServer://av/#{@se.isPartOf[0].provider.code}/#{@se.isPartOf[0].code}/#{@se.digi_id}/#{thumbnail_basename}"
+        uri: "fileServer://av/#{@se.hash.isPartOf[0].provider.code}/#{@se.hash.isPartOf[0].code}/#{@se.hash.digi_id}/#{thumbnail_basename}"
       )
     end
     thumbnails
@@ -146,7 +146,7 @@ class Stream
 
       transcripts.push(
         id: id,
-        uri: "fileServer://av/#{@se.isPartOf[0].provider.code}/#{@se.isPartOf[0].code}/#{@se.digi_id}/#{basename}",
+        uri: "fileServer://av/#{@se.hash.isPartOf[0].provider.code}/#{@se.hash.isPartOf[0].code}/#{@se.hash.digi_id}/#{basename}",
         quality: match['quality'],
         language: match['language']
       )
@@ -174,7 +174,7 @@ class Stream
         id: id,
         # we collect the basename of the filename
         # append fileServer "protocol" to it.
-        uri: "fileServer://av/#{@se.isPartOf[0].provider.code}/#{@se.isPartOf[0].code}/#{@se.digi_id}/#{basename}",
+        uri: "fileServer://av/#{@se.hash.isPartOf[0].provider.code}/#{@se.hash.isPartOf[0].code}/#{@se.hash.digi_id}/#{basename}",
         quality: match['quality'],
         language: match['language']
       )

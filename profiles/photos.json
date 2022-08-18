@@ -1,0 +1,19 @@
+{
+  "id": "photos",
+  "label": "Viewer site",
+  "collection": "dlts",
+  "partner": "nyu",
+  "types": {
+    "photos": "dlts_photo_set"
+  },
+  "target": {
+    "stage": {
+      "mainEntityOfPage": "https://stage-sites.dlib.nyu.edu/viewer",
+      "path": "photos/[identifier]"
+    },
+    "production": {
+      "mainEntityOfPage": "https://sites.dlib.nyu.edu/viewer",
+      "path": "photos/[identifier]"
+    }
+  }
+}
