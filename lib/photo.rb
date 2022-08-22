@@ -57,7 +57,7 @@ class Photo
   end
 
   def handle_url
-    "http://hdl.handle.net/#{@se.handle}"
+    "https://hdl.handle.net/#{@se.handle}"
   end
 
   def handle
@@ -111,14 +111,7 @@ class Photo
     sequences = []
     image_files.each.with_index do |file, position|
       image_id = "photo/#{@se.digi_id}/#{File.basename(file)}"
-      sequence_metadata = image_metadata(image_id)
-
-      # https://github.com/toy/image_size
-      # https://github.com/sdsykes/fastimage
-      # image_size = ImageSize.path('./test/default.jpg')
-      # puts image_size.width
-      # puts image_size.height
-
+      image_size = ImageSize.path(file)
       order = position + 1
       sequences.push(
         isPartOf: @se.digi_id,
@@ -126,8 +119,8 @@ class Photo
         realPageNumber: order,
         cm: {
           uri: "fileserver://#{image_id}",
-          width: sequence_metadata.width,
-          height: sequence_metadata.height,
+          width: image_size.width,
+          height: image_size.height,
         }
       )
     end

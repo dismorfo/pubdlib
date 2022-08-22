@@ -22,6 +22,7 @@ class ReadTicket < Command
 
   def action(opts)
     jira = Jira.new
-    puts jira.read_ticket opts[:ticket]
+    ticket = jira.read_ticket opts[:ticket]
+    puts ticket.to_json
   end
 end

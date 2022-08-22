@@ -5,16 +5,14 @@ GEM
     image_size (3.0.2)
     iso-639 (0.3.5)
     json (2.6.2)
-    mini_portile2 (2.8.0)
-    mongo (2.18.1)
-      bson (>= 4.14.1, < 5.0.0)
+    mongo (2.14.0)
+      bson (>= 4.8.2, < 5.0.0)
     mysql2 (0.5.4)
     nice_hash (1.17.2)
       string_pattern (~> 2.2, >= 2.2.2)
     nice_http (1.8.9)
       nice_hash (~> 1.17, >= 1.17)
-    nokogiri (1.13.8)
-      mini_portile2 (~> 2.8.0)
+    nokogiri (1.13.8-x86_64-linux)
       racc (~> 1.4)
     optimist (3.0.1)
     racc (1.6.0)
@@ -27,13 +25,13 @@ GEM
     unicode-display_width (2.2.0)
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   image_size (~> 3.0)
   iso-639
   json (~> 2.3)
-  mongo (~> 2.4, >= 2.4.3)
+  mongo (= 2.14)
   mysql2
   nice_http
   nokogiri
@@ -42,4 +40,4 @@ DEPENDENCIES
   terminal-table
 
 BUNDLED WITH
-   2.1.4
+   2.2.3

@@ -5,6 +5,7 @@ require './lib/ie'
 require './lib/stream'
 require './lib/media'
 require './lib/viewer.rb'
+require './lib/sequence.rb'
 
 # Need documentation.
 class Publish < Command
@@ -70,26 +71,37 @@ class Publish < Command
     # Init sequence and prepare MongoDB.
     sequence = Sequence.new(type: entity.hash.entity_type)
     # Delete any record.
-    sequence.delete_all(se.identifier)
+    sequence.delete_all(entity.hash.identifier)
     # Insert all sequences at once.
     sequence.insert_sequences(entity.hash.pages.page)
     # Disconnect from MongoDB.
     sequence.disconnect
+    
     # Update Handle
+    
     # Get profle
-    # profile = @se.hash.profile
-    # # Sequence count.
-    # count = entity.sequence_count.to_i
-    # # - If SE has one sequence, then it will be publish with thumbnails.
-    # if count == 1
-    #   bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[@se.type]}/#{@se.identifier}/1"
-    # # - If SE has more than one sequence it will be publish without thumbnails.
-    # else
-    #   bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[@se.type]}/#{@se.identifier}"
-    # end
-    # # Init handle
-    # handle = Handle.new
-    # # Bind handle
-    # handle.bind(se.handle, bind_uri)
+    profile = @se.hash.profile
+
+    # Sequence count.
+    count = entity.sequence_count.to_i
+
+    target = profile.target[$configuration['TARGET']]
+    target.path = target.path.gsub('[identifier]', @se.identifier)
+    target.path = target.path.gsub('[noid]', @se.noid)
+
+    # - If SE has one sequence, then it will be publish with thumbnails.
+    if count == 1
+      target.path = target.path.gsub('/[?sequence]', '/1')
+      bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
+    # - If SE has more than one sequence it will be publish without thumbnails.
+    else      
+      target.path = target.path.gsub('/[?sequence]', '')
+      bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
+    end
+
+    # # # Init handle
+    handle = Handle.new
+    # # # Bind handle
+    handle.bind(@se.handle, bind_uri)
   end
 end

@@ -28,7 +28,7 @@ while IFS= read -r id
   do
     identifier=${id%%[[:space:]]}
     ${APP_ROOT}/pubdlib.rb publish --identifier ${identifier} -e $CONF_FILE
-    if [ $? ] ; then
-      ${APP_ROOT}/pubdlib.rb link-handle --identifier ${identifier} -e $CONF_FILE
-    fi
+    # if [ $? ] ; then
+    #  ${APP_ROOT}/pubdlib.rb link-handle --identifier ${identifier} -e $CONF_FILE
+    # fi
 done <${JOB}

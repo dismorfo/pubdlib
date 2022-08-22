@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 gem 'iso-639'
-gem 'mongo', '~> 2.4', '>= 2.4.3'
+gem 'mongo', '2.14'
 # https://rubygems.org/gems/json/versions/2.3.0
 gem 'json', '~> 2.3'
 # https://www.manageiq.org/optimist/

@@ -3,8 +3,18 @@
   "label": "und",
   "collection": "und",
   "partner": "und",
-  "mainEntityOfPage": "https://sites.dlib.nyu.edu/viewer",
   "types": {
-    "image_set": "photos"
-  }
+    "image_set": "photos",
+    "dlts_photo_set": "photos"
+  },
+  "target": {
+    "stage": {
+      "mainEntityOfPage": "https://stage-sites.dlib.nyu.edu/viewer",
+      "path": "photos/[identifier]/[?sequence]"
+    },
+    "production": {
+      "mainEntityOfPage": "https://sites.dlib.nyu.edu/viewer",
+      "path": "photos/[identifier]/[?sequence]"
+    }
+  }  
 }
