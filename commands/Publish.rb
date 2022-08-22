@@ -46,7 +46,7 @@ class Publish < Command
   end
 
   def publish_media
-    # Wrap source entity as Photo resource.
+    # Wrap source entity as Stream resource.
     entity = Stream.new(@se)
     media = Media.new
     # Post resource.
@@ -99,9 +99,9 @@ class Publish < Command
       bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
     end
 
-    # # # Init handle
+    # Init handle
     handle = Handle.new
-    # # # Bind handle
+    # Bind handle
     handle.bind(@se.handle, bind_uri)
   end
 end
