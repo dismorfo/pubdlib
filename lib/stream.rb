@@ -134,7 +134,7 @@ class Stream
     # <partner>/<collection>/<digitizationId>.<quality draft|edited|precision>.<languageCode: ISO 639-1>.<ext: txt>
     # See: https://www.constitution.org/lg/languagecode.html
     # See details of the pattern agreement: https://jira.nyu.edu/jira/browse/DLTSVIDEO-127
-    Dir.glob("#{job_data_directory}/*.txt").sort.each do |transcript|
+    Dir.glob("#{job_aux_directory}/*.txt").sort.each do |transcript|
       basename = File.basename(transcript)
       match = /\.(?<quality>draft|edited|precision){1}\.(?<language>[a-z]{2}|zxx{1}|und{1}|mul{1}|cmn{1})\.(?<extension>txt){1}$/.match(basename)
       next if match.nil?
@@ -161,7 +161,7 @@ class Stream
     # <partner>/<collection>/<digitizationId>.<quality draft|edited|precision>.<languageCode: ISO 639-1>.<ext: vtt>
     # See: https://www.constitution.org/lg/languagecode.html
     # See details of the pattern agreement: https://jira.nyu.edu/jira/browse/DLTSVIDEO-127
-    Dir.glob("#{job_data_directory}/*.vtt").sort.each do |caption|
+    Dir.glob("#{job_aux_directory}/*.vtt").sort.each do |caption|
       basename = File.basename(caption)
       match = /\.(?<quality>draft|edited|precision){1}\.(?<language>[a-z]{2}|zxx{1}|und{1}|mul{1}|cmn{1})\.(?<extension>vtt){1}$/.match(basename)
       next if match.nil?
