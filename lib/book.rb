@@ -251,11 +251,7 @@ class Book
         cm: {
           uri: "fileserver://#{image_id}",
           width: sequence_metadata.width,
-          height: sequence_metadata.height,
-          levels: '',
-          dwtLevels: '',
-          compositingLayerCount: '',
-          timestamp: Time.now.to_i.to_s
+          height: sequence_metadata.height
         }
       )
     end
@@ -334,11 +330,7 @@ class Book
       cm: {
         uri: "fileserver://#{@se.type_alias}/#{@se.identifier}/#{label}_d.jp2",
         width: metadata.width,
-        height: metadata.height,
-        levels: '',
-        dwtLevels: '',
-        compositingLayerCount: '',
-        timestamp: Time.now.to_i.to_s
+        height: metadata.height
       }
     }
   end

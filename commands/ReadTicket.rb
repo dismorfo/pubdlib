@@ -14,7 +14,7 @@ class ReadTicket < Command
       type: String
     },
     {
-      flag: 'show-comments',
+      flag: 'show_comments',
       label: 'Include comments in output.',
       type: String
     }

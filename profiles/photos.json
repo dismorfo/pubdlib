@@ -9,11 +9,11 @@
   "target": {
     "stage": {
       "mainEntityOfPage": "https://stage-sites.dlib.nyu.edu/viewer",
-      "path": "photos/[identifier]"
+      "path": "photos/[identifier]/[?sequence]"
     },
     "production": {
       "mainEntityOfPage": "https://sites.dlib.nyu.edu/viewer",
-      "path": "photos/[identifier]"
+      "path": "photos/[identifier]/[?sequence]"
     }
   }
 }

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 require './lib/se'
+require './lib/ie'
 require './lib/stream'
 require './lib/media'
+require './lib/viewer.rb'
 
 # Need documentation.
 class Publish < Command
@@ -15,7 +17,17 @@ class Publish < Command
       flag: 'identifier',
       label: 'Digital identifier.',
       type: String
-    }
+    },
+    {
+      flag: 'provider',
+      label: 'provider list separated by comma.',
+      type: String
+    },
+    {
+      flag: 'entityid',
+      label: 'Intellectual entity Id.',
+      type: String
+    },
   ]
 
   def action(opts)
@@ -25,6 +37,10 @@ class Publish < Command
         publish_image_set
       when 'audio', 'video'
         publish_media
+      when 'book'
+        # abort 'Flag entityid unique identifier is required.' if opts[:entityid].nil?
+        # abort('Flag providers is required.') if opts[:provider].nil?
+        publish_book
     end
   end
 
@@ -38,7 +54,10 @@ class Publish < Command
   end
 
   def publish_book
-    puts @se.hash
+    puts 'Soon.'
+    # @ies = IE.new(opts[:identifier], opts[:provider])    
+    # @ies.hash
+    # puts @se.hash
   end
 
   def publish_image_set
