@@ -29,5 +29,5 @@ JOB=${JOBS_DIR}/${ticket}-se-list.txt
 while IFS= read -r id
   do
     identifier=${id%%[[:space:]]}
-    ${APP_ROOT}/pubdlib.rb publish --identifier ${identifier} -e $CONF_FILE
+    ${APP_ROOT}/pubdlib.rb print-se-handle --identifier ${identifier} -e $CONF_FILE
 done <${JOB}

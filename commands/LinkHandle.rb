@@ -22,23 +22,32 @@ class LinkHandle < Command
     se = Se.new(opts[:identifier])
     case se.type
     when 'image_set'
-      photo = Photo.new(se.hash)
-      count = photo.sequence_count.to_i
-      # "WITH" OR "WITHOUT" thumbnail
-      # @link https://jira.nyu.edu/jira/browse/DLTSIMAGES-325?focusedCommentId=1500278&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-1500278
-      # - If SE has one sequence, then it will be publish with thumbnails
+      entity = Photo.new(se.hash)
+      # Get profle
+      profile = se.hash.profile
+      # Sequence count.
+      count = entity.sequence_count.to_i
+      target = profile.target[$configuration['TARGET']]
+      target.path = target.path.gsub('[identifier]', se.identifier)
+      target.path = target.path.gsub('[noid]', se.noid)
+      # - If SE has one sequence, then it will be publish with thumbnails.
       if count == 1
-        bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{identifier}/1"
-        # - If SE has more than one sequence it will be publish without thumbnails
-      else
-        bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{identifier}"
+        target.path = target.path.gsub('/[?sequence]', '/1')
+        bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
+      # - If SE has more than one sequence it will be publish without thumbnails.
+      else      
+        target.path = target.path.gsub('/[?sequence]', '')
+        bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
       end
-      handle = Handle.new
-      handle.bind(se.handle, bind_uri)
+
+      puts bind_uri
+
+      # handle = Handle.new
+      # handle.bind(se.handle, bind_uri)
     when 'book'
-      bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{identifier}/1"
-      handle = Handle.new
-      handle.bind(se.handle, bind_uri)
+      # bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{identifier}/1"
+      # handle = Handle.new
+      # handle.bind(se.handle, bind_uri)
     when 'video', 'audio'
       target = se.profile.target[$configuration['TARGET']]
       target.path = target.path.gsub('[identifier]', se.identifier)

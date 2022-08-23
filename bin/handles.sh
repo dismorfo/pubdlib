@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 die () {
   echo "file: ${0} | line: ${1} | status: ${2} | message: ${3}";
   exit 1;
