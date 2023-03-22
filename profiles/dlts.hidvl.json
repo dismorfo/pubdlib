@@ -14,6 +14,10 @@
     "production": {
       "mainEntityOfPage": "https://sites.dlib.nyu.edu/hidvl",
       "path": "[noid]"
+    },
+    "development": {
+      "mainEntityOfPage": "https://dev-sites.dlib.nyu.edu/hidvl",
+      "path": "[noid]"
     }
   }
 }

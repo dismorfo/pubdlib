@@ -40,14 +40,19 @@ class LinkHandle < Command
         bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
       end
 
-      puts bind_uri
-
-      # handle = Handle.new
-      # handle.bind(se.handle, bind_uri)
+      handle = Handle.new
+      handle.bind(se.handle, bind_uri)
     when 'book'
-      # bind_uri = "#{profile.mainEntityOfPage}/#{profile.types[se.type]}/#{identifier}/1"
-      # handle = Handle.new
-      # handle.bind(se.handle, bind_uri)
+      # Get profle
+      profile = se.hash.profile
+      # Target 
+      target = profile.target[$configuration['TARGET']]
+      target.path = target.path.gsub('[identifier]', se.identifier)
+      target.path = target.path.gsub('[noid]', se.noid)
+      target.path = target.path.gsub('/[?sequence]', '/1')
+      bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
+      handle = Handle.new
+      handle.bind(se.handle, bind_uri)
     when 'video', 'audio'
       target = se.profile.target[$configuration['TARGET']]
       target.path = target.path.gsub('[identifier]', se.identifier)

@@ -12,7 +12,7 @@ class Handle
 
     raise "Error registering handle #{noid}" unless resp.message == 'OK'
 
-    puts "https://hdl.handle.net/#{noid} linked to #{uri}"
+    puts "#{$configuration['HANDLE_REDIRECTS']}/#{noid} => #{uri}"
   end
 
   def request

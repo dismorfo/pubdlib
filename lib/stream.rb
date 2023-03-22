@@ -140,9 +140,24 @@ class Stream
       next if match.nil?
 
       captures = match.named_captures
-      id = basename.gsub(/.#{captures['extension']}/, '')
-                   .gsub(/.#{captures['quality']}/, '')
-                   .gsub(/.#{captures['language']}/, '')
+
+      # Problematic code. See:
+      # - https://jira.nyu.edu/browse/DLTSVIDEO-159
+      # id = basename.gsub(/.#{captures['extension']}/, '')
+      #              .gsub(/.#{captures['quality']}/, '')
+      #              .gsub(/.#{captures['language']}/, '')
+
+      # 
+      # The id is required because the clip can be a part of a playlist and why we do not
+      # use @se.identifier.
+      #
+
+      # https://jira.nyu.edu/browse/DLTSVIDEO-159
+      # explanation:
+      # split the string on '.'
+      # capture all array elements except the last 3
+      # concatenate the remaining elements with a '.' (in case there was a '.' in the prefix that needs to be preserved)
+      id = basename.split('.')[0...-3].join('.')
 
       transcripts.push(
         id: id,
@@ -167,9 +182,25 @@ class Stream
       next if match.nil?
 
       captures = match.named_captures
-      id = basename.gsub(/.#{captures['extension']}/, '')
-                   .gsub(/.#{captures['quality']}/, '')
-                   .gsub(/.#{captures['language']}/, '')
+
+      # Problematic code. See:
+      # - https://jira.nyu.edu/browse/DLTSVIDEO-159
+      # id = basename.gsub(/.#{captures['extension']}/, '')
+      #              .gsub(/.#{captures['quality']}/, '')
+      #              .gsub(/.#{captures['language']}/, '')
+
+      # 
+      # The id is required because the clip can be a part of a playlist and why we do not
+      # use @se.identifier.
+      #
+
+      # https://jira.nyu.edu/browse/DLTSVIDEO-159
+      # explanation:
+      # split the string on '.'
+      # capture all array elements except the last 3
+      # concatenate the remaining elements with a '.' (in case there was a '.' in the prefix that needs to be preserved)
+      id = basename.split('.')[0...-3].join('.')
+      
       captions.push(
         id: id,
         # we collect the basename of the filename

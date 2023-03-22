@@ -1,0 +1,23 @@
+{
+  "id": "uaena.aco",
+  "label": "Arabic Collections Online - United Arab Emirates National Archives",
+  "collection": "aco",
+  "partner": "uaena",
+  "types": {
+    "book": "book"
+  },
+  "target": {
+    "stage": {
+      "mainEntityOfPage": "https://stageweb1.dlib.nyu.edu/aco",
+      "path": "book/[identifier]/[?sequence]"
+    },
+    "production": {
+      "mainEntityOfPage": "https://dlib.nyu.edu/aco",
+      "path": "book/[identifier]/[?sequence]"
+    },
+    "development": {
+      "mainEntityOfPage": "https://devweb1.dlib.nyu.edu/aco",
+      "path": "book/[identifier]/[?sequence]"
+    }
+  }
+}

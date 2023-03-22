@@ -100,8 +100,8 @@ class Publish < Command
     end
 
     # Init handle
-    handle = Handle.new
+    # handle = Handle.new
     # Bind handle
-    handle.bind(@se.handle, bind_uri)
+    # handle.bind(@se.handle, bind_uri)
   end
 end

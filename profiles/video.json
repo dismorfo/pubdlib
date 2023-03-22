@@ -15,6 +15,10 @@
     "production": {
       "mainEntityOfPage": "https://sites.dlib.nyu.edu/media",
       "path": "api/v0/noid/[noid]/embed"
+    },
+    "development": {
+      "mainEntityOfPage": "https://dev-sites.dlib.nyu.edu/media",
+      "path": "api/v0/noid/[noid]/embed"
     }
   }
 }
