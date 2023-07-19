@@ -1,0 +1,23 @@
+{
+  "id": "fales.sc",
+  "label": "Fales Library & Special Collections",
+  "collection": "sc",
+  "partner": "fales",
+  "types": {
+    "book": "book"
+  },
+  "target": {
+    "stage": {
+      "mainEntityOfPage": "https://sites.dlib.nyu.edu/viewer",
+      "path": "books/[identifier]/[?sequence]"
+    },
+    "production": {
+      "mainEntityOfPage": "https://sites.dlib.nyu.edu/viewer",
+      "path": "books/[identifier]/[?sequence]"
+    },
+    "development": {
+      "mainEntityOfPage": "https://devweb1.dlib.nyu.edu/aco",
+      "path": "book/[identifier]/[?sequence]"
+    }
+  }
+}
