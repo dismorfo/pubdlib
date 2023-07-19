@@ -55,10 +55,9 @@ class Publish < Command
   end
 
   def publish_book
-    puts 'Soon.'
-    # @ies = IE.new(opts[:identifier], opts[:provider])    
-    # @ies.hash
-    # puts @se.hash
+    ies = IE.new(opts[:identifier], opts[:provider])    
+    # puts ies.hash
+    puts @se.hash
   end
 
   def publish_image_set
@@ -67,41 +66,38 @@ class Publish < Command
     # Init Viewer.
     viewer = Viewer.new
     # Post resource.
-    viewer.post(entity.json)
-    # Init sequence and prepare MongoDB.
-    sequence = Sequence.new(type: entity.hash.entity_type)
-    # Delete any record.
-    sequence.delete_all(entity.hash.identifier)
-    # Insert all sequences at once.
-    sequence.insert_sequences(entity.hash.pages.page)
-    # Disconnect from MongoDB.
-    sequence.disconnect
+    req = viewer.post(entity.json)
+    if req
+      # Init sequence and prepare MongoDB.
+      sequence = Sequence.new(type: entity.hash.entity_type)
+      # Delete any record.
+      sequence.delete_all(entity.hash.identifier)
+      # Insert all sequences at once.
+      sequence.insert_sequences(entity.hash.pages.page)
+      # Disconnect from MongoDB.
+      sequence.disconnect
+      # Get profle
+      profile = @se.hash.profile
+      # Sequence count.
+      count = entity.sequence_count.to_i
+
+      target = profile.target[$configuration['TARGET']]
     
-    # Update Handle
+      target.path = target.path.gsub('[identifier]', @se.identifier)
     
-    # Get profle
-    profile = @se.hash.profile
+      target.path = target.path.gsub('[noid]', @se.noid)
 
-    # Sequence count.
-    count = entity.sequence_count.to_i
-
-    target = profile.target[$configuration['TARGET']]
-    target.path = target.path.gsub('[identifier]', @se.identifier)
-    target.path = target.path.gsub('[noid]', @se.noid)
-
-    # - If SE has one sequence, then it will be publish with thumbnails.
-    if count == 1
-      target.path = target.path.gsub('/[?sequence]', '/1')
-      bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
-    # - If SE has more than one sequence it will be publish without thumbnails.
-    else      
-      target.path = target.path.gsub('/[?sequence]', '')
-      bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
+      # - If SE has one sequence, then it will be publish with thumbnails.
+      if count == 1
+        target.path = target.path.gsub('/[?sequence]', '/1')
+        req.bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
+      # - If SE has more than one sequence it will be publish without thumbnails.
+      else      
+        target.path = target.path.gsub('/[?sequence]', '')
+        req.bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
+      end
     end
-
-    # Init handle
-    # handle = Handle.new
-    # Bind handle
-    # handle.bind(@se.handle, bind_uri)
+    # puts req.to_json
+    puts entity.json
   end
 end

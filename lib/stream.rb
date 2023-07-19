@@ -136,7 +136,7 @@ class Stream
     # See details of the pattern agreement: https://jira.nyu.edu/jira/browse/DLTSVIDEO-127
     Dir.glob("#{job_aux_directory}/*.txt").sort.each do |transcript|
       basename = File.basename(transcript)
-      match = /\.(?<quality>draft|edited|precision){1}\.(?<language>[a-z]{2}|zxx{1}|und{1}|mul{1}|cmn{1})\.(?<extension>txt){1}$/.match(basename)
+      match = /\.(?<quality>draft|edited|precision){1}\.(?<language>[a-z]{2}|zxx{1}|und{1}|mul{1}|cmn{1}|yue{1})\.(?<extension>txt){1}$/.match(basename)
       next if match.nil?
 
       captures = match.named_captures
@@ -178,7 +178,7 @@ class Stream
     # See details of the pattern agreement: https://jira.nyu.edu/jira/browse/DLTSVIDEO-127
     Dir.glob("#{job_aux_directory}/*.vtt").sort.each do |caption|
       basename = File.basename(caption)
-      match = /\.(?<quality>draft|edited|precision){1}\.(?<language>[a-z]{2}|zxx{1}|und{1}|mul{1}|cmn{1})\.(?<extension>vtt){1}$/.match(basename)
+      match = /\.(?<quality>draft|edited|precision){1}\.(?<language>[a-z]{2}|zxx{1}|und{1}|mul{1}|cmn{1}|yue{1})\.(?<extension>vtt){1}$/.match(basename)
       next if match.nil?
 
       captures = match.named_captures

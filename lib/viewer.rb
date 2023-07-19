@@ -20,7 +20,7 @@ class Viewer
     res = JSON.parse(request.data)
     raise res.error if res.key?('error')
 
-    puts res.data.to_json
+    res.data
   end
 
   def authenticate
