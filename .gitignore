@@ -4,4 +4,3 @@ jobs/*
 config.*.json
 !config.template.json
 bin/node
-data/*
