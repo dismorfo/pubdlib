@@ -1,6 +1,7 @@
 nice_http.log
 .env*
-jobs/*.*
+jobs/*
 config.*.json
 !config.template.json
-data
+bin/node
+data/*
