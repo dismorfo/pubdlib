@@ -7,22 +7,11 @@ die () {
 
 download_file () {
   local filename=$1
-  local url=$2
-  # Check if SE
-  if [[ "${filename}" = "se-list.txt" ]] ; then
-    curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${JOBS_DIR}/${ticket}-se-list.txt
-  fi
-  # Check if IE.
-  if [[ "${filename}" = "ie-list.txt" ]] ; then
-    curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${JOBS_DIR}/${ticket}-ie-list.txt
-  fi
-  # Migth have a use for this type of file.
-  if [[ "$filename" == *".tsv"* ]]; then
-    curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${JOBS_DIR}/${ticket}-${filename}
-  fi
-  # Migth have a use for this type of file.
-  if [[ "$filename" == *".csv"* ]]; then
-    curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${JOBS_DIR}/${ticket}-${filename}
+  local outputfile=$2
+  local url=$3
+  # Match ePub files. 
+  if [[ "$filename" == *".epub"* ]]; then
+    curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${outputfile}
   fi
 }
 
@@ -48,7 +37,14 @@ attachments=`curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${TICKET_ENDPOINT}/r
 if [ $? ] ; then
   for row in $attachments; do
     read filename url < <(echo $(echo ${row} | base64 --decode | jq -r '.filename, .content'))
-    echo ${filename}
-    # download_file ${filename} ${url}
+    if [ ! -d ${JOBS_DIR}/${ticket} ]; then
+      mkdir -p ${JOBS_DIR}/${ticket}
+    fi
+    download_file ${filename} ${JOBS_DIR}/${ticket}/${filename} ${url}
+    if [ $? ] ; then
+      echo "Downloaded ${filename} to ${JOBS_DIR}/${ticket}/${filename}"
+    else
+      echo "Failed to download ${filename} to ${JOBS_DIR}/${ticket}/${filename}"
+    fi
   done
 fi
