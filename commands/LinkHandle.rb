@@ -19,7 +19,7 @@ class LinkHandle < Command
   ]
 
   def action(opts)
-    se = Se.new(opts[:identifier])
+    se = Se.new(opts.identifier)
     case se.type
     when 'image_set'
       entity = Photo.new(se.hash)

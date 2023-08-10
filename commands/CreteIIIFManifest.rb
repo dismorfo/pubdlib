@@ -15,16 +15,15 @@ class CreteIIIFManifest < Command
 
   def action(opts)
     # Example id of photo: AD-MC-026_ref26
-
-    @se = Se.new(opts[:identifier])
-    case @se.type
+    se = Se.new(opts.identifier)
+    case se.type
       when 'image_set'
-        entity = Photo.new(@se)
+        entity = Photo.new(se)
       when 'video', 'audio'
-        entity = Stream.new(@se)
+        entity = Stream.new(se)
     end
 
-    puts entity.json
+    puts se.hash.to_json
 
     # { "label": { "en": [ "Example Object Title" ] } }
 

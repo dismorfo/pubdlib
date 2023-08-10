@@ -15,9 +15,10 @@ Dir[File.expand_path('./commands/*.rb', __dir__)].sort.each do |path|
   base = File.basename(path, '.rb')
   command = Kernel.const_get(base)
   subcommands.push(command.command)
-  # command.flags.each do |flag|
-  #   flags[flag.flag] = flag if (!flags.member?(flag.flag))
-  # end
+  command.flags.each do |flag|
+   flag_key = flag[:flag]
+   flags[flag_key] = flag unless flags.key?(flag_key)    
+  end
   commands[command.command] = command
 end
 
@@ -39,16 +40,12 @@ banner = <<~BANNER
 BANNER
 
 opts = Optimist.options do
-  version 'pubdlib 0.0.1'
+  version 'pubdlib 0.0.2'
   banner banner
-  opt :identifier, 'Digital identifier.', type: String
-  opt :provider, 'Providers list.', type: String
-  opt :ticket, 'JIRA Ticket.', type: String
   opt :environment, 'Configuration file to use.', type: String
-  # flags.each do |flag|    
-  #   # flag, label, type
-  #   puts flag
-  # end
+  flags.each do |key, option|
+    opt(option[:flag], option[:label], type: option[:type])
+  end
 end
 
 if opts[:environment].nil?
