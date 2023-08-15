@@ -13,7 +13,8 @@ class GenerateEntityJson < Command
     {
       flag: 'identifier',
       label: 'Identifier. E.g., -i digi_id',
-      type: String
+      type: String,
+      required: true
     }
   ]
 
