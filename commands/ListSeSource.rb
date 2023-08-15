@@ -9,7 +9,8 @@ class ListSeSource < Command
     {
       flag: 'ticket',
       label: 'Ticke Id.',
-      type: String
+      type: String,
+      required: true
     }
   ]
   @ticket = ''

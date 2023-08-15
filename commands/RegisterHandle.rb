@@ -14,7 +14,8 @@ class RegisterHandle < Command
     {
       flag: "noid",
       label: 'Resource noid',
-      type: String
+      type: String,
+      required: true
     }    
   ]
 

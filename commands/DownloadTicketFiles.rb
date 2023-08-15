@@ -11,7 +11,8 @@ class DownloadTicketFiles < Command
     {
       flag: 'ticket',
       label: 'Ticket id.',
-      type: String
+      type: String,
+      required: true
     }
   ]
 

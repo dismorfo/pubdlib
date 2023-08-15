@@ -9,7 +9,8 @@ class CreteIIIFManifest < Command
     {
       flag: 'identifier',
       label: 'Digital identifier.',
-      type: String
+      type: String,
+      required: true
     }
   ]
 

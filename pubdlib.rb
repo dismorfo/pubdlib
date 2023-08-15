@@ -3,6 +3,7 @@
 # frozen_string_literal: true
 
 require 'optimist'
+require 'colorize'
 require './lib/command'
 require './lib/common'
 
@@ -57,6 +58,10 @@ end
 cmd = ARGV.shift
 
 Optimist.die "Unknown subcommand #{cmd.inspect}." unless subcommands.include? cmd
+
+commands[cmd].flags.select { |flag| flag.required == true }.each do |option|
+ abort("ERROR: Flag #{option.flag.red} is required.") if opts[option.flag].nil?
+end
 
 task = commands[cmd].new
 

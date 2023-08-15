@@ -14,7 +14,8 @@ class PrintHandle < Command
     {
       flag: 'identifier',
       label: 'Identifier.',
-      type: String
+      type: String,
+      required: true
     }
   ]
 
