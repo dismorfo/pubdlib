@@ -109,7 +109,7 @@ class Book
           },
           handle: {
             label: 'Permanent Link',
-            value: ["http://hdl.handle.net/#{@se.handle}"]
+            value: ["https://hdl.handle.net/#{@se.handle}"]
           },
           read_order: {
             label: 'Read Order',
@@ -191,7 +191,7 @@ class Book
   end
 
   def handle_url
-    "http://hdl.handle.net/#{@se.handle}"
+    "https://hdl.handle.net/#{@se.handle}"
   end
 
   def handle

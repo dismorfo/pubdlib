@@ -16,9 +16,9 @@ require './lib/book.rb'
 # @todo Undocumented Class
 class IE
   include ERB::Util
-  def initialize(ieuu, providers)
+  def initialize(ieuu, providers, collections)
     @ses = []
-    @collections = []
+    @collections = collections
     @partners = []
     providers.split(',').each do |item|
       if item.include? ':'
@@ -27,26 +27,34 @@ class IE
         @collections.push(collection)
         @partners.push(collection.partner)
       else
-        @partners.push(partner_metadata(item))
+        partner = partner_metadata(item)
       end
     end
+    
+    @collections.push(
+      collection_metadata(collections[0].provider.code, collections[0].code)
+    )
 
     abort "Intellectual entity #{ieuu} must have at least one collection that belongs to a partner, none found." unless @collections.size.positive?
 
     @mets = mets ieuu
+
     @ieuu = @mets.xpath('//mets/@OBJID').first.value
+
     @marc = ie_marc
+
     @mods = ie_mods
+
     @entities = ie_entities
 
-    @entities.each do |se|
+    @mets.xpath('//mets/structMap/div/div[@TYPE="INTELLECTUAL_ENTITY"]/div').each do |se|
       next if se.nil?
 
       entity = {
         ieuu: @ieuu,
         collections: @collections,
         partners: @partners,
-        order: se.attributes['ORDER'].value,
+        order: se.attributes['ORDER'],
         is_multivol: false
       }
 
@@ -59,7 +67,9 @@ class IE
       se.xpath('mptr').each do |mptr|
         entity.identifier = mptr.attributes['href'].value.split('/')[4]
       end
+
       @ses.push(entity)
+
     end
 
     # Book can be multivolume even if @ses count = 1
@@ -153,7 +163,8 @@ class IE
   end
 
   def ie_path(ieuu)
-    path = "#{$configuration['RSBE_CONTENT']}/#{@collections[0].partner.code}/#{@collections[0].code}/wip/ie/#{ieuu}"
+    # path = "#{$configuration['RSBE_CONTENT']}/#{@collections[0].provider.code}/#{@collections[0].code}/wip/ie/#{ieuu}"
+    path = "#{$configuration['RSBE_CONTENT']}/#{@collections[0].provider.code}/#{@collections[0].code}/wip/se/#{ieuu}"
     abort("Path to intellectual entity #{path} does not exist.") unless Dir.exist?(path)
 
     path
@@ -162,6 +173,7 @@ class IE
   def ie_mets(ieuu)
     ieuu_path = ie_path ieuu
     path = "#{ieuu_path}/data/#{ieuu}_mets.xml"
+
     abort("METS file for intellectual entity #{ieuu} not found.") unless File.exist?(path)
 
     path
@@ -202,18 +214,20 @@ class IE
     # viewer = Viewer.new
     @ses.each do |entity|
       # Load SE
-      se = Se.new(entity.identifier)
+      se = Se.new(entity.ieuu)
       if se.type == 'book'
         book = Book.new(entity, se)
         book.hash.each do |item|
-          filepath = "#{$configuration['CONTENT_REPOSITORY_PATH']}/#{se.type_alias}/#{entity.ieuu}.#{entity.identifier}.#{item.entity_language}.json"
-          temp_write_json = File.open(filepath, 'w')
-          temp_write_json.write(item.to_json)
-          temp_write_json.close
-          puts "Entity #{se.identifier} saved as #{filepath}"
+          # filepath = "#{$configuration['CONTENT_REPOSITORY_PATH']}/#{se.type_alias}/#{entity.ieuu}.#{entity.identifier}.#{item.entity_language}.json"
+          # temp_write_json = File.open(filepath, 'w')
+          # temp_write_json.write(item.to_json)
+          # temp_write_json.close
+          # puts "Entity #{se.identifier} saved as #{filepath}"
+          puts item.to_json
         end
       end
       # viewer.post(items.first.to_json)
     end
+    # puts @ses.to_json
   end
 end

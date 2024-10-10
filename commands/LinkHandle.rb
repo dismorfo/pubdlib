@@ -21,6 +21,8 @@ class LinkHandle < Command
 
   def action(opts)
     se = Se.new(opts.identifier)
+    se_handle = nil
+    bind_uri = nil
     case se.type
     when 'image_set'
       entity = Photo.new(se.hash)
@@ -40,9 +42,7 @@ class LinkHandle < Command
         target.path = target.path.gsub('/[?sequence]', '')
         bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
       end
-
-      handle = Handle.new
-      handle.bind(se.handle, bind_uri)
+      se_handle = se.handle
     when 'book'
       # Get profle
       profile = se.hash.profile
@@ -52,15 +52,23 @@ class LinkHandle < Command
       target.path = target.path.gsub('[noid]', se.noid)
       target.path = target.path.gsub('/[?sequence]', '/1')
       bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
-      handle = Handle.new
-      handle.bind(se.handle, bind_uri)
+      se_handle = se.handle
     when 'video', 'audio'
       target = se.profile.target[$configuration['TARGET']]
       target.path = target.path.gsub('[identifier]', se.identifier)
       target.path = target.path.gsub('[noid]', se.noid)
       bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
-      handle = Handle.new
-      handle.bind(se.handle, bind_uri)
+      se_handle = se.handle
     end
+
+    if $configuration['TARGET'] === 'development'
+      se_handle = se_handle.gsub('2333.1', '10676')
+    end
+
+    if se_handle && bind_uri
+      handle = Handle.new
+      handle.bind(se_handle, bind_uri)
+    end
+
   end
 end

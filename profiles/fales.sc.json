@@ -8,7 +8,7 @@
   },
   "target": {
     "stage": {
-      "mainEntityOfPage": "https://sites.dlib.nyu.edu/viewer",
+      "mainEntityOfPage": "https://stage-sites.dlib.nyu.edu/viewer",
       "path": "books/[identifier]/[?sequence]"
     },
     "production": {

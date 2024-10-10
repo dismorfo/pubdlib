@@ -8,6 +8,10 @@
     "audio": "dlts_clip"
   },
   "target": {
+    "pco01la": {
+      "mainEntityOfPage": "https://128.122.122.39/media",
+      "path": "api/v0/noid/[noid]/embed"
+    },
     "stage": {
       "mainEntityOfPage": "https://stage-sites.dlib.nyu.edu/media",
       "path": "api/v0/noid/[noid]/embed"

@@ -23,6 +23,21 @@ class Viewer
     res.data
   end
 
+  def delete(object)
+    identifier = object.hash.identifier
+    path = "/api/objects/resource/#{identifier}"
+    request = @http.delete(
+      path: path,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    )
+    res = JSON.parse(request.data)
+    raise res.error if res.key?('error')
+
+    res
+  end
+
   def authenticate
     http = NiceHttp.new($configuration['VIEWER_ENDPOINT'])
     request = {

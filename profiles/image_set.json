@@ -17,7 +17,7 @@
       "path": "photos/[identifier]/[?sequence]"
     },
     "development": {
-      "mainEntityOfPage": "https://dev-sites.dlib.nyu.edu/viewer",
+      "mainEntityOfPage": "https://stage-sites.dlib.nyu.edu/viewer",
       "path": "photos/[identifier]/[?sequence]"
     }
   }

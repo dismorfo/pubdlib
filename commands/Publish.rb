@@ -33,7 +33,7 @@ class Publish < Command
   ]
 
   def action(opts)
-    @se = Se.new(opts[:identifier])
+    @se = Se.new(opts.identifier)
     case @se.type
       when 'image_set'
         publish_image_set
@@ -44,6 +44,7 @@ class Publish < Command
         # abort('Flag providers is required.') if opts[:provider].nil?
         publish_book
     end
+
   end
 
   def publish_media
@@ -56,9 +57,8 @@ class Publish < Command
   end
 
   def publish_book
-    ies = IE.new(opts[:identifier], opts[:provider])    
-    # puts ies.hash
-    puts @se.hash
+    ies = IE.new(@se.identifier, @se.provider.code, @se.hash.isPartOf)
+    puts ies.hash.to_json
   end
 
   def publish_image_set
