@@ -15,14 +15,8 @@ class UpdateSequence < Command
     {
       flag: 'identifier',
       label: 'Digital identifier.',
-<<<<<<< HEAD
-      type: String,
-      required: true
-    }
-=======
       type: String
     },
->>>>>>> f0b5316 (Updates)
   ]
 
   def action(opts)

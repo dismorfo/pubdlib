@@ -14,11 +14,6 @@ class LinkHandle < Command
     {
       flag: 'identifier',
       label: 'Identifier.',
-<<<<<<< HEAD
-      type: String,
-      required: true
-    }
-=======
       type: String
     },
     {
@@ -31,7 +26,6 @@ class LinkHandle < Command
       label: 'Redirect Url',
       type: String
     },
->>>>>>> f0b5316 (Updates)
   ]
 
   def action(opts)
