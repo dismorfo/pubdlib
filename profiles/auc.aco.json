@@ -1,0 +1,24 @@
+{
+  "id": "auc.aco",
+  "label": "Arabic Collections Online - The American University in Cairo",
+  "collection": "aco",
+  "partner": "auc",
+  "mainEntityOfPage": "http://dlib.nyu.edu/aco",
+  "types": {
+    "book": "book"
+  },
+  "target": {
+    "stage": {
+      "mainEntityOfPage": "https://stageweb1.dlib.nyu.edu/aco",
+      "path": "book/[identifier]/1"
+    },
+    "production": {
+      "mainEntityOfPage": "https://dlib.nyu.edu/aco",
+      "path": "book/[identifier]/1"
+    },
+    "development": {
+      "mainEntityOfPage": "https://stageweb1.dlib.nyu.edu/aco",
+      "path": "book/[identifier]/1"
+    }
+  }
+}

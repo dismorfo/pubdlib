@@ -1,0 +1,1595 @@
+{
+  "data": [
+    {
+      "id": "aspace_ref5897",
+      "level": "otherlevel",
+      "otherlevel": "unspecified",
+      "c": [
+        {
+          "id": "aspace_ref5898",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "132",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_0552d78de1f5e0b349d245dfcba06aa0",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "1",
+                "id": "aspace_e34ea674500ea0ddd837db7fbf9e4b28",
+                "parent": "aspace_0552d78de1f5e0b349d245dfcba06aa0",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/dfn2z6c8",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 8,
+                "width": 230,
+                "height": 153,
+                "title": "Photographs: Portrait of Andrew Fiske; Gertrude Horsford Fiske",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: Portrait of Andrew Fiske; Gertrude Horsford Fiske: circa 1917"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "circa 1917",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5703",
+            "unittitle": {
+              "value": "Mounted Photographs in Enclosure: Portrait of Andrew Fiske; Gertrude Horsford Fiske with Grandchildren"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5899",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "132",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_89ee802411ae3d90d07f35aaa1944c19",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "2",
+                "id": "aspace_4528f9d4df7875047c6dcae94a32aab2",
+                "parent": "aspace_89ee802411ae3d90d07f35aaa1944c19",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/8pk0p5xd",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 160,
+                "height": 134,
+                "title": "Photograph: Unidentified Children at Sylvester Manor",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photograph: Unidentified Children at Sylvester Manor: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1880 - 1900s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5704",
+            "unittitle": {
+              "value": "Mounted Photograph: Unidentified Girls in Garden"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5900",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "132",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_f0079f1fa131c6c194294fd590558ec5",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "3",
+                "id": "aspace_80cb43e51f4fcd3892589d80225f833a",
+                "parent": "aspace_f0079f1fa131c6c194294fd590558ec5",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/51c5b334",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 4,
+                "width": 144,
+                "height": 188,
+                "title": "Photograph: Unidentified Priest",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photograph: Unidentified Priest : undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1900 - 1940s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5705",
+            "unittitle": {
+              "value": "Mounted Photograph in Enclosure: Unidentified Priest"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5901",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "132",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_57598b0c9e5ad1f5a40352b3a99cfd31",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "4",
+                "id": "aspace_2068db35821b3fc17b59d3e8bda15add",
+                "parent": "aspace_57598b0c9e5ad1f5a40352b3a99cfd31",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/189322m1",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 6,
+                "width": 261,
+                "height": 323,
+                "title": "Photograph & Reproductions: Portrait of Ms. Sylvanus Reed",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photograph & Reproductions: Portrait of Ms. Sylvanus Reed: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1880 - 1900s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5706",
+            "unittitle": {
+              "value": "Photograph & Reproductions: Portrait of Ms. Sylvanus Reed"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5902",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "132",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_320b6521c8c06d8dad40ffb6f5b9c74b",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "5",
+                "id": "aspace_3639c59b673a5fe466e819a7b0cc27a7",
+                "parent": "aspace_320b6521c8c06d8dad40ffb6f5b9c74b",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/wh70s28z",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 265,
+                "height": 315,
+                "title": "Photograph: Portrait of Eben Norton Horsford",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photograph: Portrait of Eben Norton Horsford : undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1880s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5707",
+            "unittitle": {
+              "value": "Mounted Photograph: Portrait of Eben Norton Horsford"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5903",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "132",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_e40a2e266233cd3dd715b892a8e48f57",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "6",
+                "id": "aspace_b31670bc674407ec9dce664893fc8201",
+                "parent": "aspace_e40a2e266233cd3dd715b892a8e48f57",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/rr4xh1q8",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 26,
+                "width": 265,
+                "height": 317,
+                "title": "Photograph with Engravings: Portrait of Eben Norton Horsford",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photograph with Engravings: Portrait of Eben Norton Horsford : undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1880s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5708",
+            "unittitle": {
+              "value": "Photograph with Engravings: Portrait of Eben Norton Horsford"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5904",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "132",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_e4e6c8ebbea64d6b5409a463129f4013",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "7",
+                "id": "aspace_07df0008738f0d0bad2bc36c0399b34a",
+                "parent": "aspace_e4e6c8ebbea64d6b5409a463129f4013",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/n02v7165",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 44,
+                "width": 222,
+                "height": 298,
+                "title": "Engravings: Portrait of Eben Norton Horsford",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Engravings: Portrait of Eben Norton Horsford: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1880s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5709",
+            "unittitle": {
+              "value": "Engravings: Portrait of Eben Norton Horsford"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5905",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "132",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_e3f7bdbcb9bcfd7ab032673fa7b2438a",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "8",
+                "id": "aspace_dcad795d37fe2364c9b568338ccfad03",
+                "parent": "aspace_e3f7bdbcb9bcfd7ab032673fa7b2438a",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/h70rz0pp",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 8,
+                "width": 146,
+                "height": 185,
+                "title": "Photographic Prints: Painted Portraits of Andrew Fiske & Gertrude Horsford Fiske",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographic Prints: Painted Portraits of Andrew Fiske & Gertrude Horsford Fiske: 1920, 1930"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "1920 January; 1930 July",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5710",
+            "unittitle": {
+              "value": "Mounted Photographic Prints: Painted Portraits of Andrew Fiske & Gertrude Horsford Fiske"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5907",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "132",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_03eb17c83b24680cdcac2ba3813f0255",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "9",
+                "id": "aspace_c20a1dc4fe1f7055f215de8ea18fce82",
+                "parent": "aspace_03eb17c83b24680cdcac2ba3813f0255",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/cfxpp06q",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 6,
+                "width": 135,
+                "height": 197,
+                "title": "Photographic Prints: Portraits, Unidentified Women",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographic Prints: Portraits, Unidentified Women : undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1917",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5711",
+            "unittitle": {
+              "value": "Mounted Photographs in Enclosure: Portraits, Unidentified Women"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5908",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "132",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_2dbed9ad12b9131507a3c6c218d82e4b",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "10",
+                "id": "aspace_8eee39bbb78a9adf82041ab9abc6c166",
+                "parent": "aspace_2dbed9ad12b9131507a3c6c218d82e4b",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/7sqv9wbs",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 162,
+                "height": 136,
+                "title": "Photograph: Unidentified People at Sylvester Manor",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photograph: Unidentified People at Sylvester Manor : undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1880 - 1900s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5712",
+            "unittitle": {
+              "value": "Mounted Photograph: Unidentified People at Sylvester Manor"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref6092",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "141",
+                "altrender": "Flat OS Box 17",
+                "id": "aspace_841737674f8f1dba39e0c7547bf19fe4",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "1",
+                "id": "aspace_f78a7f910222e62c58c303a5275d41c7",
+                "parent": "aspace_841737674f8f1dba39e0c7547bf19fe4",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/w6m9096q",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 153,
+                "height": 240,
+                "title": "Photograph: Unidentified Woman & Child",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photograph: Unidentified Woman & Child: 1907"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "1907",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5713",
+            "unittitle": {
+              "value": "Photograph: Unidentified Woman & Child"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref6155",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "164",
+                "altrender": "Custom Drop Spine Box (1.75\" height, any dimensions up to 8\" x 20\")",
+                "id": "aspace_99de732b33f4474fdedff41fb707191c",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "1",
+                "id": "aspace_9e4c00b4e9f9469d35fd6571fc715cbf",
+                "parent": "aspace_99de732b33f4474fdedff41fb707191c",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/3r2283v4",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 206,
+                "height": 249,
+                "title": "Mounted Photograph: Portrait of Mary Gardiner Horsford",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Mounted Photograph: Portrait of Mary Gardiner Horsford: undated, circa 1880 - 1900s"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1880 - 1900s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5714",
+            "unittitle": {
+              "value": "Mounted Photograph: Portrait of Mary Gardiner Horsford"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref6156",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "164",
+                "altrender": "Custom Drop Spine Box (1.75\" height, any dimensions up to 8\" x 20\")",
+                "id": "aspace_ec4170f90647e56735a5cf2ae0d4fd69",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "2",
+                "id": "aspace_0ad0031e368599051260509ef80dc42e",
+                "parent": "aspace_ec4170f90647e56735a5cf2ae0d4fd69",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/0000038j",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 196,
+                "height": 250,
+                "title": "Mounted Photograph: Portrait of Phoebe Dayton Gardiner Horsford",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Mounted Photograph: Portrait of Phoebe Dayton Gardiner Horsford: undated, circa 1900s"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1900s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5715",
+            "unittitle": {
+              "value": "Mounted Photograph: Portrait of Phoebe Dayton Gardiner Horsford"
+            }
+          }
+        }
+      ],
+      "did": {
+        "unittitle": {
+          "value": "Oversize Series A: People and Portraits"
+        }
+      }
+    },
+    {
+      "id": "aspace_ref5909",
+      "level": "otherlevel",
+      "otherlevel": "unspecified",
+      "c": [
+        {
+          "id": "aspace_ref5910",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "133",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_03b7abffd7812ecada0f3dbfce24a645",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "1",
+                "id": "aspace_222273238f8b069eca54a784a0220895",
+                "parent": "aspace_03b7abffd7812ecada0f3dbfce24a645",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/41ns1vvq",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 12,
+                "width": 167,
+                "height": 140,
+                "title": "Photographs: Sylvester Manor Grounds [Fragile, Damaged]",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: Sylvester Manor Grounds [Fragile, Damaged]: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1920 - 1940s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5716",
+            "unittitle": {
+              "value": "Mounted Photographs: Sylvester Manor Grounds by H.D. Bastow, [Fragile, Damaged]"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5912",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "133",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_46b5e1daa41a445d0df10fd048161e5b",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "2",
+                "id": "aspace_f2886031354a3445075654b0e52b5efa",
+                "parent": "aspace_46b5e1daa41a445d0df10fd048161e5b",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/08kprvbf",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 169,
+                "height": 139,
+                "title": "Photograph: Sylvester Manor Front Lawn, \"H.D. Bastow, Jamaica, L.I.\"",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photograph: Sylvester Manor Front Lawn, \"H.D. Bastow, Jamaica, L.I.\": undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1920 - 1940s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5717",
+            "unittitle": {
+              "value": "Mounted Photograph: Sylvester Manor Front Lawn by H.D. Bastow"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5913",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "133",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_7ff2cf8639b3be477924244c4670776a",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "3",
+                "id": "aspace_245b3e7c9e2def456d1f3423e32fa6d5",
+                "parent": "aspace_7ff2cf8639b3be477924244c4670776a",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/vhhmgv0h",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 6,
+                "width": 187,
+                "height": 148,
+                "title": "Photographs: Sylvester Manor Grounds, Gardiners Island",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: Sylvester Manor Grounds, Gardiners Island : undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1920 - 1940s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5718",
+            "unittitle": {
+              "value": "Mounted Photographs: Sylvester Manor Grounds, Gardens, Gardiners Island"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5914",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "133",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_afd6f1e2e983868624ddd16cb97c3dc6",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "4",
+                "id": "aspace_2e838e7607ba648529da9238ce46c493",
+                "parent": "aspace_afd6f1e2e983868624ddd16cb97c3dc6",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/qrfj6tg5",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 160,
+                "height": 134,
+                "title": "Photograph: Albany Female Academy",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photograph: Albany Female Academy: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1880 - 1900s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5719",
+            "unittitle": {
+              "value": "Mounted Photograph: Albany Female Academy by Albion W. Floyd"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5916",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "133",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_7dd9ae21e45a8de2425ae66a23fe96ca",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "5",
+                "id": "aspace_98a0a6e0848efc24a4cb1146da7bdfb7",
+                "parent": "aspace_7dd9ae21e45a8de2425ae66a23fe96ca",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/9cnp5kf9",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 4,
+                "width": 168,
+                "height": 140,
+                "title": "Photographs - Sylvester Manor grounds with notes",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs - Sylvester Manor grounds with notes: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1920 - 1960s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5720",
+            "unittitle": {
+              "value": "Mounted Photographs with Notation: Sylvester Manor Grounds by Frances E. Johnston"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5917",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "163",
+                "altrender": "Custom Box - 10 x 10",
+                "id": "aspace_56e8379356f154206a8a8e9980298530",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "44",
+                "id": "aspace_75ad4662441558c721ba0fe8f70ea5ea",
+                "parent": "aspace_56e8379356f154206a8a8e9980298530",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/m0cfxt05",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 170,
+                "height": 109,
+                "title": "Photographs: Quaker Burial Ground Memorial Dedication",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: Quaker Burial Ground Memorial Dedication: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1880 - 1920s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5721",
+            "unittitle": {
+              "value": "Mounted Photograph: Quaker Burial Ground Memorial Dedication"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5918",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "133",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_5d459568adaff3e875276f824c1972f3",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "7",
+                "id": "aspace_3d703d7c800dd7387ae204b66f6ba80d",
+                "parent": "aspace_5d459568adaff3e875276f824c1972f3",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/g79cnsh2",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 20,
+                "width": 168,
+                "height": 138,
+                "title": "Photographs: Sylvester Manor Grounds",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: Sylvester Manor Grounds: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1920 - 1960s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5722",
+            "unittitle": {
+              "value": "Photographs: Sylvester Manor Grounds, Gardens by H.D. Bastow & Frances B. Johnston"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5919",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "133",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_b1475503b5d62ed2cf14ca2b16028de4",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "8",
+                "id": "aspace_1dcaca8c55e9eec030ed3b5020b1b6a9",
+                "parent": "aspace_b1475503b5d62ed2cf14ca2b16028de4",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/bk3j9pn9",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 14,
+                "width": 184,
+                "height": 127,
+                "title": "Photographs: Sylvester Manor Grounds",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: Sylvester Manor Grounds: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1920 - 1960s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5723",
+            "unittitle": {
+              "value": "Photographs: Sylvester Manor Grounds, Gardens by H.D. Bastow & Frances B. Johnston"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5920",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "133",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_36ed4a91dd23367712ff83e96127252c",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "9",
+                "id": "aspace_37e30d2ef413e5a9fbe8ee685ed5695a",
+                "parent": "aspace_36ed4a91dd23367712ff83e96127252c",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/6t1g1p5d",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 6,
+                "width": 162,
+                "height": 134,
+                "title": "Photographs: Sylvester Manor & 27 Craigie Street",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: Sylvester Manor & 27 Craigie Street : undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1880 - 1940s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5724",
+            "unittitle": {
+              "value": "Mounted Photographs: Horse Carriage, Sylvester Manor by H.D. Bastow & 27 Craigie Street"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5921",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "133",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_a7fb6cdf54b945a379b12654d39d6bd9",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "10",
+                "id": "aspace_415227087151874a1befaa1271d76284",
+                "parent": "aspace_a7fb6cdf54b945a379b12654d39d6bd9",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/31zcrnmn",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 8,
+                "width": 159,
+                "height": 122,
+                "title": "Historic Structure Report Photographs: Sylvester Manor Grounds",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Historic Structure Report Photographs: Sylvester Manor Grounds: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated, circa 1900 - 1940s",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5725",
+            "unittitle": {
+              "value": "Historic Structure Report Mounted Photographs: Sylvester Manor Grounds by H.D. Bastow, Unidentified Woman"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref5922",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "133",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_ed4f1ff1eaa0a72adc847351391468d2",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "11",
+                "id": "aspace_3dde4bfeb8607400d87dab1ba3e2c3c8",
+                "parent": "aspace_ed4f1ff1eaa0a72adc847351391468d2",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/z8w9gn8q",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 12,
+                "width": 204,
+                "height": 165,
+                "title": "Photographs: Henry W. Longfellow Research",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: Henry W. Longfellow Research: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated"
+              }
+            ],
+            "unitid": "cuid5726",
+            "unittitle": {
+              "value": "Mounted Photographs: Henry W. Longfellow Research"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref6095",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "141",
+                "altrender": "Flat OS Box 17",
+                "id": "aspace_5a010ca10df0b8296898c3f01700084b",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "2",
+                "id": "aspace_74ecb88f944382d27223213d5e35f2a7",
+                "parent": "aspace_5a010ca10df0b8296898c3f01700084b",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/rfj6q8n0",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 163,
+                "height": 188,
+                "title": "Photograph: Brook Point Harbor",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photograph: Brook Point Harbor: 1870"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "1870",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5727",
+            "unittitle": {
+              "value": "Photograph: Brook Point Harbor"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref6096",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "163",
+                "altrender": "Custom Box - 10 x 10",
+                "id": "aspace_80838d8d5301e0dd0e7bf735bd3e3e84",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "1-3",
+                "id": "aspace_3dc6142b8d197d6806a74361122aef39",
+                "parent": "aspace_80838d8d5301e0dd0e7bf735bd3e3e84",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/mpg4f84v",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 6,
+                "width": 201,
+                "height": 166,
+                "title": "Photographs: Unidentified Church",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: Unidentified Church: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated"
+              }
+            ],
+            "unitid": "cuid5728",
+            "unittitle": {
+              "value": "Photographs: Unidentified Church"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref6097",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "141",
+                "altrender": "Flat OS Box 17",
+                "id": "aspace_07a64e0d839244fe0345d086c7ea88ec",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "4",
+                "id": "aspace_54461744419ec0e4a8d3aec55640d3d2",
+                "parent": "aspace_07a64e0d839244fe0345d086c7ea88ec",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/h18935bm",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 190,
+                "height": 228,
+                "title": "Photographs: Unidentified House",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: Unidentified House: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated"
+              }
+            ],
+            "unitid": "cuid5729",
+            "unittitle": {
+              "value": "Photographs: Unidentified House"
+            }
+          }
+        },
+        {
+          "id": "aspace_ref6098",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "141",
+                "altrender": "Flat OS Box 17",
+                "id": "aspace_6389996fb94a0a287ffa5e5e05711fd6",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "5",
+                "id": "aspace_de32c0ad67c634fc0d226e50be22440e",
+                "parent": "aspace_6389996fb94a0a287ffa5e5e05711fd6",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/c866t4vc",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 4,
+                "width": 190,
+                "height": 230,
+                "title": "Photographs: Railroad Scenes, Toltec Tunnel",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: Railroad Scenes, Toltec Tunnel: undated"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "undated"
+              }
+            ],
+            "unitid": "cuid5730",
+            "unittitle": {
+              "value": "Photographs: Railroad Scenes, Toltec Tunnel"
+            }
+          }
+        }
+      ],
+      "did": {
+        "unittitle": {
+          "value": "Oversize Series B: Sylvester Manor, 27 Craigie Street"
+        }
+      }
+    },
+    {
+      "id": "aspace_ref5923",
+      "level": "otherlevel",
+      "otherlevel": "unspecified",
+      "c": [
+        {
+          "id": "aspace_ref5924",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "133",
+                "altrender": "Flat Box - 12 x 15.25",
+                "id": "aspace_86fd052d4bd7e817826a894197593811",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "12",
+                "id": "aspace_2ac8c71bb118448f1d3dea71fe90ed29",
+                "parent": "aspace_86fd052d4bd7e817826a894197593811",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/tht76mrc",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 6,
+                "width": 161,
+                "height": 136,
+                "title": "Photographs: \"Reports, dig plans and photographs re: Icelandic expedition and archaelogic sites in Cambridge\"",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photographs: \"Reports, dig plans and photographs re: Icelandic expedition and archaelogic sites in Cambridge\": circa 1896"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "circa 1896"
+              }
+            ],
+            "unitid": "cuid5731",
+            "unittitle": {
+              "value": "Photographs: \"Reports, dig plans and photographs re: Icelandic expedition and archaeologic sites in Cambridge\""
+            }
+          }
+        },
+        {
+          "id": "aspace_ref6102",
+          "level": "file",
+          "did": {
+            "container": [
+              {
+                "value": "141",
+                "altrender": "Flat OS Box 17",
+                "id": "aspace_a8e0988a9887a79d75e4dd3c2eb44dfe",
+                "label": "Mixed Materials",
+                "type": "Box"
+              },
+              {
+                "value": "6",
+                "id": "aspace_798049ec3fe167061353a70cd7c7a801",
+                "parent": "aspace_a8e0988a9887a79d75e4dd3c2eb44dfe",
+                "type": "Folder"
+              }
+            ],
+            "dao": [
+              {
+                "actuate": "onRequest",
+                "href": "https://hdl.handle.net/2333.1/7h44j4cg",
+                "role": "image-service",
+                "show": "new",
+                "do_type": "image_set",
+                "count": 2,
+                "width": 174,
+                "height": 175,
+                "title": "Photograph with Notation: Silver Plate",
+                "type": "simple",
+                "daodesc": {
+                  "p": [
+                    {
+                      "value": "Photograph with Notation: Silver Plate : 1884"
+                    }
+                  ]
+                }
+              }
+            ],
+            "unitdate": [
+              {
+                "value": "1884",
+                "type": "inclusive"
+              }
+            ],
+            "unitid": "cuid5732",
+            "unittitle": {
+              "value": "Photograph with Notation: Silver Plate"
+            }
+          }
+        }
+      ],
+      "did": {
+        "unittitle": {
+          "value": "Oversize Series C: Research Images"
+        }
+      }
+    }
+  ]
+}

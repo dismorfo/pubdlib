@@ -9,6 +9,7 @@ require 'nokogiri'
 class Se
   include ERB::Util
   @identifier = nil
+
   def initialize(identifier)
     @identifier = identifier
     @se = search_se_by_id(identifier)

@@ -3,4 +3,6 @@ nice_http.log
 jobs/*
 config.*.json
 !config.template.json
+data
+jobs/
 bin/node

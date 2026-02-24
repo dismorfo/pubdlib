@@ -10,19 +10,23 @@ download_file () {
   local url=$2
   # Check if SE
   if [[ "${filename}" = "se-list.txt" ]] ; then
-    curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${JOBS_DIR}/${ticket}-se-list.txt
+    curl -L --user ${TICKET_USER}:${TICKET_TOKEN} "${url}" --output ${JOBS_DIR}/${ticket}-se-list.txt
   fi
   # Check if IE.
   if [[ "${filename}" = "ie-list.txt" ]] ; then
-    curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${JOBS_DIR}/${ticket}-ie-list.txt
+    curl -L --user ${TICKET_USER}:${TICKET_TOKEN} "${url}" --output ${JOBS_DIR}/${ticket}-ie-list.txt
+  fi
+  # Check if collection_url
+  if [[ "${filename}" = "collection_url" ]] ; then
+    curl -L --user ${TICKET_USER}:${TICKET_TOKEN} "${url}" --output ${JOBS_DIR}/${ticket}-collection_url
   fi
   # Migth have a use for this type of file.
   if [[ "$filename" == *".tsv"* ]]; then
-    curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${JOBS_DIR}/${ticket}-${filename}
+    curl -L --user ${TICKET_USER}:${TICKET_TOKEN} "${url}" --output ${JOBS_DIR}/${ticket}-${filename}
   fi
   # Migth have a use for this type of file.
   if [[ "$filename" == *".csv"* ]]; then
-    curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${url} --output ${JOBS_DIR}/${ticket}-${filename}
+    curl -L --user ${TICKET_USER}:${TICKET_TOKEN} "${url}" --output ${JOBS_DIR}/${ticket}-${filename}
   fi
 }
 
@@ -45,9 +49,11 @@ if [[ "$1" == '--' ]]; then shift; fi
 
 [ $CONF_FILE ] || die ${LINENO} "user-error" "No configuration file."
 
-read TICKET_ENDPOINT TICKET_USER TICKET_PASS JOBS_DIR < <(echo $(cat ${CONF_FILE} | jq -r '.TICKET_ENDPOINT, .TICKET_USER, .TICKET_PASS, .JOBS_DIR'))
+read TICKET_ENDPOINT TICKET_USER TICKET_TOKEN JOBS_DIR < <(echo $(cat ${CONF_FILE} | jq -r '.TICKET_ENDPOINT, .TICKET_USER, .TICKET_TOKEN, .JOBS_DIR'))
 
-attachments=`curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${TICKET_ENDPOINT}/rest/api/2/issue/${ticket} | jq -r '.fields.attachment[] | @base64'`
+# attachments=`curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${TICKET_ENDPOINT}/rest/api/2/issue/${ticket} | jq -r '.fields.attachment[] | @base64'`
+
+attachments=`curl --silent --user ${TICKET_USER}:${TICKET_TOKEN} ${TICKET_ENDPOINT}/rest/api/2/issue/${ticket} | jq -r '.fields.attachment[] | @base64'`
 
 if [ $? ] ; then
   for row in $attachments; do
