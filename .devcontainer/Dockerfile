@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libxslt1-dev \
     git \
+    jq \
+    curl \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /workspaces/pubdlib
 

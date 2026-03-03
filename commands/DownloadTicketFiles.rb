@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require './lib/jira'
-
-# Need documentation.
 class DownloadTicketFiles < Command
   @command = 'download-ticket-files'
   @label = 'Download files from ticket.'
@@ -17,6 +14,9 @@ class DownloadTicketFiles < Command
   ]
 
   def action(opts)
+
+    require './lib/jira'
+
     jira = Jira.new
     jira.download_attachments(opts[:ticket])
   end

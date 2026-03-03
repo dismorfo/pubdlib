@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 require './lib/se'
-require './lib/ie'
 require './lib/stream'
 require './lib/media'
-require './lib/viewer.rb'
-require './lib/sequence.rb'
+require './lib/viewer'
+require './lib/sequence'
 
 # Need documentation.
 class UnPublish < Command

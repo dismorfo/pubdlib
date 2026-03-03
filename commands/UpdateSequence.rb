@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 require './lib/se'
-require './lib/ie'
-require './lib/viewer.rb'
-require './lib/sequence.rb'
+require './lib/viewer'
+require './lib/sequence'
 
 # Need documentation.
 class UpdateSequence < Command
@@ -24,8 +23,8 @@ class UpdateSequence < Command
     case @se.type
       when 'image_set'
         publish_image_set
-      when 'book'
-        publish_book
+      # when 'book'
+      #   publish_book
     end
   end
 

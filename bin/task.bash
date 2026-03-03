@@ -39,19 +39,23 @@ if [ $JQ_STATUS -ne 0 ]; then
   die ${LINENO} "config-error" "Failed to read configuration variables from $CONF_FILE. jq exited with code $JQ_STATUS."
 fi
 
+if ! "${APP_ROOT}/bin/download_attachment.sh" -t "${ticket}" -e "$CONF_FILE"; then
+    DOWNLOAD_STATUS=$?
+    die ${LINENO} "download-error" "download_attachment.sh failed with exit code $DOWNLOAD_STATUS."
+fi
+
 # 3. Call push.sh and **check its exit status immediately**
 # The `if` statement checks the exit status of the command *before* the `then`.
 if "${APP_ROOT}/bin/push.sh" -t "${ticket}" -e "$CONF_FILE"; then
-    
+  echo ''
   # 4. Call handles.sh if push.sh succeeded
   if "${APP_ROOT}/bin/handles.sh" -t "${ticket}" -e "$CONF_FILE"; then
     echo "handles.sh ran successfully."
   else
     # This block executes if handles.sh fails (returns a non-zero status)
-    PUSH_STATUS=$?
+      PUSH_STATUS=$?
     die ${LINENO} "push-error" "handles.sh failed with exit code $PUSH_STATUS"
-  fi
-  
+  fi  
 else
   # This block executes if push.sh failed (returns a non-zero status)
   PUSH_STATUS=$?

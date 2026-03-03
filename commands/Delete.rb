@@ -1,12 +1,5 @@
 # frozen_string_literal: true
 
-require './lib/se'
-require './lib/ie'
-require './lib/stream'
-require './lib/media'
-require './lib/viewer.rb'
-require './lib/sequence.rb'
-
 # Need documentation.
 class Delete < Command
   @se = nil
@@ -22,6 +15,7 @@ class Delete < Command
   ]
 
   def action(opts)
+    require './lib/se'
     @se = Se.new(opts.identifier)
     case @se.type
       when 'image_set'
@@ -43,12 +37,16 @@ class Delete < Command
   end
 
   def delete_book
-    ies = IE.new(opts[:identifier], opts[:provider])    
+    # ies = IE.new(opts[:identifier], opts[:provider])    
     # puts ies.hash
-    puts se.hash
+    # puts se.hash
   end
 
   def delete_image_set
+    require './lib/photo'
+    require './lib/viewer'
+    require './lib/sequence'
+
     # Wrap source entity as Photo resource.
     entity = Photo.new(@se.hash)
     # Init Viewer.

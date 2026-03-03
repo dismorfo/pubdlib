@@ -1,15 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/se'
-require './lib/ie'
-require './lib/stream'
-require './lib/media'
-require './lib/viewer.rb'
-require './lib/sequence.rb'
-
-# Need documentation.
 class Publish < Command
-  @se = nil
   @command = 'publish'
   @label = 'Publish item'
   @description = 'Publish item given a digi_id'
@@ -21,49 +12,139 @@ class Publish < Command
       required: true
     },
     {
-      flag: 'provider',
-      label: 'provider list separated by comma.',
-      type: String
-    },
-    {
-      flag: 'entityid',
+      flag: 'intellectualid',
       label: 'Intellectual entity Id.',
       type: String
     },
+    {
+      flag: 'ticket',
+      label: 'Job ticket.',
+      type: String
+    }
   ]
 
+  def initialize
+    @http = authenticate
+  end
+
   def action(opts)
-    @se = Se.new(opts.identifier)
-    case @se.type
-      when 'image_set'
-        publish_image_set
+
+    request = {
+      path: "/api/v1/repository/search?digi_id=#{opts.identifier}"
+    }
+
+    resp = @http.get(request)
+    raise 'Unable to search service.' unless resp.code == 200
+
+    data = JSON.parse(resp.data)
+
+    type = data.resource.do_type || raise("Missing required do_type in resource")
+    
+    identifier = opts.identifier
+
+    ticket = opts.ticket || 'DLTS-XXXX'
+
+    case type
+      when 'serial'
+        publish_serial(identifier, ticket)
+      when 'image_set', 'dlts_photo_set'
+        publish_image_set(identifier, ticket)
+      when 'dlts_map', 'map'
+        publish_map(identifier, ticket)
+      when 'book', 'dlts_book'
+        publish_book(identifier, ticket)
       when 'audio', 'video'
-        publish_media
-      when 'book'
-        # abort 'Flag entityid unique identifier is required.' if opts[:entityid].nil?
-        # abort('Flag providers is required.') if opts[:provider].nil?
-        publish_book
+        publish_media(identifier, ticket)
     end
 
   end
 
-  def publish_media
+  def publish_map(identifier, ticket)
+  end
+
+  def publish_media(identifier, ticket)
+
+    # Required dependencies.
+    require './lib/se'
+    require './lib/stream'
+    require './lib/media'
+
+    se = Se.new(identifier)
+
     # Wrap source entity as Stream resource.
-    entity = Stream.new(@se)
+    entity = Stream.new(identifier)
+
     media = Media.new
+
     # Post resource.
     req = media.post(entity.json)
+
     puts req.to_json
+
   end
 
-  def publish_book
-    ies = IE.new(@se.identifier, @se.provider.code, @se.hash.isPartOf)
-    puts ies.hash.to_json
+  def publish_book(identifier, ticket)
+
+    # Required dependencies.
+    # require './lib/se-experimental'
+    # se = SeExperimental.new(identifier)
+    # ies = IE.new(identifier, se.provider.code, se.partner)
+    # puts ies.hash
+
   end
 
-  def publish_image_set
+  def publish_serial(identifier, ticket)
+
+    # Required dependencies.
+    require './lib/se-experimental'
+    require './lib/serial'
+    require './lib/viewer'
+    require './lib/sequence'
+
+    se = SeExperimental.new(identifier)
+
+    entity = Serial.new(se, ticket)
+
+    # Init Viewer.
+    viewer = Viewer.new
+
+    # Post resource.
+    req = viewer.post(entity.hash.to_json)
+
+    if req
+
+      sequences = entity.sequences(se)
+
+      sequence = Sequence.new()
+
+      sequence.use_collection(entity.hash.entity_type)
+
+      sequence.delete_all(entity.hash.identifier)
+
+      sequence.insert_sequences(sequences)
+
+      sequence.disconnect
+
+      puts "Published serial with identifier: #{identifier}"
+
+      entity.save_to_file
+
+    end
+
+  end
+
+  def publish_image_set(identifier, ticket)
+
+    # Required dependencies.
+    require './lib/se'
+    require './lib/photo'
+    require './lib/sequence'
+    require './lib/viewer'
+
+    se = Se.new(identifier)
+
     # Wrap source entity as Photo resource.
-    entity = Photo.new(@se.hash)
+    entity = Photo.new(se.hash)
     # Init Viewer.
     viewer = Viewer.new
     # Post resource.
@@ -78,15 +159,15 @@ class Publish < Command
       # Disconnect from MongoDB.
       sequence.disconnect
       # Get profle
-      profile = @se.hash.profile
+      profile = se.hash.profile
       # Sequence count.
       count = entity.sequence_count.to_i
 
       target = profile.target[$configuration['TARGET']]
     
-      target.path = target.path.gsub('[identifier]', @se.identifier)
+      target.path = target.path.gsub('[identifier]', se.identifier)
     
-      target.path = target.path.gsub('[noid]', @se.noid)
+      target.path = target.path.gsub('[noid]', se.noid)
 
       # - If SE has one sequence, then it will be publish with thumbnails.
       if count == 1
@@ -101,4 +182,23 @@ class Publish < Command
     # puts req.to_json
     puts entity.json
   end
+
+  def authenticate
+    http = NiceHttp.new($configuration['VIEWER_ENDPOINT'])
+    request = {
+      path: '/api/v0/import/user/login.json',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        'username': $configuration['VIEWER_USER'],
+        'password': $configuration['VIEWER_PASS']
+      }
+    }
+    resp = http.post(request)
+    raise 'Unable to authenticate to search service.' unless resp.code == 200
+
+    http
+  end
+
 end

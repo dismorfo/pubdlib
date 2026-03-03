@@ -3,7 +3,6 @@
 # frozen_string_literal: true
 
 require 'optimist'
-require 'colorize'
 require './lib/command'
 require './lib/common'
 
@@ -41,7 +40,7 @@ banner = <<~BANNER
 BANNER
 
 opts = Optimist.options do
-  version 'pubdlib 0.0.2'
+  version 'pubdlib 1.0.0'
   banner banner
   opt :environment, 'Configuration file to use.', type: String
   flags.each do |key, option|

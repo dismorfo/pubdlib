@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require './lib/se'
-require './lib/photo'
-require './lib/stream'
-
 # Need documentation.
 class GenerateEntityJson < Command
   @command = 'generate-entity-json'
@@ -20,11 +16,16 @@ class GenerateEntityJson < Command
 
   def action(opts)
     abort 'Must give identifier' if opts[:identifier].nil?
+
+    require './lib/se'
+
     se = Se.new(opts[:identifier])
     case se.type
       when 'image_set'
+        require './lib/photo'
         entity = Photo.new(se.hash)
       when 'audio', 'video'
+        require './lib/stream'
         entity = Stream.new(se)
     end
     filepath = "#{$configuration['CONTENT_REPOSITORY_PATH']}/#{se.type_alias}/#{entity.hash.identifier}.#{entity.hash.entity_language}.json"

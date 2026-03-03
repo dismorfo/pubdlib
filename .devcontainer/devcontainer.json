@@ -4,12 +4,26 @@
     "context": ".",
     "dockerfile": "Dockerfile"
   },
+  "mounts": [
+    "source=${localWorkspaceFolder}/../jobs,target=/workspaces/jobs,type=bind",
+    "source=${localWorkspaceFolder}/../dlts_viewer_content,target=/workspaces/dlts_viewer_content,type=bind",
+    "source=${localWorkspaceFolder}/../rstar,target=/workspaces/rstar,type=bind",
+    "source=${localWorkspaceFolder}/../content,target=/workspaces/content,type=bind"
+  ],
   "customizations": {
     "vscode": {
       "extensions": [
         "rebornix.Ruby",
-        "shopify.ruby-lsp"
-      ]
+        "shopify.ruby-lsp",
+        "Castwide.solargraph",
+        "misogi.ruby-rubocop",
+        "foxundermoon.shell-format",
+        "mhutchie.git-graph"
+      ],
+      "settings": {
+        "ruby.lsp.enabled": true,
+        "ruby.lint.rubocop.enabled": true
+      }
     }
   },
   "postCreateCommand": "cd /workspaces/pubdlib && bundle install"

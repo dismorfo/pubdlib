@@ -4,7 +4,7 @@
 class CreteIIIFManifest < Command
   @command = 'create-iiif-manifest'
   @label = 'Create IIIF Presentation manifest.'
-  @description = 'Create IIIF Presentation  version 3 manifest.'
+  @description = 'Create IIIF Presentation  version 3 manifest. NOT IMPLEMENTED YET.'
   @flags = [
     {
       flag: 'identifier',
@@ -15,6 +15,7 @@ class CreteIIIFManifest < Command
   ]
 
   def action(opts)
+    require './lib/se'
     # Example id of photo: AD-MC-026_ref26
     se = Se.new(opts.identifier)
     case se.type

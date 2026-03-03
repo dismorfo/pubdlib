@@ -127,7 +127,7 @@ class Se
     elsif Dir.exist?("#{root}/wip/#{@se.digi_id}")
       "#{root}/wip/#{@se.digi_id}"
     else
-      raise "Source entity directory for resource #{@se.digi_id} does not exist."
+      raise "Source entity directory for resource #{@se.digi_id} does not exist. Expected at #{root}/wip/se/#{@se.digi_id}"
     end
   end
 

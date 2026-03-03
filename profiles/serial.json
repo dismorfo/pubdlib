@@ -1,0 +1,23 @@
+{
+  "id": "serials",
+  "label": "Serial's profile",
+  "collection": "dlts",
+  "partner": "nyu",
+  "types": {
+    "photos": "dlts_serial"
+  },
+  "target": {
+    "stage": {
+      "mainEntityOfPage": "https://stage-sites.dlib.nyu.edu/viewer",
+      "path": "serials/[identifier]/1"
+    },
+    "production": {
+      "mainEntityOfPage": "https://sites.dlib.nyu.edu/viewer",
+      "path": "serials/[identifier]/1"
+    },
+    "development": {
+      "mainEntityOfPage": "https://dev-sites.dlib.nyu.edu/viewer",
+      "path": "serials/[identifier]/1"
+    }
+  }
+}

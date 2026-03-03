@@ -1,4 +1,5 @@
 nice_http.log
+.env
 .env*
 jobs/*
 config.*.json
