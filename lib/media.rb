@@ -34,8 +34,6 @@ class Media
         'password': $configuration['MEDIA_PASS']
       }
     }
-    # puts $configuration['MEDIA_ENDPOINT']
-    # puts request.to_json
     resp = http.post(request)
     raise 'Media - Unable to authenticate to search service.' unless resp.code == 200
 

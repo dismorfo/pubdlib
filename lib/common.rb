@@ -15,7 +15,7 @@ def write_resource(filepath, data)
     file.puts data
   end
   # puts "File '#{file_path}' has been written."
-end  
+end
 
 def fit_string_to_terminal(string)
   width = IO.console.winsize[1]  # Get the terminal width

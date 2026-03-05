@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require './lib/se'
-
-# Need documentation.
 class Search < Command
   @command = 'search'
   @label = 'Search entity source'
@@ -16,6 +13,7 @@ class Search < Command
   ]
 
   def action(opts)
+    require './lib/se'
     se = Se.new(opts[:identifier])
     puts se.json
   end

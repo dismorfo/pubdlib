@@ -19,20 +19,18 @@ class Repository < Command
 
   def initialize
     @http = authenticate
-  end  
+  end
 
   def action(opts)
-
     request = {
       path: "/api/v1/repository?digi_id=#{opts[:identifier]}"
     }
-    
+
     resp = @http.get(request)
-    raise 'Unable to search service.' unless resp.code == 200    
+    raise 'Unable to search service.' unless resp.code == 200
 
     data = JSON.parse(resp.data)
     puts data.to_json
-
   end
 
   def authenticate
@@ -52,5 +50,4 @@ class Repository < Command
 
     http
   end
-  
 end

@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-require './lib/se'
-require './lib/handle'
-require './lib/photo'
-require './lib/book'
-
 # Need documentation.
 class PrintHandle < Command
   @command = 'print-handle'
@@ -52,9 +47,7 @@ class PrintHandle < Command
       target.path = target.path.gsub('[identifier]', se.identifier)
       target.path = target.path.gsub('[noid]', se.noid)
       bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
-      
       puts bind_uri
-
     end
   end
 end

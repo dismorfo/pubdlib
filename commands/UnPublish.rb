@@ -1,12 +1,5 @@
 # frozen_string_literal: true
 
-require './lib/se'
-require './lib/stream'
-require './lib/media'
-require './lib/viewer'
-require './lib/sequence'
-
-# Need documentation.
 class UnPublish < Command
   @se = nil
   @command = 'unpublish'
@@ -31,6 +24,11 @@ class UnPublish < Command
   ]
 
   def action(opts)
+    require './lib/se'
+    require './lib/stream'
+    require './lib/media'
+    require './lib/viewer'
+    require './lib/sequence'
     @se = Se.new(opts.identifier)
     case @se.type
       when 'image_set'
@@ -38,32 +36,30 @@ class UnPublish < Command
       when 'audio', 'video'
         unpublish_media
       when 'book'
-        # abort 'Flag entityid unique identifier is required.' if opts[:entityid].nil?
-        # abort('Flag providers is required.') if opts[:provider].nil?
         unpublish_book
     end
   end
 
   def unpublish_media
     # Wrap source entity as Stream resource.
-    entity = Stream.new(@se)
-    media = Media.new
+    # entity = Stream.new(@se)
+    # media = Media.new
     # Post resource.
     # req = media.post(entity.json)
     # puts req.to_json
   end
 
   def unpublish_book
-    ies = IE.new(opts[:identifier], opts[:provider])    
+    # ies = IE.new(opts[:identifier], opts[:provider])
     # puts ies.hash
-    puts @se.hash
+    # puts @se.hash
   end
 
   def unpublish_image_set
     # Wrap source entity as Photo resource.
-    entity = Photo.new(@se.hash)
+    # entity = Photo.new(@se.hash)
     # Init Viewer.
-    viewer = Viewer.new
+    # viewer = Viewer.new
     # Post resource.
     # req = viewer.post(entity.json)
     # if req

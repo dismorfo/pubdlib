@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require './lib/se'
-require './lib/handle'
-require './lib/photo'
-require './lib/book'
+# require './lib/se'
+# require './lib/handle'
+# require './lib/photo'
+# require './lib/book'
 
 # Need documentation.
 class LinkHandle < Command
@@ -51,7 +51,7 @@ class LinkHandle < Command
           target.path = target.path.gsub('/[?sequence]', '/1')
           bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
         # - If SE has more than one sequence it will be publish without thumbnails.
-        else      
+        else
           target.path = target.path.gsub('/[?sequence]', '')
           bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
         end

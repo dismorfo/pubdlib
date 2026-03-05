@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require './lib/handle'
-
 # https://jira.nyu.edu/browse/DLTSAUDIO-71
 # Make it so that it loads a with a given NoId and then use the resource profile.
 
@@ -12,14 +10,15 @@ class RegisterHandle < Command
   @description = 'Register URI.'
   @flags = [
     {
-      flag: "noid",
+      flag: 'noid',
       label: 'Resource noid',
       type: String,
       required: true
-    }    
+    }
   ]
 
   def action(opts)
+    require './lib/handle'
     noid = opts.noid
     bind_uri = "https://sites.dlib.nyu.edu/media/api/v0/noid/#{noid}/embed"
     handle = Handle.new

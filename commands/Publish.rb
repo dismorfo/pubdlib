@@ -12,11 +12,6 @@ class Publish < Command
       required: true
     },
     {
-      flag: 'intellectualid',
-      label: 'Intellectual entity Id.',
-      type: String
-    },
-    {
       flag: 'ticket',
       label: 'Job ticket.',
       type: String
@@ -28,7 +23,6 @@ class Publish < Command
   end
 
   def action(opts)
-
     request = {
       path: "/api/v1/repository/search?digi_id=#{opts.identifier}"
     }
@@ -38,8 +32,8 @@ class Publish < Command
 
     data = JSON.parse(resp.data)
 
-    type = data.resource.do_type || raise("Missing required do_type in resource")
-    
+    type = data.resource.do_type || raise('Missing required do_type in resource')
+
     identifier = opts.identifier
 
     ticket = opts.ticket || 'DLTS-XXXX'
@@ -51,18 +45,17 @@ class Publish < Command
         publish_image_set(identifier, ticket)
       when 'dlts_map', 'map'
         publish_map(identifier, ticket)
-      when 'book', 'dlts_book'
+      when 'book'
         publish_book(identifier, ticket)
       when 'audio', 'video'
         publish_media(identifier, ticket)
     end
-
   end
 
   def publish_map(identifier, ticket)
   end
 
-  def publish_media(identifier, ticket)
+  def publish_media(identifier, _ticket)
 
     # Required dependencies.
     require './lib/se'
@@ -84,17 +77,50 @@ class Publish < Command
   end
 
   def publish_book(identifier, ticket)
-
     # Required dependencies.
-    # require './lib/se-experimental'
-    # se = SeExperimental.new(identifier)
-    # ies = IE.new(identifier, se.provider.code, se.partner)
-    # puts ies.hash
+    # https://nyu.atlassian.net/browse/DLTSBOOKS-333
+    require './lib/se-experimental'
+    require './lib/book'
+    require './lib/viewer'
+    require './lib/sequence'
+
+    # ./pubdlib.rb publish --identifier "fales_sc000038" -e "./config.local.json" --ticket "DLTSBOOKS-333"
+
+    se = SeExperimental.new(identifier)
+
+    # https://nyu.atlassian.net/browse/DLTSBOOKS-333
+
+    entity = Book.new(se, ticket)
+
+    # Init Viewer.
+    viewer = Viewer.new
+
+    # Post resource.
+    req = viewer.post(entity.hash.to_json)
+
+    if req
+
+      sequences = entity.sequences(se)
+
+      sequence = Sequence.new
+
+      sequence.use_collection('dlts_books_page')
+
+      sequence.delete_all(entity.hash.identifier)
+
+      sequence.insert_sequences(sequences)
+
+      sequence.disconnect
+
+      puts "Published book with identifier: #{identifier}"
+
+      entity.save_to_file
+
+    end
 
   end
 
   def publish_serial(identifier, ticket)
-
     # Required dependencies.
     require './lib/se-experimental'
     require './lib/serial'
@@ -115,7 +141,7 @@ class Publish < Command
 
       sequences = entity.sequences(se)
 
-      sequence = Sequence.new()
+      sequence = Sequence.new
 
       sequence.use_collection(entity.hash.entity_type)
 
@@ -128,13 +154,10 @@ class Publish < Command
       puts "Published serial with identifier: #{identifier}"
 
       entity.save_to_file
-
     end
-
   end
 
-  def publish_image_set(identifier, ticket)
-
+  def publish_image_set(identifier, _ticket)
     # Required dependencies.
     require './lib/se'
     require './lib/photo'
@@ -164,9 +187,9 @@ class Publish < Command
       count = entity.sequence_count.to_i
 
       target = profile.target[$configuration['TARGET']]
-    
+
       target.path = target.path.gsub('[identifier]', se.identifier)
-    
+
       target.path = target.path.gsub('[noid]', se.noid)
 
       # - If SE has one sequence, then it will be publish with thumbnails.
@@ -174,12 +197,11 @@ class Publish < Command
         target.path = target.path.gsub('/[?sequence]', '/1')
         req.bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
       # - If SE has more than one sequence it will be publish without thumbnails.
-      else      
+      else
         target.path = target.path.gsub('/[?sequence]', '')
         req.bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
       end
     end
-    # puts req.to_json
     puts entity.json
   end
 
@@ -200,5 +222,4 @@ class Publish < Command
 
     http
   end
-
 end

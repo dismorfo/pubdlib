@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require './lib/se'
-
-# Need documentation.
 class SeJson < Command
   @se = nil
   @command = 'se-json'
@@ -18,6 +15,7 @@ class SeJson < Command
   ]
 
   def action(opts)
+    require './lib/se'
     @se = Se.new(opts[:identifier])
     case @se.type
       when 'image_set'

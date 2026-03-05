@@ -21,11 +21,11 @@ class Serial
     entity_language = 'en'
 
     # @TODO: fix
-    if script == 'Arab'
-      lang = mods.language_code()
-      iso_map = JSON.parse(File.read('./datasource/iso-639-2.json'))
-      entity_language = iso_map[lang.to_s]
-    end
+    # if script == 'Arab'
+    #   lang = mets.language_code
+    #   iso_map = JSON.parse(File.read('./datasource/iso-639-2.json'))
+    #   entity_language = iso_map[lang.to_s]
+    # end
 
     pdfs = []
 
@@ -81,23 +81,23 @@ class Serial
         },
         publication_location: {
           label: 'Place of Publication',
-          value: [ mets.publication_location ]
+          value: mets.publication_location
         },
         publication_date_text: {
           label: 'Date of Publication',
-          value: [ se_hash.dig('resource', 'metadata', 'date_string') ]
+          value: [se_hash.dig('resource', 'metadata', 'date_string')]
         },
         publication_date: {
           label: 'Date of Publication',
-          value: [ se_hash.dig('resource', 'metadata', 'date') ]
+          value: [se_hash.dig('resource', 'metadata', 'date')]
         },
         number: {
           label: 'Volume number',
-          value: [ se_hash.dig('resource', 'metadata', 'volume') ]
+          value: [se_hash.dig('resource', 'metadata', 'number')]
         },
         volume: {
           label: 'Volume Label',
-          value: [ se_hash.dig('resource', 'metadata', 'volume_label') ]
+          value: [se_hash.dig('resource', 'metadata', 'volume')]
         },
         collections: {
           label: 'Collections',
@@ -109,15 +109,15 @@ class Serial
         },
         handle: {
           label: 'Permanent Link',
-          value: [ se.handle_url ]
+          value: [se.handle_url]
         },
         language: {
           label: 'Language',
-          value: [ mets.language ]
+          value: [mets.language]
         },
         language_code: {
           label: 'Language Code',
-          value: [ mets.language_code ]
+          value: [mets.language_code]
         },
         pdfs: {
           label: 'PDFs',
@@ -125,7 +125,7 @@ class Serial
         },
         rights: {
           label: 'Rights',
-          value: [ mets.rights ]
+          value: [mets.rights]
         },
         subject: {
           label: 'Subject',
@@ -141,9 +141,7 @@ class Serial
         }
       }
     }
-
     @data = item_data
-
   end
 
   def hash
@@ -152,7 +150,7 @@ class Serial
 
   def sequences(se, script = 'Latn')
     mets = Mets.new(se, script)
-    mets.serial_sequences
+    mets.sequences
   end
 
   def save_to_file

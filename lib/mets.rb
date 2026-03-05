@@ -108,11 +108,6 @@ class Mets
     self.struct_settings['BINDING_ORIENTATION']
   end
 
-  def read_resource(filepath)
-    raise "File does not exist #{filepath}." unless File.exist?(filepath)
-    File.read(filepath).strip
-  end
-
   def title
     xpath = "//mods/titleInfo[not(@type=\"uniform\") "
     if @script != "Latn"
@@ -159,7 +154,7 @@ class Mets
       date       = node.xpath('./namePart[@type="date"]/text()').to_s.strip
       role       = node.xpath('./role/roleTerm[@type="text"]/text()').to_s.strip
       author     = [name_parts, date, role].reject(&:empty?).join(', ')
-      authors << author
+      authors << author unless author.empty?
     end
     authors
   end
@@ -189,12 +184,13 @@ class Mets
     mod.xpath("#{xpath}/text()").first
   end
 
-  def call_number(marc_file_mapping, marc_file_path)
+  def call_number(marc_file_mapping = nil, marc_file_path = nil)
     call_number = mod.xpath("//classification[@authority='lcc']/text()").to_s
     if call_number.empty? && !marc_file_mapping.nil?
       call_number = call_number_from_marc(marc_file_mapping, marc_file_path)
     end
-    call_number
+    call_number = call_number.to_s.strip
+    call_number.empty? ? [] : [call_number]
   end
 
   def call_number_from_marc(marc_file_mapping, marc_file_path)
@@ -228,14 +224,15 @@ class Mets
   end
 
   def number
-    mod.xpath("//physicalDescription/extent/text()").to_s
+    value = mod.xpath("//physicalDescription/extent/text()").to_s.strip
+    value.empty? ? [] : [value]
   end
 
   def subject
     subjects = []
-    xpath    = "//subject[@script='#{@script}' "
-    xpath    += "or not(@script)" if @script == "Latn"
-    xpath    += "]"
+    xpath = "//subject[@script='#{@script}' "
+    xpath += "or not(@script)" if @script == "Latn"
+    xpath += "]"
 
     mod.xpath(xpath).each do |node|
       subject = leaf_vals(node, [])
@@ -269,48 +266,51 @@ class Mets
       xpath += ")"
     end
     xpath += "]/place/placeTerm[@type='text']"
-    mod.xpath("#{xpath}/text()").to_s
+    location = mod.xpath("#{xpath}/text()").to_s.strip
+    location.empty? ? [] : [location]
   end
 
-  def pub_date_string
+  def publication_date_string
     xpath = "//originInfo[ (not(@script) or @script=\"Latn\" )"
     xpath += "]/dateIssued[not(@encoding='marc')]"
-    date  = mod.xpath("#{xpath}/text()")
-    return "" if date.nil?
-    mod.xpath("#{xpath}/text()")
+    date = mod.xpath("#{xpath}/text()").to_s.strip
+    date.empty? ? [] : [date]
   end
 
-  def pub_date(date)
-    return "" if date == ""
+  def publication_date(date)
+    date = date.first if date.is_a?(Array)
+    return [] if date.nil? || date == ""
 
     if Date.new(date.to_s[0, 4].to_i).gregorian?
-      return DateTime.parse("#{date.to_s[0, 4]}-01-01").strftime("%C%y-%m-%dT%H:%M:%S")
+      return [DateTime.parse("#{date.to_s[0, 4]}-01-01").strftime("%C%y-%m-%dT%H:%M:%S")]
     end
 
-    xpath      = "//originInfo[(not(@script) or  @script=\"Latn\")]/dateIssued[(@encoding='marc')]"
-    date_marc  = mod.xpath("#{xpath}/text()")
+    xpath = "//originInfo[(not(@script) or  @script=\"Latn\")]/dateIssued[(@encoding='marc')]"
+    date_marc = mod.xpath("#{xpath}/text()")
 
     unless date_marc.nil?
       date_marc_fin = date_marc.to_s[0, 4].gsub('u', '0')
       if Date.new(date_marc_fin.to_i).gregorian?
-        return DateTime.parse("#{date_marc_fin}-01-01").strftime("%C%y-%m-%dT%H:%M:%S")
+        return [DateTime.parse("#{date_marc_fin}-01-01").strftime("%C%y-%m-%dT%H:%M:%S")]
       end
     end
 
-    xpath            = "//originInfo[(not(@script) or  @script=\"Latn\")]/dateIssued[point='start']"
-    date_marc_start  = mod.xpath("#{xpath}/text()")
+    xpath = "//originInfo[(not(@script) or  @script=\"Latn\")]/dateIssued[point='start']"
+    date_marc_start = mod.xpath("#{xpath}/text()")
 
     unless date_marc_start.nil?
       date_marc_fin = date_marc_start.to_s[0, 4].gsub('u', '0')
       if Date.new(date_marc_fin.to_i).gregorian?
-        return DateTime.parse("#{date_marc_fin}-01-01").strftime("%C%y-%m-%dT%H:%M:%S")
+        return [DateTime.parse("#{date_marc_fin}-01-01").strftime("%C%y-%m-%dT%H:%M:%S")]
       end
     end
 
     date_adjust = date.sub(/.*?\[/, '').gsub(/[^0-9]/i, '').ljust(4, '0')
-    return DateTime.parse("#{date_adjust}-01-01").strftime("%C%y-%m-%dT%H:%M:%S") if Date.new(date_adjust.to_i).gregorian?
+    if Date.new(date_adjust.to_i).gregorian?
+      return [DateTime.parse("#{date_adjust}-01-01").strftime("%C%y-%m-%dT%H:%M:%S")]
+    end
 
-    ""
+    []
   end
 
   def topic(need_category, marc_file_mapping, marc_file_path)
@@ -365,17 +365,17 @@ class Mets
 
     [
       {
-        identifier:       id.to_s,
-        volume_number:    volume.to_s,
+        identifier: id.to_s,
+        volume_number: volume.to_s,
         volume_number_str: volume_str.to_s,
-        collection:       collections,
+        collection: collections,
         isPartOf: [
           {
-            title:      "Multi-Volume #{id}",
-            type:       "dlts_multivol",
-            language:   "und",
+            title: "Multi-Volume #{id}",
+            type: "dlts_multivol",
+            language: "und",
             identifier: id.to_s,
-            ri:         nil
+            ri: nil
           }
         ]
       }
@@ -401,7 +401,7 @@ class Mets
     }]
   end
 
-  def serial_sequences
+  def sequences
   
     parser = Saxerator.parser(File.new(self.met_file_path))
 
@@ -448,18 +448,18 @@ class Mets
   end
 
   def series(collection_id, partner_id)
-    return "" unless @script == "Latn"
+    return [] unless @script == 'Latn'
 
     xpath = "//relatedItem[@type='series']/titleInfo[@script='#{@script}' "
-    xpath += " or not(@script) " if @script == "Latn"
-    xpath += "]/title/text()"
+    xpath += ' or not(@script) ' if @script == 'Latn'
+    xpath += ']/title/text()'
 
     mod.xpath(xpath).flat_map do |title_node|
       title_str = title_node.to_s
-                            .gsub(/no\./, ";no.")
-                            .gsub(/n\./, ";n.")
-                            .gsub(/v\./, ";v.")
-      parts = title_str.split(";")
+                            .gsub(/no\./, ';no.')
+                            .gsub(/n\./, ';n.')
+                            .gsub(/v\./, ';v.')
+      parts = title_str.split(';')
       series_id = Digest::MD5.hexdigest(parts[0])
       vol_num = parts[1] ? /\d+/.match(parts[1]) : nil
 
@@ -473,8 +473,8 @@ class Mets
         isPartOf: [
           {
             title: parts[0],
-            type: "dlts_series",
-            language: "und",
+            type: 'dlts_series',
+            language: 'und',
             identifier: "series_#{series_id}",
             ri: nil
           }
@@ -516,5 +516,4 @@ class Mets
   def content_root
     "#{$configuration['RSBE_CONTENT']}/#{@se.partner_code}/#{@se.collection_code}/wip/se/#{@identifier}"
   end
-
 end

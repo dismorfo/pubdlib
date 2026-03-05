@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-require './lib/se'
-require './lib/viewer'
-require './lib/sequence'
-
-# Need documentation.
 class UpdateSequence < Command
   @se = nil
   @command = 'update-sequence'
@@ -19,6 +14,9 @@ class UpdateSequence < Command
   ]
 
   def action(opts)
+    require './lib/se'
+    require './lib/viewer'
+    require './lib/sequence'
     @se = Se.new(opts.identifier)
     case @se.type
       when 'image_set'
@@ -55,19 +53,15 @@ class UpdateSequence < Command
     #   profile = @se.hash.profile
     #   # Sequence count.
     #   count = entity.sequence_count.to_i
-
     #   target = profile.target[$configuration['TARGET']]
-    
     #   target.path = target.path.gsub('[identifier]', @se.identifier)
-    
     #   target.path = target.path.gsub('[noid]', @se.noid)
-
     #   # - If SE has one sequence, then it will be publish with thumbnails.
     #   if count == 1
     #     target.path = target.path.gsub('/[?sequence]', '/1')
     #     req.bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
     #   # - If SE has more than one sequence it will be publish without thumbnails.
-    #   else      
+    #   else
     #     target.path = target.path.gsub('/[?sequence]', '')
     #     req.bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
     #   end

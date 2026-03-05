@@ -21,3 +21,4 @@ gem 'mysql2'
 # https://github.com/toy/image_size
 gem 'image_size', '~> 3.0'
 gem 'colorize'
+gem 'solargraph'
