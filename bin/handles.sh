@@ -42,10 +42,10 @@ fi
 # --- Core Logic ---
 
 # 1. Run the download script and check its exit status immediately.
-if ! "${APP_ROOT}/bin/download_attachment.sh" -t "${ticket}" -e "$CONF_FILE"; then
-    DOWNLOAD_STATUS=$?
-    die ${LINENO} "download-error" "download_attachment.sh failed with exit code $DOWNLOAD_STATUS."
-fi
+# if ! "${APP_ROOT}/bin/download_attachment.sh" -t "${ticket}" -e "$CONF_FILE"; then
+#     DOWNLOAD_STATUS=$?
+#     die ${LINENO} "download-error" "download_attachment.sh failed with exit code $DOWNLOAD_STATUS."
+# fi
 
 JOB="${JOBS_DIR}/${ticket}-se-list.txt"
 

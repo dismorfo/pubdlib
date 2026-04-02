@@ -15,6 +15,11 @@ class Publish < Command
       flag: 'ticket',
       label: 'Job ticket.',
       type: String
+    },
+    {
+      flag: 'experimental',
+      label: 'Use experimental features.',
+      type: String
     }
   ]
 
@@ -32,7 +37,10 @@ class Publish < Command
 
     data = JSON.parse(resp.data)
 
-    type = data.resource.do_type || raise('Missing required do_type in resource')
+    # type = data.resource.do_type || raise('Missing required do_type in resource')
+    type = (data.resource&.do_type || data&.type) || raise('Missing required type in resource')
+
+    @experimental = ["true", "t", "1", "yes"].include?(opts.experimental.to_s.downcase)
 
     identifier = opts.identifier
 
@@ -76,19 +84,20 @@ class Publish < Command
 
   end
 
+  # ./pubdlib.rb publish --identifier "fales_sc000038" -e "./config.local.json" --ticket "DLTSBOOKS-333"
   def publish_book(identifier, ticket)
     # Required dependencies.
     # https://nyu.atlassian.net/browse/DLTSBOOKS-333
-    require './lib/se-experimental'
+    if @experimental
+      require './lib/se-experimental'
+      se = SeExperimental.new(identifier)
+    else
+      require './lib/se'
+      se = Se.new(identifier)
+    end
     require './lib/book'
     require './lib/viewer'
     require './lib/sequence'
-
-    # ./pubdlib.rb publish --identifier "fales_sc000038" -e "./config.local.json" --ticket "DLTSBOOKS-333"
-
-    se = SeExperimental.new(identifier)
-
-    # https://nyu.atlassian.net/browse/DLTSBOOKS-333
 
     entity = Book.new(se, ticket)
 
@@ -168,19 +177,24 @@ class Publish < Command
 
     # Wrap source entity as Photo resource.
     entity = Photo.new(se.hash)
+
     # Init Viewer.
     viewer = Viewer.new
     # Post resource.
     req = viewer.post(entity.json)
+
     if req
-      # Init sequence and prepare MongoDB.
-      sequence = Sequence.new(type: entity.hash.entity_type)
-      # Delete any record.
+
+      sequence = Sequence.new
+
+      sequence.use_collection('dlts_photo')
+
       sequence.delete_all(entity.hash.identifier)
-      # Insert all sequences at once.
+
       sequence.insert_sequences(entity.hash.pages.page)
-      # Disconnect from MongoDB.
+
       sequence.disconnect
+
       # Get profle
       profile = se.hash.profile
       # Sequence count.
@@ -202,6 +216,7 @@ class Publish < Command
         req.bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
       end
     end
+    puts "Published image set with identifier: #{identifier}"
     puts entity.json
   end
 

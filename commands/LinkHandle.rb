@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-# require './lib/se'
-# require './lib/handle'
-# require './lib/photo'
-# require './lib/book'
-
 # Need documentation.
 class LinkHandle < Command
   @command = 'link-handle'
@@ -29,6 +24,12 @@ class LinkHandle < Command
   ]
 
   def action(opts)
+
+    require './lib/se'
+    require './lib/handle'
+    require './lib/photo'
+    require './lib/book'
+
     if opts.from && opts.to
       handle = Handle.new
       handle.bind("2333.1/#{opts.from}", opts.to)

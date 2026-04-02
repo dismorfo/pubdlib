@@ -10,6 +10,8 @@ ticket=""
 
 CONF_FILE=""
 
+experimental="false"
+
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -t | --ticket )
     shift;
@@ -18,6 +20,10 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -e | --env )
     shift;
     CONF_FILE=$1
+    ;;
+  --experimental )
+    shift;
+      experimental=$1
     ;;
   -c | --config )
     shift;
@@ -59,7 +65,7 @@ if [ -f "$JOB" ]; then
     while IFS= read -r id || [[ -n "$id" ]]; do
       # Clean up the ID once to avoid repeating the logic
       clean_id="${id%%[[:space:]]}"      
-      if ! "${APP_ROOT}/pubdlib.rb" publish --identifier "$clean_id" -e "$CONF_FILE" --ticket "$ticket"; then
+      if ! "${APP_ROOT}/pubdlib.rb" publish --identifier "$clean_id" -e "$CONF_FILE" --ticket "$ticket" --experimental "$experimental"; then
           PUB_STATUS=$?
           die "${LINENO}" "publish-error" "pubdlib.rb failed for ID: $clean_id (Exit code $PUB_STATUS)."
       fi

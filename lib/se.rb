@@ -75,6 +75,41 @@ class Se
     @se.isPartOf
   end
 
+  def collections
+    # Return an empty array if isPartOf is nil or not an array
+    return [] if @se.isPartOf.nil? || !@se.isPartOf.is_a?(Array)
+
+    @se.isPartOf.map do |col|
+      # Local variables for readability
+      collection_name = col['name'] || 'Unknown Collection'
+      collection_id   = col['uuid']
+      collection_code = col['code']
+    
+      # Nested Partner data
+      partner_data = col['provider'] || {}
+      partner_name = partner_data['name'] || 'Unknown Partner'
+      partner_id   = partner_data['uuid']
+      partner_code = partner_data['code']
+
+      {
+        title: collection_name[0, 255],
+        name: collection_name,
+        identifier: collection_id,
+        type: 'dlts_collection',
+        language: 'und',
+        code: collection_code,
+        partner: {
+          title: partner_name[0, 255],
+          name: partner_name,
+          type: 'dlts_partner',
+          language: 'und',
+          identifier: partner_id,
+          code: partner_code
+        }
+      }
+    end
+  end
+
   def collection_code
     collection[0].code
   end
@@ -83,9 +118,43 @@ class Se
     collection[0].provider
   end
 
-  def provider_code
-    collection[0].provider.code
+  def partners
+    collections.map do |col|
+      p = col[:partner]    
+      # Ensure name exists to avoid crashes on [0, 255]
+      partner_name = p[:name].to_s
+
+      {
+        title: partner_name[0, 255],
+        name: partner_name,
+        type: 'dlts_partner',
+        language: 'und',
+        identifier: p[:identifier],
+        code: p[:code]
+      }
+    end.uniq { |h| h[:identifier] }
   end
+
+  def handle_url
+    "https://hdl.handle.net/#{handle.chomp}"
+  end
+
+def collection_code
+  # Use &. to prevent a crash if collection[0] is nil
+  # Use .to_s to ensure we don't return nil to the path builder
+  @se.isPartOf&.first&.code.to_s
+end
+
+def provider_code
+  # Check the provider object safely
+  # If the API returns nil for code, this returns an empty string ""
+  @se.isPartOf&.first&.provider&.code.to_s
+end
+
+def partner_code
+  # Just alias this to provider_code to keep it DRY
+  provider_code
+end
 
   def hash
     @se.merge(
@@ -118,16 +187,28 @@ class Se
   end
 
   def se_path
-    root = "#{$configuration['RSBE_CONTENT']}/#{collection[0].provider.code}/#{collection[0].code}"
-    # Current location.
-    if Dir.exist?("#{root}/wip/se/#{@se.digi_id}")
-      "#{root}/wip/se/#{@se.digi_id}"
+    # 1. Grab the first collection from our helper method
+    # Use .first to safely handle empty arrays
+    col = collections.first
+    raise "No collection information found for #{@se.digi_id}" if col.nil?
 
-    # Legacy location.
-    elsif Dir.exist?("#{root}/wip/#{@se.digi_id}")
-      "#{root}/wip/#{@se.digi_id}"
+    # 2. Access values using [:symbol] keys because that's how we built the helper
+    partner_code    = col[:partner][:code]
+    collection_code = col[:code]
+  
+    # 3. Build the root path
+    root = "#{$configuration['RSBE_CONTENT']}/#{partner_code}/#{collection_code}"
+  
+    # 4. Check directories
+    wip_se_path = "#{root}/wip/se/#{@se.digi_id}"
+    legacy_path = "#{root}/wip/#{@se.digi_id}"
+
+    if Dir.exist?(wip_se_path)
+      wip_se_path
+    elsif Dir.exist?(legacy_path)
+      legacy_path
     else
-      raise "Source entity directory for resource #{@se.digi_id} does not exist. Expected at #{root}/wip/se/#{@se.digi_id}"
+      raise "Source entity directory for resource #{@se.digi_id} does not exist. Checked: #{wip_se_path}"
     end
   end
 
@@ -155,7 +236,19 @@ class Se
     data
   end
 
+  def image_metadata(image_id)
+    uri = URI("#{$configuration['IMAGE_SERVER']}/iiif/2/#{url_encode(image_id)}/info.json")
+
+    response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+      http.get(uri.request_uri)
+    end
+
+    raise "Unable to fetch image metadata for #{image_id}." unless response.code == '200'
+
+    JSON.parse(response.body)
+  end
+
   class << self
-    attr_accessor :profile, :handle, :json, :hash, :collection, :provider, :provider_code, :collection_code, :type, :noid, :entity_alias, :type_alias, :identifier, :pdfs, :fmds
+    attr_accessor :profile, :handle, :json, :hash, :collection, :provider, :partner_code, :provider_code, :provider_code, :collection_code, :type, :noid, :entity_alias, :type_alias, :identifier, :pdfs, :fmds
   end
 end

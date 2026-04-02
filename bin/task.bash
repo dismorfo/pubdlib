@@ -5,6 +5,8 @@ die () {
   exit 1;
 }
 
+experimental="false"
+
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -t | --ticket )
     shift;
@@ -13,6 +15,10 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -e | --env )
     shift;
       CONF_FILE=$1
+    ;;
+  --experimental )
+    shift;
+      experimental=$1
     ;;
   -c | --config )
     shift;
@@ -46,8 +52,7 @@ fi
 
 # 3. Call push.sh and **check its exit status immediately**
 # The `if` statement checks the exit status of the command *before* the `then`.
-if "${APP_ROOT}/bin/push.sh" -t "${ticket}" -e "$CONF_FILE"; then
-  echo ''
+if "${APP_ROOT}/bin/push.sh" -t "${ticket}" -e "$CONF_FILE" --experimental "$experimental"; then
   # 4. Call handles.sh if push.sh succeeded
   if "${APP_ROOT}/bin/handles.sh" -t "${ticket}" -e "$CONF_FILE"; then
     echo "handles.sh ran successfully."
