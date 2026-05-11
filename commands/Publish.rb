@@ -101,6 +101,12 @@ class Publish < Command
 
     entity = Book.new(se, ticket)
 
+    sequences = entity.sequences(se)
+
+    puts "Saved book with identifier: #{identifier}"
+
+    entity.save_to_file
+
     # Init Viewer.
     viewer = Viewer.new
 
@@ -108,8 +114,6 @@ class Publish < Command
     req = viewer.post(entity.hash.to_json)
 
     if req
-
-      sequences = entity.sequences(se)
 
       sequence = Sequence.new
 
