@@ -53,7 +53,9 @@ read TICKET_ENDPOINT TICKET_USER TICKET_TOKEN JOBS_DIR < <(echo $(cat ${CONF_FIL
 
 # attachments=`curl --silent -u ${TICKET_USER}:${TICKET_PASS} ${TICKET_ENDPOINT}/rest/api/2/issue/${ticket} | jq -r '.fields.attachment[] | @base64'`
 
-attachments=`curl --silent --user ${TICKET_USER}:${TICKET_TOKEN} ${TICKET_ENDPOINT}/rest/api/2/issue/${ticket} | jq -r '.fields.attachment[] | @base64'`
+# attachments=`curl --silent --user ${TICKET_USER}:${TICKET_TOKEN} ${TICKET_ENDPOINT}/rest/api/2/issue/${ticket} | jq -r '.fields.attachment[] | @base64'`
+attachments=`curl -vvv --user ${TICKET_USER}:${TICKET_TOKEN} ${TICKET_ENDPOINT}/rest/api/2/issue/${ticket} | jq -r '.fields.attachment[] | @base64'`
+
 
 if [ $? ] ; then
   for row in $attachments; do

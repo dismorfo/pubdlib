@@ -88,22 +88,16 @@ class Publish < Command
   def publish_book(identifier, ticket)
     # Required dependencies.
     # https://nyu.atlassian.net/browse/DLTSBOOKS-333
-    if @experimental
-      require './lib/se-experimental'
-      se = SeExperimental.new(identifier)
-    else
-      require './lib/se'
-      se = Se.new(identifier)
-    end
+    require './lib/se-experimental'
     require './lib/book'
     require './lib/viewer'
     require './lib/sequence'
 
+    se = SeExperimental.new(identifier)
+
     entity = Book.new(se, ticket)
 
     sequences = entity.sequences(se)
-
-    puts "Saved book with identifier: #{identifier}"
 
     entity.save_to_file
 

@@ -30,11 +30,12 @@ class LinkHandle < Command
     require './lib/photo'
     require './lib/book'
 
-    if opts.from && opts.to
+    se = Se.new(opts.identifier)
+
+    if opts.from
       handle = Handle.new
-      handle.bind("2333.1/#{opts.from}", opts.to)
+      handle.bind("2333.1/#{se.hash.noid}", opts.to)
     else
-      se = Se.new(opts.identifier)
       se_handle = nil
       bind_uri = nil
       case se.type
@@ -71,6 +72,16 @@ class LinkHandle < Command
         target = se.profile.target[$configuration['TARGET']]
         target.path = target.path.gsub('[identifier]', se.identifier)
         target.path = target.path.gsub('[noid]', se.noid)
+        bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
+        se_handle = se.handle
+      when 'serial'
+        # Get profle
+        profile = se.hash.profile
+        # Target 
+        target = profile.target[$configuration['TARGET']]
+        target.path = target.path.gsub('[identifier]', se.identifier)
+        target.path = target.path.gsub('[noid]', se.noid)
+        target.path = target.path.gsub('/[?sequence]', '/1')
         bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
         se_handle = se.handle
       end

@@ -19,6 +19,10 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     shift;
     CONF_FILE=$1
     ;;
+  -c | --config )
+    shift;
+    CONF_FILE=$1
+    ;;
   *) # Handle unrecognized options
     die ${LINENO} "user-error" "Unrecognized option: $1"
     ;;
@@ -28,6 +32,7 @@ if [[ "$1" == '--' ]]; then shift; fi
 
 # Check for required arguments
 [ -n "$CONF_FILE" ] || die ${LINENO} "user-error" "No configuration file provided."
+
 [ -n "$ticket" ] || die ${LINENO} "user-error" "No ticket provided."
 
 # --- Configuration Reading ---
@@ -55,7 +60,6 @@ if [ -f "$JOB" ]; then
     
     # Use read -r with a while loop to read all lines.
     while IFS= read -r identifier || [[ -n "$identifier" ]]; do
-      
       # Run the publisher script and check its exit status immediately.
       if ! "${APP_ROOT}/pubdlib.rb" link-handle --identifier "${identifier%%[[:space:]]}" -e "$CONF_FILE"; then
           PUB_STATUS=$?

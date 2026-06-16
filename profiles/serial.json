@@ -4,20 +4,20 @@
   "collection": "dlts",
   "partner": "nyu",
   "types": {
-    "photos": "dlts_serial"
+    "serials": "dlts_serial"
   },
   "target": {
     "stage": {
       "mainEntityOfPage": "https://stage-sites.dlib.nyu.edu/viewer",
-      "path": "serials/[identifier]/1"
+      "path": "api/embed/[identifier]/1"
     },
     "production": {
       "mainEntityOfPage": "https://sites.dlib.nyu.edu/viewer",
-      "path": "serials/[identifier]/1"
+      "path": "api/embed/[identifier]/1"
     },
     "development": {
       "mainEntityOfPage": "https://dev-sites.dlib.nyu.edu/viewer",
-      "path": "serials/[identifier]/1"
+      "path": "api/embed/[identifier]/1"
     }
   }
 }

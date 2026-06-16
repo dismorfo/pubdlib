@@ -5,6 +5,8 @@ die () {
   exit 1;
 }
 
+LINK_HANDLES=false
+
 experimental="false"
 
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
@@ -19,6 +21,10 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   --experimental )
     shift;
       experimental=$1
+    ;;
+  -l | --link-handles )
+    shift;
+      LINK_HANDLES=true
     ;;
   -c | --config )
     shift;
@@ -54,13 +60,15 @@ fi
 # The `if` statement checks the exit status of the command *before* the `then`.
 if "${APP_ROOT}/bin/push.sh" -t "${ticket}" -e "$CONF_FILE" --experimental "$experimental"; then
   # 4. Call handles.sh if push.sh succeeded
-  if "${APP_ROOT}/bin/handles.sh" -t "${ticket}" -e "$CONF_FILE"; then
-    echo "handles.sh ran successfully."
-  else
-    # This block executes if handles.sh fails (returns a non-zero status)
+  if [ "$LINK_HANDLES" = true ]; then
+    if "${APP_ROOT}/bin/handles.sh" -t "${ticket}" -e "$CONF_FILE"; then
+      echo "handles.sh ran successfully."
+    else
+      # This block executes if handles.sh fails (returns a non-zero status)
       PUSH_STATUS=$?
-    die ${LINENO} "push-error" "handles.sh failed with exit code $PUSH_STATUS"
-  fi  
+      die ${LINENO} "push-error" "handles.sh failed with exit code $PUSH_STATUS"
+    fi
+  fi
 else
   # This block executes if push.sh failed (returns a non-zero status)
   PUSH_STATUS=$?
