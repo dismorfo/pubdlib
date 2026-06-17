@@ -84,7 +84,7 @@ class Se
       collection_name = col['name'] || 'Unknown Collection'
       collection_id   = col['uuid']
       collection_code = col['code']
-    
+
       # Nested Partner data
       partner_data = col['provider'] || {}
       partner_name = partner_data['name'] || 'Unknown Partner'

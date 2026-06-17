@@ -140,19 +140,29 @@ class Mets
 
   def authors
     authors = []
-    xpath   = "//mods/name[@type='personal'"
-    if @script != "Latn"
-      xpath += " and @script=\"#{@script}\"" unless @script.nil?
+
+    # Start with the base tag. Notice we don't open the '[' bracket here anymore.
+    xpath = '//mods/name'
+
+    # Group the type condition and the script conditions together
+    conditions = ["(@type='personal' or @type='corporate')"]
+
+    if @script != 'Latn'
+      conditions << "@script=\"#{@script}\"" unless @script.nil?
     else
-      xpath += " and (not(@script)"
-      xpath += " or  @script=\"#{@script}\"" unless @script.nil?
-      xpath += ")"
+      # Wraps the script conditions in their own parenthesis group
+      script_cond = 'not(@script)'
+      script_cond += " or @script=\"#{@script}\"" unless @script.nil?
+      conditions << "(#{script_cond})"
     end
-    xpath += "]"
+
+    xpath += "[#{conditions.join(' and ')}]"
+
     mod.xpath(xpath).each do |node|
       name_parts = node.xpath('./namePart[not(@type="date")]/text()').to_s.strip
       date       = node.xpath('./namePart[@type="date"]/text()').to_s.strip
       role       = node.xpath('./role/roleTerm[@type="text"]/text()').to_s.strip
+
       author     = [name_parts, date, role].reject(&:empty?).join(', ')
       authors << author unless author.empty?
     end
@@ -211,12 +221,12 @@ class Mets
   end
 
   def description
-    mod.xpath("//abstract/text()").to_s
+    mod.xpath('//abstract/text()').to_s
   end
 
   def language
     code = language_code
-    ISO_639.find_by_code(code.nil? ? "eng" : code.to_s).english_name
+    ISO_639.find_by_code(code.nil? ? 'eng' : code.to_s).english_name
   end
 
   def language_code
@@ -402,7 +412,6 @@ class Mets
   end
 
   def sequences
-  
     parser = Saxerator.parser(File.new(self.met_file_path))
 
     single_pages = []

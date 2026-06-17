@@ -65,7 +65,7 @@ class Serial
       metadata: {
         title: {
           label: 'Title',
-          value: [ se_hash.dig('resource', 'metadata', 'display_title') ]
+          value: [se_hash.dig('resource', 'metadata', 'display_title')]
         },
         subtitle: {
           label: 'Subtitle',
@@ -77,7 +77,7 @@ class Serial
         },
         publisher: {
           label: 'Publisher',
-          value: [ mets.publisher ]
+          value: [mets.publisher]
         },
         publication_location: {
           label: 'Place of Publication',
