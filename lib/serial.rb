@@ -138,6 +138,10 @@ class Serial
         scanning_notes: {
           label: 'Notes',
           value: mets.notes
+        },
+        call_number: {
+          label: 'Call Number',
+          value: [mets.call_number]
         }
       }
     }
