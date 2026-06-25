@@ -120,7 +120,7 @@ class Se
 
   def partners
     collections.map do |col|
-      p = col[:partner]    
+      p = col[:partner]
       # Ensure name exists to avoid crashes on [0, 255]
       partner_name = p[:name].to_s
 
@@ -139,22 +139,22 @@ class Se
     "https://hdl.handle.net/#{handle.chomp}"
   end
 
-def collection_code
-  # Use &. to prevent a crash if collection[0] is nil
-  # Use .to_s to ensure we don't return nil to the path builder
-  @se.isPartOf&.first&.code.to_s
-end
+  def collection_code
+    # Use &. to prevent a crash if collection[0] is nil
+    # Use .to_s to ensure we don't return nil to the path builder
+    @se.isPartOf&.first&.code.to_s
+  end
 
-def provider_code
-  # Check the provider object safely
-  # If the API returns nil for code, this returns an empty string ""
-  @se.isPartOf&.first&.provider&.code.to_s
-end
+  def provider_code
+    # Check the provider object safely
+    # If the API returns nil for code, this returns an empty string ""
+    @se.isPartOf&.first&.provider&.code.to_s
+  end
 
-def partner_code
-  # Just alias this to provider_code to keep it DRY
-  provider_code
-end
+  def partner_code
+    # Just alias this to provider_code to keep it DRY
+    provider_code
+  end
 
   def hash
     @se.merge(
@@ -195,10 +195,10 @@ end
     # 2. Access values using [:symbol] keys because that's how we built the helper
     partner_code    = col[:partner][:code]
     collection_code = col[:code]
-  
+
     # 3. Build the root path
     root = "#{$configuration['RSBE_CONTENT']}/#{partner_code}/#{collection_code}"
-  
+
     # 4. Check directories
     wip_se_path = "#{root}/wip/se/#{@se.digi_id}"
     legacy_path = "#{root}/wip/#{@se.digi_id}"

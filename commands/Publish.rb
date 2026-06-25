@@ -81,7 +81,6 @@ class Publish < Command
     req = media.post(entity.json)
 
     puts req.to_json
-
   end
 
   # ./pubdlib.rb publish --identifier "fales_sc000038" -e "./config.local.json" --ticket "DLTSBOOKS-333"

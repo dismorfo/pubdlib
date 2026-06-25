@@ -79,6 +79,10 @@ class SeExperimental
     partner&.dig('id')
   end
 
+  def serial_call_number
+    @se.dig('resource', 'metadata', 'call_number')
+  end
+
   def provider
     partner
   end

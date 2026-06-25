@@ -9,7 +9,6 @@ class Serial
   include ERB::Util
 
   def initialize(se, ticket, script = 'Latn')
-
     @se = se
 
     @data = nil
@@ -53,7 +52,7 @@ class Serial
       identifier: se.identifier,
       language: entity_language,
       status: 1,
-      entity_type: "dlts_serial",
+      entity_type: 'dlts_serial',
       ticket: ticket,
       noid: se.noid,
       page_count: mets.page_count,
@@ -141,10 +140,16 @@ class Serial
         },
         call_number: {
           label: 'Call Number',
-          value: [mets.call_number]
+          value: se.serial_call_number
         }
       }
     }
+
+    puts item_data
+
+
+    abort()
+
     @data = item_data
   end
 
