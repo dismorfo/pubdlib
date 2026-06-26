@@ -145,11 +145,6 @@ class Serial
       }
     }
 
-    puts item_data
-
-
-    abort()
-
     @data = item_data
   end
 

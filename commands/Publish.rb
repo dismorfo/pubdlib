@@ -123,7 +123,6 @@ class Publish < Command
       entity.save_to_file
 
     end
-
   end
 
   def publish_serial(identifier, ticket)
