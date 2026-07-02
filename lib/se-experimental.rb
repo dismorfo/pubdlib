@@ -23,9 +23,10 @@ class SeExperimental
     'image_set' => 'photos'
   }.freeze
 
-  def initialize(identifier)
+  def initialize(identifier, config = nil)
     @identifier = identifier
     @http = authenticated_http_session
+    @config = config
     @se = search_se_by_id(identifier)
     raise @se['error'] if @se.key?('error')
   end
@@ -108,7 +109,7 @@ class SeExperimental
   end
 
   def collections
-    [{
+    c = [{
       title: collection_name[0, 255],
       name: collection_name,
       identifier: collection_id,
@@ -124,10 +125,44 @@ class SeExperimental
         code: partner_code
       }
     }]
+
+    local_collections = @config&.extra&.collections
+    # Check that it is not nil and not empty
+    if !local_collections.nil? && !local_collections.empty?
+      # Flatten it to unwrap the nested array structure from the CLI parser
+      local_collections.flatten.each do |item|
+        request = {
+          path: "/api/v1/collections/#{item}"
+        }
+        resp = @http.get(request)
+        raise 'Unable to search service.' unless resp.code == 200
+
+        data = JSON.parse(resp.data)
+        local_collection = data['response']['collection']
+        c << {
+          title: local_collection['title'][0, 255],
+          name: local_collection['title'],
+          identifier: local_collection['identifier'],
+          type: 'dlts_collection',
+          language: 'und',
+          code: local_collection['code'],
+          partner: {
+            title: local_collection['partners'][0]['name'][0, 255],
+            name: local_collection['partners'][0]['name'],
+            type: 'dlts_partner',
+            language: 'und',
+            identifier: local_collection['partners'][0]['identifier'],
+            code: local_collection['partners'][0]['code']
+          }
+        }
+      end
+    end
+
+    c
   end
 
   def partners
-    collections.map do |col|
+    all_partners = collections.map do |col|
       p = col[:partner]
       {
         title: p[:name][0, 255],
@@ -138,6 +173,9 @@ class SeExperimental
         code: p[:code]
       }
     end
+
+    # Keep only the unique records based on the :identifier value
+    all_partners.uniq { |partner| partner[:identifier] }
   end
 
   def fmds

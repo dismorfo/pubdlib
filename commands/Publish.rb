@@ -17,6 +17,11 @@ class Publish < Command
       type: String
     },
     {
+      flag: 'extra-collection',
+      label: 'Additional collections pass as array. E.g., ["collectionId", "collectionId"].',
+      type: String
+    },
+    {
       flag: 'experimental',
       label: 'Use experimental features.',
       type: String
@@ -24,6 +29,7 @@ class Publish < Command
   ]
 
   def initialize
+    super
     @http = authenticate
   end
 
@@ -33,6 +39,7 @@ class Publish < Command
     }
 
     resp = @http.get(request)
+
     raise 'Unable to search service.' unless resp.code == 200
 
     data = JSON.parse(resp.data)
@@ -46,31 +53,33 @@ class Publish < Command
 
     ticket = opts.ticket || 'DLTS-XXXX'
 
+    # ./pubdlib.rb publish --identifier isaw_bsa000004 -e config.local.json --ticket DLTSSER-35 --extra-collection "awdl:isaw"
+    extra_collection = opts['extra-collection'].to_s.empty? ? [] : Array(opts['extra-collection'])
+
     case type
       when 'serial'
-        publish_serial(identifier, ticket)
+        publish_serial(identifier, ticket, extra_collection)
       when 'image_set', 'dlts_photo_set'
-        publish_image_set(identifier, ticket)
+        publish_image_set(identifier, ticket, extra_collection)
       when 'dlts_map', 'map'
-        publish_map(identifier, ticket)
+        publish_map(identifier, ticket, extra_collection)
       when 'book'
-        publish_book(identifier, ticket)
+        publish_book(identifier, ticket, extra_collection)
       when 'audio', 'video'
-        publish_media(identifier, ticket)
+        publish_media(identifier, ticket, extra_collection)
     end
   end
 
-  def publish_map(identifier, ticket)
+  def publish_map(identifier, ticket, extra_collection)
   end
 
-  def publish_media(identifier, _ticket)
-
+  def publish_media(identifier, _ticket, extra_collection)
     # Required dependencies.
-    require './lib/se'
+    require './lib/se-experimental'
     require './lib/stream'
     require './lib/media'
 
-    se = Se.new(identifier)
+    se = SeExperimental.new(identifier, [{ extra: { collections: extra_collection } }])
 
     # Wrap source entity as Stream resource.
     entity = Stream.new(identifier)
@@ -84,7 +93,7 @@ class Publish < Command
   end
 
   # ./pubdlib.rb publish --identifier "fales_sc000038" -e "./config.local.json" --ticket "DLTSBOOKS-333"
-  def publish_book(identifier, ticket)
+  def publish_book(identifier, ticket, extra_collection)
     # Required dependencies.
     # https://nyu.atlassian.net/browse/DLTSBOOKS-333
     require './lib/se-experimental'
@@ -125,14 +134,14 @@ class Publish < Command
     end
   end
 
-  def publish_serial(identifier, ticket)
+  def publish_serial(identifier, ticket, extra_collection)
     # Required dependencies.
     require './lib/se-experimental'
     require './lib/serial'
     require './lib/viewer'
     require './lib/sequence'
 
-    se = SeExperimental.new(identifier)
+    se = SeExperimental.new(identifier, [{ extra: { collections: extra_collection } }])
 
     entity = Serial.new(se, ticket)
 
@@ -162,7 +171,7 @@ class Publish < Command
     end
   end
 
-  def publish_image_set(identifier, _ticket)
+  def publish_image_set(identifier, _ticket, extra_collection)
     # Required dependencies.
     require './lib/se'
     require './lib/photo'

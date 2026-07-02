@@ -5,7 +5,6 @@ require 'erb'
 require './lib/mets'
 
 class Serial
-
   include ERB::Util
 
   def initialize(se, ticket, script = 'Latn')
