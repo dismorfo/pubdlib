@@ -173,12 +173,12 @@ class Publish < Command
 
   def publish_image_set(identifier, _ticket, extra_collection)
     # Required dependencies.
-    require './lib/se'
+    require './lib/se-experimental'
     require './lib/photo'
     require './lib/sequence'
     require './lib/viewer'
 
-    se = Se.new(identifier)
+    se = SeExperimental.new(identifier)
 
     # Wrap source entity as Photo resource.
     entity = Photo.new(se.hash)

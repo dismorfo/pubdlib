@@ -23,7 +23,7 @@ class Repository < Command
 
   def action(opts)
     request = {
-      path: "/api/v1/repository?digi_id=#{opts[:identifier]}"
+      path: "/api/v1/repository/search?digi_id=#{opts[:identifier]}"
     }
 
     resp = @http.get(request)

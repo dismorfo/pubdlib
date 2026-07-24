@@ -12,6 +12,8 @@ CONF_FILE=""
 
 experimental="false"
 
+EXTRA_COLLECTIONS=""
+
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -t | --ticket )
     shift;
@@ -29,6 +31,11 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     shift;
     CONF_FILE=$1
     ;;
+  --extra-collections)
+    shift;
+    EXTRA_COLLECTIONS="$1"
+    ;;
+
   *) # Handle unrecognized options
     die ${LINENO} "user-error" "Unrecognized option: $1"
     ;;
@@ -56,6 +63,11 @@ if ! "${APP_ROOT}/bin/download_attachment.sh" -t "${ticket}" -e "$CONF_FILE"; th
   die ${LINENO} "download-error" "download_attachment.sh failed with exit code $DOWNLOAD_STATUS."
 fi
 
+EXTRA_COLLECTIONS_ARG=""
+if [ -n "$EXTRA_COLLECTIONS" ]; then
+  EXTRA_COLLECTIONS_ARG="--extra-collections $EXTRA_COLLECTIONS"
+fi
+
 JOB="${JOBS_DIR}/${ticket}-se-list.txt"
 
 # 2. Check for file existence before running the loop
@@ -65,7 +77,7 @@ if [ -f "$JOB" ]; then
     while IFS= read -r id || [[ -n "$id" ]]; do
       # Clean up the ID once to avoid repeating the logic
       clean_id="${id%%[[:space:]]}"      
-      if ! "${APP_ROOT}/pubdlib.rb" publish --identifier "$clean_id" -e "$CONF_FILE" --ticket "$ticket" --experimental "$experimental"; then
+      if ! "${APP_ROOT}/pubdlib.rb" publish --identifier "$clean_id" -e "$CONF_FILE" --ticket "$ticket" --experimental "$experimental" $EXTRA_COLLECTIONS_ARG; then
           PUB_STATUS=$?
           die "${LINENO}" "publish-error" "pubdlib.rb failed for ID: $clean_id (Exit code $PUB_STATUS)."
       fi

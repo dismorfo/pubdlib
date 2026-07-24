@@ -57,7 +57,7 @@ class Se
   end
 
   def search_se_by_id(identifier)
-    find = search_service.get({ path: "/api/v1/repository?digi_id=#{identifier}" })
+    find = search_service.get({ path: "/api/v1/repository/search?digi_id=#{identifier}" })
     raise "Unable to find resource #{identifier} in search service." unless find.code == 200
 
     JSON.parse(find.data)
