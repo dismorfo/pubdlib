@@ -19,16 +19,16 @@ class Photo
 
   def hash
     {
-      entity_title: @se.digi_id,
-      identifier: @se.digi_id,
+      entity_title: @se.resource.digi_id,
+      identifier: @se.resource.digi_id,
       entity_language: 'en',
       entity_status: '1',
-      entity_type: @se.type,
+      entity_type: @se.resource.do_type,
       metadata: {
         title: {
           label: 'Title',
           value: [
-            @se.digi_id
+            @se.resource.digi_id
           ]
         },
         collection: {
@@ -41,7 +41,7 @@ class Photo
         },
         handle: {
           label: 'Permanent link',
-          value: handle
+          value: [@se.resource.fids.citation_url]
         },
         page_count: {
           label: 'Page count',
@@ -57,7 +57,7 @@ class Photo
   end
 
   def handle_url
-    "https://hdl.handle.net/#{@se.handle}"
+    @se.resource.fids.citation_url
   end
 
   def handle
@@ -68,36 +68,48 @@ class Photo
 
   def collections
     collections = []
-    @se.isPartOf.each do |item|
-      collections.push(
-        title: item.name[0, 255],
-        name: item.name,
-        identifier: item.uuid,
-        type: item.type,
+
+    item = @se.collection
+
+    partner = @se.partner
+
+    collection_partner = {}
+
+    if partner.id == item.partner_id
+      collection_partner = {
+        title: partner.name[0, 255],
+        name: partner.name,
+        type: 'dlts_partner',
         language: 'und',
-        code: item.code,
-        partner: {
-          title: item.provider.name[0, 255],
-          name: item.provider.name,
-          type: item.provider.type,
-          language: 'und',
-          identifier: item.provider.uuid,
-          code: item.provider.code
-        }
-      )
+        identifier: partner.id,
+        code: partner.code
+      }
     end
+
+    collections.push(
+      title: item.name[0, 255],
+      name: item.name,
+      identifier: item.id,
+      type: 'dlts_collection',
+      language: 'und',
+      code: item.code,
+      partner: collection_partner
+    )
+
     collections
   end
 
   def partners
-    provider = @se.isPartOf[0].provider
+    partner = collections[0].partner
     [
-      title: provider.name[0, 255],
-      name: provider.name,
-      type: provider.type,
-      language: 'und',
-      identifier: provider.uuid,
-      code: provider.code
+      {
+        title: partner.name[0, 255],
+        name: partner.name,
+        type: partner.type,
+        language: 'und',
+        identifier: partner.identifier,
+        code: partner.code
+      }
     ]
   end
 
@@ -110,17 +122,17 @@ class Photo
   def sequences
     sequences = []
     image_files.each.with_index do |file, position|
-      image_id = "photo/#{@se.digi_id}/#{File.basename(file)}"
+      image_id = "photo/#{@se.resource.digi_id}/#{File.basename(file)}"
       image_size = ImageSize.path(file)
       order = position + 1
       sequences.push(
-        isPartOf: @se.digi_id,
+        isPartOf: @se.resource.digi_id,
         sequence: [order],
         realPageNumber: order,
         cm: {
           uri: "fileserver://#{image_id}",
           width: image_size.width,
-          height: image_size.height,
+          height: image_size.height
         }
       )
     end
@@ -151,4 +163,13 @@ class Photo
 
     JSON.parse(resp.data)
   end
+
+  def save_to_file
+    File.write(
+      "#{$configuration['CONTENT_DIR']}/photos/#{@se.resource.digi_id}.json",
+      JSON.pretty_generate(hash)
+    )
+    puts "Saved photo entity to file: #{$configuration['CONTENT_DIR']}/photos/#{@se.resource.digi_id}.json"
+  end
+
 end

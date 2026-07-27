@@ -7,7 +7,6 @@ require 'digest'
 require 'saxerator'
 
 class Mets
-
   def initialize(se, script)
     @se = se
     @identifier = se.identifier

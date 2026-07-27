@@ -171,7 +171,7 @@ class Publish < Command
     end
   end
 
-  def publish_image_set(identifier, _ticket, extra_collection)
+  def publish_image_set(identifier, _ticket, _extra_collection)
     # Required dependencies.
     require './lib/se-experimental'
     require './lib/photo'
@@ -221,8 +221,10 @@ class Publish < Command
         req.bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
       end
     end
+
     puts "Published image set with identifier: #{identifier}"
-    puts entity.json
+
+    entity.save_to_file
   end
 
   def authenticate

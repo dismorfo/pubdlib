@@ -7,6 +7,8 @@ die () {
 
 LINK_HANDLES=false
 
+EXTRA_COLLECTIONS=""
+
 experimental="false"
 
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
@@ -25,6 +27,10 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -l | --link-handles )
     shift;
       LINK_HANDLES=true
+    ;;
+  --extra-collections )
+    shift;
+      EXTRA_COLLECTIONS=$1
     ;;
   -c | --config )
     shift;
@@ -51,14 +57,19 @@ if [ $JQ_STATUS -ne 0 ]; then
   die ${LINENO} "config-error" "Failed to read configuration variables from $CONF_FILE. jq exited with code $JQ_STATUS."
 fi
 
-if ! "${APP_ROOT}/bin/download_attachment.sh" -t "${ticket}" -e "$CONF_FILE"; then
-    DOWNLOAD_STATUS=$?
-    die ${LINENO} "download-error" "download_attachment.sh failed with exit code $DOWNLOAD_STATUS."
+EXTRA_COLLECTIONS_ARG=""
+if [ -n "$EXTRA_COLLECTIONS" ]; then
+  EXTRA_COLLECTIONS_ARG="--extra-collections $EXTRA_COLLECTIONS"
 fi
+
+# if ! "${APP_ROOT}/bin/download_attachment.sh" -t "${ticket}" -e "$CONF_FILE"; then
+#     DOWNLOAD_STATUS=$?
+#     die ${LINENO} "download-error" "download_attachment.sh failed with exit code $DOWNLOAD_STATUS."
+# fi
 
 # 3. Call push.sh and **check its exit status immediately**
 # The `if` statement checks the exit status of the command *before* the `then`.
-if "${APP_ROOT}/bin/push.sh" -t "${ticket}" -e "$CONF_FILE" --experimental "$experimental"; then
+if "${APP_ROOT}/bin/push.sh" -t "${ticket}" -e "$CONF_FILE" --experimental "$experimental" $EXTRA_COLLECTIONS_ARG; then
   # 4. Call handles.sh if push.sh succeeded
   if [ "$LINK_HANDLES" = true ]; then
     if "${APP_ROOT}/bin/handles.sh" -t "${ticket}" -e "$CONF_FILE"; then
