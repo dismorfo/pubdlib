@@ -24,13 +24,12 @@ class LinkHandle < Command
   ]
 
   def action(opts)
-
-    require './lib/se'
+    require './lib/se-experimental'
     require './lib/handle'
     require './lib/photo'
     require './lib/book'
 
-    se = Se.new(opts.identifier)
+    se = SeExperimental.new(opts.identifier)
 
     if opts.from
       handle = Handle.new
