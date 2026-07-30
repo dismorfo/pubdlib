@@ -60,7 +60,7 @@ class LinkHandle < Command
       when 'book'
         # Get profle
         profile = se.hash.profile
-        # Target 
+        # Target
         target = profile.target[$configuration['TARGET']]
         target.path = target.path.gsub('[identifier]', se.identifier)
         target.path = target.path.gsub('[noid]', se.noid)

@@ -69,7 +69,7 @@ class Stream
       type: type,
       thumbnails: media_thumbnails,
       manifests: media_manifest,
-      handle: handle_url,
+      handle: handle,
       collection: collections[0],
       partner: partners[0],
       captions: media_captions,
@@ -90,8 +90,12 @@ class Stream
     @se.type
   end
 
+  def handle
+    "2333.1/#{identifier}"
+  end
+
   def handle_url
-    "https://hdl.handle.net/#{identifier}"
+    "https://hdl.handle.net/#{handle}"
   end
 
   def provider_code
