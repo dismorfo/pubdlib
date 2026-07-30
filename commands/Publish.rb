@@ -84,10 +84,6 @@ class Publish < Command
     # Wrap source entity as Stream resource.
     entity = Stream.new(se)
 
-    entity.hash
-
-    abort()
-
     media = Media.new
 
     # Post resource.
