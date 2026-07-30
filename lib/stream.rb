@@ -17,21 +17,21 @@ class Stream
 
   def collections
     collections = []
-    @se.hash.isPartOf.each do |item|
+    @se.collections.each do |item|
       collections.push(
         title: item.name[0, 255],
         name: item.name,
-        identifier: item.uuid,
+        identifier: item.identifier,
         type: item.type,
         language: 'und',
         code: item.code,
         partner: {
-          title: item.provider.name[0, 255],
-          name: item.provider.name,
-          type: item.provider.type,
+          title: item.partner.name[0, 255],
+          name: item.partner.name,
+          type: item.partner.type,
           language: 'und',
-          identifier: item.provider.uuid,
-          code: item.provider.code
+          identifier: item.partner.identifier,
+          code: item.partner.code
         }
       )
     end
@@ -39,14 +39,14 @@ class Stream
   end
 
   def partners
-    provider = @se.hash.isPartOf[0].provider
+    provider = collections[0][:partner]
     [
-      title: provider.name[0, 255],
-      name: provider.name,
-      type: provider.type,
+      title: provider[:name][0, 255],
+      name: provider[:name],
+      type: provider[:type],
       language: 'und',
-      identifier: provider.uuid,
-      code: provider.code
+      identifier: provider[:identifier],
+      code: provider[:code]
     ]
   end
 
@@ -62,11 +62,11 @@ class Stream
     # See for details: https://jira.nyu.edu/jira/browse/DLTSVIDEO-127?focusedCommentId=210439&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-210439
     # representation of the resource
     {
-      jobId: "#{@se.hash.isPartOf[0].provider.code}/#{@se.hash.isPartOf[0].code}/#{@se.identifier}",
-      identifier: @se.identifier,
-      label: @se.identifier,
+      jobId: "#{provider_code}/#{collection_code}/#{identifier}",
+      identifier: identifier,
+      label: identifier,
       entity_language: 'und',
-      type: @se.type,
+      type: type,
       thumbnails: media_thumbnails,
       manifests: media_manifest,
       handle: @se.handle,
@@ -76,6 +76,26 @@ class Stream
       transcripts: media_transcripts,
       rights: media_rights
     }
+  end
+
+  def resource
+    @se.hash.resource
+  end
+
+  def identifier
+    @se.identifier
+  end
+
+  def type
+    @se.type
+  end
+
+  def provider_code
+    @se.provider_code
+  end
+
+  def collection_code
+    @se.collection_code
   end
 
   def read_resource(filepath)
@@ -122,7 +142,7 @@ class Stream
         # managed by Drupal. We want to fix
         # this, but not now.
         # uri: "public://#{thumbnail_basename}"
-        uri: "fileServer://av/#{@se.hash.isPartOf[0].provider.code}/#{@se.hash.isPartOf[0].code}/#{@se.hash.digi_id}/#{thumbnail_basename}"
+        uri: "fileServer://av/#{provider_code}/#{collection_code}/#{identifier}/#{thumbnail_basename}"
       )
     end
     thumbnails
@@ -161,7 +181,7 @@ class Stream
 
       transcripts.push(
         id: id,
-        uri: "fileServer://av/#{@se.hash.isPartOf[0].provider.code}/#{@se.hash.isPartOf[0].code}/#{@se.hash.digi_id}/#{basename}",
+        uri: "fileServer://av/#{provider_code}/#{collection_code}/#{identifier}/#{basename}",
         quality: match['quality'],
         language: match['language']
       )
@@ -181,31 +201,27 @@ class Stream
       match = /\.(?<quality>draft|edited|precision){1}\.(?<language>[a-z]{2}|zxx{1}|und{1}|mul{1}|cmn{1}|yue{1})\.(?<extension>vtt){1}$/.match(basename)
       next if match.nil?
 
-      captures = match.named_captures
-
+      # captures = match.named_captures
       # Problematic code. See:
       # - https://jira.nyu.edu/browse/DLTSVIDEO-159
       # id = basename.gsub(/.#{captures['extension']}/, '')
       #              .gsub(/.#{captures['quality']}/, '')
       #              .gsub(/.#{captures['language']}/, '')
-
-      # 
       # The id is required because the clip can be a part of a playlist and why we do not
       # use @se.identifier.
       #
-
       # https://jira.nyu.edu/browse/DLTSVIDEO-159
       # explanation:
       # split the string on '.'
       # capture all array elements except the last 3
       # concatenate the remaining elements with a '.' (in case there was a '.' in the prefix that needs to be preserved)
       id = basename.split('.')[0...-3].join('.')
-      
+
       captions.push(
         id: id,
         # we collect the basename of the filename
         # append fileServer "protocol" to it.
-        uri: "fileServer://av/#{@se.hash.isPartOf[0].provider.code}/#{@se.hash.isPartOf[0].code}/#{@se.hash.digi_id}/#{basename}",
+        uri: "fileServer://av/#{provider_code}/#{collection_code}/#{identifier}/#{basename}",
         quality: match['quality'],
         language: match['language']
       )
@@ -250,7 +266,7 @@ class Stream
         type: manifest_test[1].downcase,
         # A/V materials for publication and AMS publication storage
         # follow the pattern <server>://<partner>/<collection>/<resource>
-        uri: "streamServer://#{@se.hash.isPartOf[0].provider.code}/#{@se.hash.isPartOf[0].code}/#{File.basename(manifest)}"
+        uri: "streamServer://#{provider_code}/#{collection_code}/#{File.basename(manifest)}"
       )
     end
     manifests

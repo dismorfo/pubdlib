@@ -82,7 +82,11 @@ class Publish < Command
     se = SeExperimental.new(identifier, [{ extra: { collections: extra_collection } }])
 
     # Wrap source entity as Stream resource.
-    entity = Stream.new(identifier)
+    entity = Stream.new(se)
+
+    entity.hash
+
+    abort()
 
     media = Media.new
 

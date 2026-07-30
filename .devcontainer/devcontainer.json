@@ -4,6 +4,9 @@
     "context": ".",
     "dockerfile": "Dockerfile"
   },
+  "runArgs": [
+    "--add-host=sites.local:host-gateway"
+  ],
   "mounts": [
     "source=${localWorkspaceFolder}/../jobs,target=/workspaces/jobs,type=bind",
     "source=${localWorkspaceFolder}/../dlts_viewer_content,target=/workspaces/dlts_viewer_content,type=bind",
