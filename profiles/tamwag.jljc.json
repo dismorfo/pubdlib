@@ -1,0 +1,20 @@
+{
+  "id": "tamwag.jljc",
+  "label": "Jewish Life and Jewish Currents",
+  "collection": "jljc",
+  "partner": "tamwag",
+  "mainEntityOfPage": "https://dlib.nyu.edu/jljc",
+  "types": {
+    "serial": "serials"
+  },
+  "target": {
+    "stage": {
+      "mainEntityOfPage": "https://stageweb1.dlib.nyu.edu/jljc",
+      "path": "books/[identifier]"
+    },
+    "production": {
+      "mainEntityOfPage": "https://dlib.nyu.edu/jljc",
+      "path": "books/[identifier]"
+    }
+  }
+}
