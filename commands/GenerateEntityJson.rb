@@ -1,37 +1,228 @@
 # frozen_string_literal: true
 
-# Need documentation.
 class GenerateEntityJson < Command
   @command = 'generate-entity-json'
-  @label = 'Generate entity JSON.'
-  @description = 'description'
+  @label = 'Generate a entity JSON'
+  @description = 'Generate a entity JSON given a digi_id'
   @flags = [
     {
       flag: 'identifier',
-      label: 'Identifier. E.g., -i digi_id',
+      label: 'Digital identifier.',
       type: String,
       required: true
+    },
+    {
+      flag: 'ticket',
+      label: 'Job ticket.',
+      type: String
+    },
+    {
+      flag: 'extra-collection',
+      label: 'Additional collections pass as array. E.g., ["collectionId", "collectionId"].',
+      type: String
+    },
+    {
+      flag: 'experimental',
+      label: 'Use experimental features.',
+      type: String
     }
   ]
 
+  def initialize
+    super
+    @http = authenticate
+  end
+
   def action(opts)
-    abort 'Must give identifier' if opts[:identifier].nil?
+    request = {
+      path: "/api/v1/repository/search?digi_id=#{opts.identifier}"
+    }
 
-    require './lib/se'
+    resp = @http.get(request)
 
-    se = Se.new(opts[:identifier])
-    case se.type
-      when 'image_set'
-        require './lib/photo'
-        entity = Photo.new(se.hash)
+    raise 'Unable to search service.' unless resp.code == 200
+
+    data = JSON.parse(resp.data)
+
+    # type = data.resource.do_type || raise('Missing required do_type in resource')
+    type = (data.resource&.do_type || data&.type) || raise('Missing required type in resource')
+
+    @experimental = ['true', 't', '1', 'yes'].include?(opts.experimental.to_s.downcase)
+
+    identifier = opts.identifier
+
+    ticket = opts.ticket || 'DLTS-XXXX'
+
+    # ./pubdlib.rb publish --identifier isaw_bsa000004 -e config.local.json --ticket DLTSSER-35 --extra-collection "awdl:isaw"
+    extra_collection = opts['extra-collection'].to_s.empty? ? [] : Array(opts['extra-collection'])
+
+    case type
+      when 'serial'
+        publish_serial(identifier, ticket, extra_collection)
+      when 'image_set', 'dlts_photo_set'
+        publish_image_set(identifier, ticket, extra_collection)
+      when 'dlts_map', 'map'
+        publish_map(identifier, ticket, extra_collection)
+      when 'book'
+        publish_book(identifier, ticket, extra_collection)
       when 'audio', 'video'
-        require './lib/stream'
-        entity = Stream.new(se)
+        publish_media(identifier, ticket, extra_collection)
     end
-    filepath = "#{$configuration['CONTENT_REPOSITORY_PATH']}/#{se.type_alias}/#{entity.hash.identifier}.#{entity.hash.entity_language}.json"
-    temp_write_json = File.open(filepath, 'w')
-    temp_write_json.write(entity.json)
-    temp_write_json.close
-    puts "Entity #{se.identifier} saved as #{filepath}"
+  end
+
+  def publish_map(identifier, ticket, extra_collection)
+  end
+
+  def publish_media(identifier, _ticket, extra_collection)
+    # Required dependencies.
+    require './lib/se-experimental'
+    require './lib/stream'
+    require './lib/media'
+
+    se = SeExperimental.new(identifier, [{ extra: { collections: extra_collection } }])
+
+    # Wrap source entity as Stream resource.
+    entity = Stream.new(se)
+
+    media = Media.new
+  end
+
+  # ./pubdlib.rb generate-entity-json --identifier "fales_sc000038" -e "./config.local.json" --ticket "DLTSBOOKS-333"
+  def publish_book(identifier, ticket, extra_collection)
+    # Required dependencies.
+    # https://nyu.atlassian.net/browse/DLTSBOOKS-333
+    require './lib/se-experimental'
+    require './lib/book'
+    require './lib/viewer'
+    require './lib/sequence'
+
+    se = SeExperimental.new(identifier)
+
+    entity = Book.new(se, ticket)
+
+    entity.save_to_file
+
+    sequences = entity.sequences(se)
+
+    sequence = Sequence.new
+
+    sequence.save_to_file(identifier, sequences)
+
+    sequence.disconnect
+  end
+
+  def publish_serial(identifier, ticket, extra_collection)
+    # Required dependencies.
+    require './lib/se-experimental'
+    require './lib/serial'
+    require './lib/viewer'
+    require './lib/sequence'
+
+    se = SeExperimental.new(identifier, [{ extra: { collections: extra_collection } }])
+
+    entity = Serial.new(se, ticket)
+
+    # Init Viewer.
+    viewer = Viewer.new
+
+    # Post resource.
+    req = viewer.post(entity.hash.to_json)
+
+    if req
+
+      sequences = entity.sequences(se)
+
+      sequence = Sequence.new
+
+      sequence.use_collection(entity.hash.entity_type)
+
+      sequence.delete_all(entity.hash.identifier)
+
+      sequence.insert_sequences(sequences)
+
+      sequence.disconnect
+
+      puts "Published serial with identifier: #{identifier}"
+
+      entity.save_to_file
+
+      sequence.save_to_file(identifier, sequences)
+
+      sequence.disconnect
+    end
+  end
+
+  def publish_image_set(identifier, _ticket, _extra_collection)
+    # Required dependencies.
+    require './lib/se-experimental'
+    require './lib/photo'
+    require './lib/sequence'
+    require './lib/viewer'
+
+    se = SeExperimental.new(identifier)
+
+    # Wrap source entity as Photo resource.
+    entity = Photo.new(se.hash)
+
+    # Init Viewer.
+    viewer = Viewer.new
+    # Post resource.
+    req = viewer.post(entity.json)
+
+    if req
+
+      sequence = Sequence.new
+
+      sequence.use_collection('dlts_photo')
+
+      sequence.delete_all(entity.hash.identifier)
+
+      sequence.insert_sequences(entity.hash.pages.page)
+
+      sequence.disconnect
+
+      # Get profle
+      profile = se.hash.profile
+      # Sequence count.
+      count = entity.sequence_count.to_i
+
+      target = profile.target[$configuration['TARGET']]
+
+      target.path = target.path.gsub('[identifier]', se.identifier)
+
+      target.path = target.path.gsub('[noid]', se.noid)
+
+      # - If SE has one sequence, then it will be publish with thumbnails.
+      if count == 1
+        target.path = target.path.gsub('/[?sequence]', '/1')
+        req.bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
+      # - If SE has more than one sequence it will be publish without thumbnails.
+      else
+        target.path = target.path.gsub('/[?sequence]', '')
+        req.bind_uri = "#{target.mainEntityOfPage}/#{target.path}"
+      end
+    end
+
+    puts "Published image set with identifier: #{identifier}"
+
+    entity.save_to_file
+  end
+
+  def authenticate
+    http = NiceHttp.new($configuration['VIEWER_ENDPOINT'])
+    request = {
+      path: '/api/v0/import/user/login.json',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        'username': $configuration['VIEWER_USER'],
+        'password': $configuration['VIEWER_PASS']
+      }
+    }
+    resp = http.post(request)
+    raise 'Unable to authenticate to search service.' unless resp.code == 200
+
+    http
   end
 end

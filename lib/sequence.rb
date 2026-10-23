@@ -128,6 +128,11 @@ class Sequence
     puts "Could not retrieve auth status: #{e.message}"
   end
 
+  def save_to_file(identifier, sequences)
+    File.write("#{$configuration['CONTENT_DIR']}/serials/#{identifier}.sequences.json", JSON.pretty_generate(sequences))
+    puts "Saved serial sequences to file: #{$configuration['CONTENT_DIR']}/serials/#{identifier}.sequences.json"
+  end
+
   def disconnect
     @client.close
   end

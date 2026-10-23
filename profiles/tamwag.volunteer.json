@@ -1,0 +1,20 @@
+{
+  "id": "tamwag.volunteer",
+  "label": "The Volunteer for Liberty",
+  "collection": "volunteer",
+  "partner": "tamwag",
+  "mainEntityOfPage": "https://dlib.nyu.edu/volunteer",
+  "types": {
+    "serial": "serials"
+  },
+  "target": {
+    "stage": {
+      "mainEntityOfPage": "https://stageweb1.dlib.nyu.edu/volunteer",
+      "path": "books/[identifier]"
+    },
+    "production": {
+      "mainEntityOfPage": "https://dlib.nyu.edu/volunteer",
+      "path": "books/[identifier]"
+    }
+  }
+}

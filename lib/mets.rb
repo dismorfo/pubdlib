@@ -54,7 +54,7 @@ class Mets
   def struct_settings
     # 1. Try to find the attribute
     node = doc.at_xpath('//xmlns:structMap/@TYPE', 'xmlns' => 'http://www.loc.gov/METS/')
-  
+
     # 2. If node is nil, try without namespace as a fallback (some parsers prefer this)
     node ||= doc.at_xpath('//structMap/@TYPE')
 
@@ -370,19 +370,19 @@ class Mets
   end
 
   def multivolume(id, volume, volume_str, collection_id, partner_id, multi_vol)
-    return [] unless @script == "Latn" && multi_vol
+    return [] unless @script == 'Latn' && multi_vol
 
     [
       {
         identifier: id.to_s,
         volume_number: volume.to_s,
         volume_number_str: volume_str.to_s,
-        collection: collections,
+        collection: collection_id,
         isPartOf: [
           {
             title: "Multi-Volume #{id}",
-            type: "dlts_multivol",
-            language: "und",
+            type: 'dlts_multivol',
+            language: 'und',
             identifier: id.to_s,
             ri: nil
           }

@@ -30,10 +30,10 @@ class LinkHandle < Command
     require './lib/book'
 
     se = SeExperimental.new(opts.identifier)
-
+    
     if opts.from
       handle = Handle.new
-      handle.bind("2333.1/#{se.hash.noid}", opts.to)
+      handle.bind("2333.1/#{se.noid}", opts.to)
     else
       se_handle = nil
       bind_uri = nil

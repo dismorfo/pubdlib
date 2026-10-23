@@ -89,7 +89,7 @@ class Publish < Command
     # Post resource.
     req = media.post(entity.json)
 
-    puts req.to_json
+    entity.save_to_file
   end
 
   # ./pubdlib.rb publish --identifier "fales_sc000038" -e "./config.local.json" --ticket "DLTSBOOKS-333"
@@ -129,8 +129,6 @@ class Publish < Command
 
       puts "Published book with identifier: #{identifier}"
 
-      entity.save_to_file
-
     end
   end
 
@@ -168,6 +166,9 @@ class Publish < Command
       puts "Published serial with identifier: #{identifier}"
 
       entity.save_to_file
+      sequence.save_to_file(identifier, sequences)
+
+      sequence.disconnect
     end
   end
 

@@ -64,6 +64,7 @@ class Stream
     {
       jobId: "#{provider_code}/#{collection_code}/#{identifier}",
       identifier: identifier,
+      # noid: noid,
       label: identifier,
       entity_language: 'und',
       type: type,
@@ -90,8 +91,13 @@ class Stream
     @se.type
   end
 
+  def noid
+    @se.handle.split('/')[1]
+  end
+
   def handle
-    "2333.1/#{identifier}"
+    noid = @se.handle.split('/')[1]
+    "2333.1/#{noid}"
   end
 
   def handle_url
@@ -308,4 +314,13 @@ class Stream
     end
     rights
   end
+
+  def save_to_file
+    File.write(
+      "#{$configuration['CONTENT_DIR']}/media/#{identifier}.json",
+       JSON.pretty_generate(hash)
+    )
+    puts "Saved media entity to file: #{$configuration['CONTENT_DIR']}/media/#{identifier}.json"
+  end
+
 end

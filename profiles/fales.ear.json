@@ -1,0 +1,20 @@
+{
+  "id": "fales.ear",
+  "label": "Fales Library & Special Colleictions: Ear",
+  "collection": "ear",
+  "partner": "fales",
+  "mainEntityOfPage": "https://dlib.nyu.edu/ear",
+  "types": {
+    "serial": "serials"
+  },
+  "target": {
+    "stage": {
+      "mainEntityOfPage": "https://stage-sites.dlib.nyu.edu/viewer",
+      "path": "books/[identifier]"
+    },
+    "production": {
+      "mainEntityOfPage": "https://dlib.nyu.edu/ear",
+      "path": "books/[identifier]"
+    }
+  }
+}
