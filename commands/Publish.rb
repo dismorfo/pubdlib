@@ -67,10 +67,13 @@ class Publish < Command
         publish_book(identifier, ticket, extra_collection)
       when 'audio', 'video'
         publish_media(identifier, ticket, extra_collection)
+      else
+        raise "Unsupported resource type for publishing: #{type.inspect}"
     end
   end
 
   def publish_map(identifier, ticket, extra_collection)
+    raise 'publish_map is not yet implemented.'
   end
 
   def publish_media(identifier, _ticket, extra_collection)

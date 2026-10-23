@@ -110,10 +110,6 @@ class Se
     end
   end
 
-  def collection_code
-    collection[0].code
-  end
-
   def provider
     collection[0].provider
   end
@@ -249,6 +245,6 @@ class Se
   end
 
   class << self
-    attr_accessor :profile, :handle, :json, :hash, :collection, :provider, :partner_code, :provider_code, :provider_code, :collection_code, :type, :noid, :entity_alias, :type_alias, :identifier, :pdfs, :fmds
+    attr_accessor :profile, :handle, :json, :hash, :collection, :provider, :partner_code, :provider_code, :collection_code, :type, :noid, :entity_alias, :type_alias, :identifier, :pdfs, :fmds
   end
 end

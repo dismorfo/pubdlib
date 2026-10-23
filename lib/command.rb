@@ -5,7 +5,7 @@ class Command
   @label = ''
   @command = ''
   @description = ''
-  @flags = ''
+  @flags = []
 
   def action; end
 

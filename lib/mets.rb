@@ -325,10 +325,11 @@ class Mets
   def topic(need_category, marc_file_mapping, marc_file_path)
     return "" unless need_category
 
-    @ddc_hash        ||= eval(File.read("category_hashes/ddc_hash"))
-    @ddc_ranges_hash ||= eval(File.read("category_hashes/ddc_range"))
-    @lcc_cat_en      ||= eval(File.read("category_hashes/lcc_cat_en"))
-    @lcc_cat_ar      ||= eval(File.read("category_hashes/lcc_cat_ar"))
+    @ddc_hash        ||= JSON.parse(File.read("include/category_hashes/ddc_hash.json"))
+    @ddc_ranges_hash ||= JSON.parse(File.read("include/category_hashes/ddc_range.json"))
+                             .transform_values { |ranges| ranges.map { |min, max| Range.new(min, max) } }
+    @lcc_cat_en      ||= JSON.parse(File.read("include/category_hashes/lcc_cat_en.json"))
+    @lcc_cat_ar      ||= JSON.parse(File.read("include/category_hashes/lcc_cat_ar.json"))
 
     call_number = mod.xpath("//classification[@authority='lcc']/text()").to_s
     if (call_number.nil? || call_number.empty?) && !marc_file_mapping.nil?
@@ -404,8 +405,7 @@ class Mets
       cm: {
         uri:       "fileserver://maps/#{@identifier}/#{label}_d.jp2",
         width:     "",
-        height:    "",
-        timestamp: Time.now.to_i.to_s
+        height:    ""
       }
     }]
   end
@@ -513,8 +513,7 @@ class Mets
       cm: {
         uri: "fileserver://#{@se.type_alias}/#{@identifier}/#{label}_d.jp2",
         width: sequence_metadata['width'],
-        height: sequence_metadata['height'],
-        timestamp: Time.now.to_i.to_s
+        height: sequence_metadata['height']
       }
     }
   end
